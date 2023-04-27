@@ -43,19 +43,14 @@ class BaseModelMapperElement extends MapperElementBase<BaseModel> {
 
   @override
   String stringify(BaseModel self) =>
-      'BaseModel(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)}, fromMap: ${container.asString(self.fromMap)}, fromJson: ${container.asString(self.fromJson)})';
+      'BaseModel(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)})';
   @override
   int hash(BaseModel self) =>
-      container.hash(self.id) ^
-      container.hash(self.createDate) ^
-      container.hash(self.fromMap) ^
-      container.hash(self.fromJson);
+      container.hash(self.id) ^ container.hash(self.createDate);
   @override
   bool equals(BaseModel self, BaseModel other) =>
       container.isEqual(self.id, other.id) &&
-      container.isEqual(self.createDate, other.createDate) &&
-      container.isEqual(self.fromMap, other.fromMap) &&
-      container.isEqual(self.fromJson, other.fromJson);
+      container.isEqual(self.createDate, other.createDate);
 }
 
 mixin BaseModelMappable {

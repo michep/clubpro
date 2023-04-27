@@ -1,7 +1,8 @@
 import 'dart:typed_data';
-import 'package:dart_mappable/dart_mappable.dart';
-import 'package:clubpro/models/user_account.dart';
 import 'package:clubpro/models/base_model.dart';
+import 'package:clubpro/models/uint8list_mapper.dart';
+import 'package:clubpro/models/user_account.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 
 part 'business_user_account.mapper.dart';
 
@@ -28,49 +29,55 @@ enum BusinessUserAccountType {
   });
 }
 
-// @MappableClass(generateMethods: GenerateMethods.all & ~GenerateMethods.copy)
 @MappableClass()
 class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
   final BusinessUserAccountType businessType;
 
   BusinessUserAccount({
+    required this.businessType,
+    required super.id,
+    required super.createDate,
+    required super.login,
+    required super.password,
+    required super.firstName,
+    required super.lastName,
+    required super.middleName,
+    required super.phone,
+    required super.email,
+    required super.legalTitle,
+    required super.legalAbbreviation,
+    required super.legalInn,
+    required super.legalOgrn,
+    required super.legalAddress,
+    super.avatar,
+  });
+
+  BusinessUserAccount.required({
     required String id,
-    DateTime? createDate,
+    required DateTime createDate,
     required String login,
     required String password,
-    required String phone,
-    required String email,
     required String firstName,
     required String lastName,
-    String middleName = '',
-    String title = '',
-    String abbreviation = '',
-    String inn = '',
-    String ogrn = '',
-    String legalAddress = '',
-    Uint8List? avatar,
-    required this.businessType,
-  }) : super(
+    required BusinessUserAccountType businessType,
+  }) : this(
           id: id,
           createDate: createDate,
           login: login,
           password: password,
-          phone: phone,
-          email: email,
           firstName: firstName,
           lastName: lastName,
-          middleName: middleName,
-          title: title,
-          abbreviation: abbreviation,
-          inn: inn,
-          ogrn: ogrn,
-          legalAddress: legalAddress,
-          avatar: avatar,
+          businessType: businessType,
+          middleName: '',
+          phone: '',
+          email: '',
+          legalTitle: '',
+          legalAbbreviation: '',
+          legalAddress: '',
+          legalInn: '',
+          legalOgrn: '',
         );
 
-  @override
-  final fromMap = BusinessUserAccountMapper.fromMap;
-
-  @override
-  final fromJson = BusinessUserAccountMapper.fromJson;
+  static final fromJson = BusinessUserAccountMapper.fromJson;
+  static final fromMap = BusinessUserAccountMapper.fromMap;
 }

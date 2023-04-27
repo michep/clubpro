@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 import 'package:clubpro/models/base_model.dart';
-import 'package:dart_mappable/dart_mappable.dart';
-
+import 'package:clubpro/models/uint8list_mapper.dart';
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/models/base_model.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 
 part 'pro_user_account.mapper.dart';
 
@@ -34,50 +33,59 @@ enum ProUserAccountType {
   });
 }
 
-// @MappableClass(generateMethods: GenerateMethods.all & ~GenerateMethods.copy)
 @MappableClass()
 class ProUserAccount extends UserAccount with ProUserAccountMappable {
   final String publicID;
   final ProUserAccountType proType;
 
   ProUserAccount({
-    required String id,
-    DateTime? createDate,
-    required String login,
-    required String password,
-    required String phone,
-    required String email,
-    required String firstName,
-    required String lastName,
-    String middleName = '',
-    String title = '',
-    String abbreviation = '',
-    String inn = '',
-    String ogrn = '',
-    String legalAddress = '',
-    Uint8List? avatar,
     required this.publicID,
     required this.proType,
-  }) : super(
+    required super.id,
+    required super.createDate,
+    required super.login,
+    required super.password,
+    required super.firstName,
+    required super.lastName,
+    required super.middleName,
+    required super.phone,
+    required super.email,
+    required super.legalTitle,
+    required super.legalAbbreviation,
+    required super.legalInn,
+    required super.legalOgrn,
+    required super.legalAddress,
+    super.avatar,
+  });
+
+  ProUserAccount.required({
+    required String id,
+    required DateTime createDate,
+    required String login,
+    required String password,
+    required String firstName,
+    required String lastName,
+    required String publicID,
+    required ProUserAccountType proType,
+  }) : this(
           id: id,
           createDate: createDate,
           login: login,
           password: password,
-          phone: phone,
-          email: email,
           firstName: firstName,
           lastName: lastName,
-          middleName: middleName,
-          title: title,
-          abbreviation: abbreviation,
-          inn: inn,
-          ogrn: ogrn,
-          legalAddress: legalAddress,
-          avatar: avatar,
+          proType: proType,
+          publicID: publicID,
+          middleName: '',
+          phone: '',
+          email: '',
+          legalTitle: '',
+          legalAbbreviation: '',
+          legalAddress: '',
+          legalInn: '',
+          legalOgrn: '',
         );
-  @override
-  final fromMap = ProUserAccountMapper.fromMap;
 
-  @override
-  final fromJson = ProUserAccountMapper.fromJson;
+  static final fromJson = ProUserAccountMapper.fromJson;
+  static final fromMap = ProUserAccountMapper.fromMap;
 }

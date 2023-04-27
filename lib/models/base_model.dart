@@ -2,7 +2,6 @@ import 'package:dart_mappable/dart_mappable.dart';
 
 part 'base_model.mapper.dart';
 
-// @MappableClass(generateMethods: GenerateMethods.all & ~GenerateMethods.copy)
 @MappableClass()
 class BaseModel with BaseModelMappable {
   final String id;
@@ -13,10 +12,7 @@ class BaseModel with BaseModelMappable {
     required this.createDate,
   });
 
-  final fromMap = BaseModelMapper.fromMap;
-  final fromJson = BaseModelMapper.fromJson;
-
   void save() {
-    print(toMap());
+    print(toJson());
   }
 }
