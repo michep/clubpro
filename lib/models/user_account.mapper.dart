@@ -11,7 +11,11 @@ class UserAccountMapper extends MapperBase<UserAccount> {
       ((_c = MapperContainer(
         mappers: {UserAccountMapper(), Uint8ListMapper()},
       ))
-        ..linkAll({BaseModelMapper.container}));
+        ..linkAll({
+          BaseModelMapper.container,
+          ProUserAccountMapper.container,
+          BusinessUserAccountMapper.container,
+        }));
 
   @override
   UserAccountMapperElement createElement(MapperContainer container) {
@@ -30,33 +34,39 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
 
   @override
   Function get decoder => decode;
-  UserAccount decode(dynamic v) =>
-      checkedType(v, (Map<String, dynamic> map) => fromMap(map));
+  UserAccount decode(dynamic v) => checkedType(v, (Map<String, dynamic> map) {
+        switch (map['type']) {
+          case 'BusinessUserAccount':
+            return BusinessUserAccountMapper()
+                .createElement(container)
+                .decode(map);
+          case 'ProUserAccount':
+            return ProUserAccountMapper().createElement(container).decode(map);
+          default:
+            return fromMap(map);
+        }
+      });
   UserAccount fromMap(Map<String, dynamic> map) => UserAccount(
-      id: container.$get(map, 'id'),
-      createDate: container.$get(map, 'createDate'),
+      id: container.$get(map, '_id'),
       login: container.$get(map, 'login'),
-      password: container.$get(map, 'password'),
       firstName: container.$get(map, 'firstName'),
       lastName: container.$get(map, 'lastName'),
-      middleName: container.$get(map, 'middleName'),
+      middleName: container.$getOpt(map, 'middleName'),
       phone: container.$get(map, 'phone'),
       email: container.$get(map, 'email'),
-      legalTitle: container.$get(map, 'legalTitle'),
-      legalAbbreviation: container.$get(map, 'legalAbbreviation'),
-      legalAddress: container.$get(map, 'legalAddress'),
-      legalInn: container.$get(map, 'legalInn'),
-      legalOgrn: container.$get(map, 'legalOgrn'),
+      legalTitle: container.$getOpt(map, 'legalTitle'),
+      legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
+      legalAddress: container.$getOpt(map, 'legalAddress'),
+      legalInn: container.$getOpt(map, 'legalInn'),
+      legalOgrn: container.$getOpt(map, 'legalOgrn'),
       avatar: container.$getOpt(map, 'avatar'));
 
   @override
   Function get encoder => encode;
   dynamic encode(UserAccount v) => toMap(v);
   Map<String, dynamic> toMap(UserAccount u) => {
-        'id': container.$enc(u.id, 'id'),
-        'createDate': container.$enc(u.createDate, 'createDate'),
+        '_id': container.$enc(u.id, 'id'),
         'login': container.$enc(u.login, 'login'),
-        'password': container.$enc(u.password, 'password'),
         'firstName': container.$enc(u.firstName, 'firstName'),
         'lastName': container.$enc(u.lastName, 'lastName'),
         'middleName': container.$enc(u.middleName, 'middleName'),
@@ -73,13 +83,11 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
 
   @override
   String stringify(UserAccount self) =>
-      'UserAccount(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)})';
+      'UserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)})';
   @override
   int hash(UserAccount self) =>
       container.hash(self.id) ^
-      container.hash(self.createDate) ^
       container.hash(self.login) ^
-      container.hash(self.password) ^
       container.hash(self.phone) ^
       container.hash(self.email) ^
       container.hash(self.firstName) ^
@@ -94,9 +102,7 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
   @override
   bool equals(UserAccount self, UserAccount other) =>
       container.isEqual(self.id, other.id) &&
-      container.isEqual(self.createDate, other.createDate) &&
       container.isEqual(self.login, other.login) &&
-      container.isEqual(self.password, other.password) &&
       container.isEqual(self.phone, other.phone) &&
       container.isEqual(self.email, other.email) &&
       container.isEqual(self.firstName, other.firstName) &&
@@ -142,9 +148,7 @@ abstract class UserAccountCopyWith<$R, $In extends UserAccount,
   @override
   $R call(
       {String? id,
-      DateTime? createDate,
       String? login,
-      String? password,
       String? firstName,
       String? lastName,
       String? middleName,
@@ -171,34 +175,30 @@ class _UserAccountCopyWithImpl<$R, $Out extends BaseModel>
   @override
   $R call(
           {String? id,
-          DateTime? createDate,
           String? login,
-          String? password,
           String? firstName,
           String? lastName,
-          String? middleName,
+          Object? middleName = $none,
           String? phone,
           String? email,
-          String? legalTitle,
-          String? legalAbbreviation,
-          String? legalAddress,
-          String? legalInn,
-          String? legalOgrn,
+          Object? legalTitle = $none,
+          Object? legalAbbreviation = $none,
+          Object? legalAddress = $none,
+          Object? legalInn = $none,
+          Object? legalOgrn = $none,
           Object? avatar = $none}) =>
       $then(UserAccount(
           id: id ?? $value.id,
-          createDate: createDate ?? $value.createDate,
           login: login ?? $value.login,
-          password: password ?? $value.password,
           firstName: firstName ?? $value.firstName,
           lastName: lastName ?? $value.lastName,
-          middleName: middleName ?? $value.middleName,
+          middleName: or(middleName, $value.middleName),
           phone: phone ?? $value.phone,
           email: email ?? $value.email,
-          legalTitle: legalTitle ?? $value.legalTitle,
-          legalAbbreviation: legalAbbreviation ?? $value.legalAbbreviation,
-          legalAddress: legalAddress ?? $value.legalAddress,
-          legalInn: legalInn ?? $value.legalInn,
-          legalOgrn: legalOgrn ?? $value.legalOgrn,
+          legalTitle: or(legalTitle, $value.legalTitle),
+          legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
+          legalAddress: or(legalAddress, $value.legalAddress),
+          legalInn: or(legalInn, $value.legalInn),
+          legalOgrn: or(legalOgrn, $value.legalOgrn),
           avatar: or(avatar, $value.avatar)));
 }

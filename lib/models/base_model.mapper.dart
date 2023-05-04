@@ -29,28 +29,23 @@ class BaseModelMapperElement extends MapperElementBase<BaseModel> {
   Function get decoder => decode;
   BaseModel decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
-  BaseModel fromMap(Map<String, dynamic> map) => BaseModel(
-      id: container.$get(map, 'id'),
-      createDate: container.$get(map, 'createDate'));
+  BaseModel fromMap(Map<String, dynamic> map) =>
+      BaseModel(id: container.$get(map, '_id'));
 
   @override
   Function get encoder => encode;
   dynamic encode(BaseModel v) => toMap(v);
-  Map<String, dynamic> toMap(BaseModel b) => {
-        'id': container.$enc(b.id, 'id'),
-        'createDate': container.$enc(b.createDate, 'createDate')
-      };
+  Map<String, dynamic> toMap(BaseModel b) =>
+      {'_id': container.$enc(b.id, 'id')};
 
   @override
   String stringify(BaseModel self) =>
-      'BaseModel(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)})';
+      'BaseModel(id: ${container.asString(self.id)})';
   @override
-  int hash(BaseModel self) =>
-      container.hash(self.id) ^ container.hash(self.createDate);
+  int hash(BaseModel self) => container.hash(self.id);
   @override
   bool equals(BaseModel self, BaseModel other) =>
-      container.isEqual(self.id, other.id) &&
-      container.isEqual(self.createDate, other.createDate);
+      container.isEqual(self.id, other.id);
 }
 
 mixin BaseModelMappable {
@@ -82,7 +77,7 @@ abstract class BaseModelCopyWith<$R, $In extends BaseModel,
     $Out extends BaseModel> implements ObjectCopyWith<$R, $In, $Out> {
   BaseModelCopyWith<$R2, $In, $Out2> chain<$R2, $Out2 extends BaseModel>(
       Then<BaseModel, $Out2> t, Then<$Out2, $R2> t2);
-  $R call({String? id, DateTime? createDate});
+  $R call({String? id});
 }
 
 class _BaseModelCopyWithImpl<$R, $Out extends BaseModel>
@@ -95,6 +90,5 @@ class _BaseModelCopyWithImpl<$R, $Out extends BaseModel>
       _BaseModelCopyWithImpl($value, t, t2);
 
   @override
-  $R call({String? id, DateTime? createDate}) => $then(BaseModel(
-      id: id ?? $value.id, createDate: createDate ?? $value.createDate));
+  $R call({String? id}) => $then(BaseModel(id: id ?? $value.id));
 }

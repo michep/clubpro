@@ -1,10 +1,12 @@
 import 'dart:ui';
-
+import 'package:clubpro/service/security_service.dart';
+import 'package:clubpro/page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ClubProApp extends StatelessWidget {
-  const ClubProApp({
+  final _sec = Get.find<SecurityService>();
+  ClubProApp({
     super.key,
   });
 
@@ -12,7 +14,15 @@ class ClubProApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       scrollBehavior: AppScrollBehavior(),
-      home: const Placeholder(),
+      home: StreamBuilder<SecurityState>(
+        stream: _sec.stream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const LoginPage();
+          }
+          return Text(snapshot.data!.name);
+        },
+      ),
     );
   }
 }

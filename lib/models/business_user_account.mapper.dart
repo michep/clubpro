@@ -38,20 +38,18 @@ class BusinessUserAccountMapperElement
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   BusinessUserAccount fromMap(Map<String, dynamic> map) => BusinessUserAccount(
       businessType: container.$get(map, 'businessType'),
-      id: container.$get(map, 'id'),
-      createDate: container.$get(map, 'createDate'),
+      id: container.$get(map, '_id'),
       login: container.$get(map, 'login'),
-      password: container.$get(map, 'password'),
       firstName: container.$get(map, 'firstName'),
       lastName: container.$get(map, 'lastName'),
-      middleName: container.$get(map, 'middleName'),
+      middleName: container.$getOpt(map, 'middleName'),
       phone: container.$get(map, 'phone'),
       email: container.$get(map, 'email'),
-      legalTitle: container.$get(map, 'legalTitle'),
-      legalAbbreviation: container.$get(map, 'legalAbbreviation'),
-      legalInn: container.$get(map, 'legalInn'),
-      legalOgrn: container.$get(map, 'legalOgrn'),
-      legalAddress: container.$get(map, 'legalAddress'),
+      legalTitle: container.$getOpt(map, 'legalTitle'),
+      legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
+      legalInn: container.$getOpt(map, 'legalInn'),
+      legalOgrn: container.$getOpt(map, 'legalOgrn'),
+      legalAddress: container.$getOpt(map, 'legalAddress'),
       avatar: container.$getOpt(map, 'avatar'));
 
   @override
@@ -59,10 +57,8 @@ class BusinessUserAccountMapperElement
   dynamic encode(BusinessUserAccount v) => toMap(v);
   Map<String, dynamic> toMap(BusinessUserAccount b) => {
         'businessType': container.$enc(b.businessType, 'businessType'),
-        'id': container.$enc(b.id, 'id'),
-        'createDate': container.$enc(b.createDate, 'createDate'),
+        '_id': container.$enc(b.id, 'id'),
         'login': container.$enc(b.login, 'login'),
-        'password': container.$enc(b.password, 'password'),
         'firstName': container.$enc(b.firstName, 'firstName'),
         'lastName': container.$enc(b.lastName, 'lastName'),
         'middleName': container.$enc(b.middleName, 'middleName'),
@@ -74,18 +70,17 @@ class BusinessUserAccountMapperElement
         'legalInn': container.$enc(b.legalInn, 'legalInn'),
         'legalOgrn': container.$enc(b.legalOgrn, 'legalOgrn'),
         'legalAddress': container.$enc(b.legalAddress, 'legalAddress'),
-        'avatar': container.$enc(b.avatar, 'avatar')
+        'avatar': container.$enc(b.avatar, 'avatar'),
+        'type': 'BusinessUserAccount'
       };
 
   @override
   String stringify(BusinessUserAccount self) =>
-      'BusinessUserAccount(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, businessType: ${container.asString(self.businessType)})';
+      'BusinessUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, businessType: ${container.asString(self.businessType)})';
   @override
   int hash(BusinessUserAccount self) =>
       container.hash(self.id) ^
-      container.hash(self.createDate) ^
       container.hash(self.login) ^
-      container.hash(self.password) ^
       container.hash(self.phone) ^
       container.hash(self.email) ^
       container.hash(self.firstName) ^
@@ -101,9 +96,7 @@ class BusinessUserAccountMapperElement
   @override
   bool equals(BusinessUserAccount self, BusinessUserAccount other) =>
       container.isEqual(self.id, other.id) &&
-      container.isEqual(self.createDate, other.createDate) &&
       container.isEqual(self.login, other.login) &&
-      container.isEqual(self.password, other.password) &&
       container.isEqual(self.phone, other.phone) &&
       container.isEqual(self.email, other.email) &&
       container.isEqual(self.firstName, other.firstName) &&
@@ -156,9 +149,7 @@ abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
   $R call(
       {BusinessUserAccountType? businessType,
       String? id,
-      DateTime? createDate,
       String? login,
-      String? password,
       String? firstName,
       String? lastName,
       String? middleName,
@@ -186,36 +177,32 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out extends BaseModel>
   $R call(
           {BusinessUserAccountType? businessType,
           String? id,
-          DateTime? createDate,
           String? login,
-          String? password,
           String? firstName,
           String? lastName,
-          String? middleName,
+          Object? middleName = $none,
           String? phone,
           String? email,
-          String? legalTitle,
-          String? legalAbbreviation,
-          String? legalInn,
-          String? legalOgrn,
-          String? legalAddress,
+          Object? legalTitle = $none,
+          Object? legalAbbreviation = $none,
+          Object? legalInn = $none,
+          Object? legalOgrn = $none,
+          Object? legalAddress = $none,
           Object? avatar = $none}) =>
       $then(BusinessUserAccount(
           businessType: businessType ?? $value.businessType,
           id: id ?? $value.id,
-          createDate: createDate ?? $value.createDate,
           login: login ?? $value.login,
-          password: password ?? $value.password,
           firstName: firstName ?? $value.firstName,
           lastName: lastName ?? $value.lastName,
-          middleName: middleName ?? $value.middleName,
+          middleName: or(middleName, $value.middleName),
           phone: phone ?? $value.phone,
           email: email ?? $value.email,
-          legalTitle: legalTitle ?? $value.legalTitle,
-          legalAbbreviation: legalAbbreviation ?? $value.legalAbbreviation,
-          legalInn: legalInn ?? $value.legalInn,
-          legalOgrn: legalOgrn ?? $value.legalOgrn,
-          legalAddress: legalAddress ?? $value.legalAddress,
+          legalTitle: or(legalTitle, $value.legalTitle),
+          legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
+          legalInn: or(legalInn, $value.legalInn),
+          legalOgrn: or(legalOgrn, $value.legalOgrn),
+          legalAddress: or(legalAddress, $value.legalAddress),
           avatar: or(avatar, $value.avatar)));
 }
 

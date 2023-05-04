@@ -36,20 +36,18 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
   ProUserAccount fromMap(Map<String, dynamic> map) => ProUserAccount(
       publicID: container.$get(map, 'publicID'),
       proType: container.$get(map, 'proType'),
-      id: container.$get(map, 'id'),
-      createDate: container.$get(map, 'createDate'),
+      id: container.$get(map, '_id'),
       login: container.$get(map, 'login'),
-      password: container.$get(map, 'password'),
       firstName: container.$get(map, 'firstName'),
       lastName: container.$get(map, 'lastName'),
-      middleName: container.$get(map, 'middleName'),
+      middleName: container.$getOpt(map, 'middleName'),
       phone: container.$get(map, 'phone'),
       email: container.$get(map, 'email'),
-      legalTitle: container.$get(map, 'legalTitle'),
-      legalAbbreviation: container.$get(map, 'legalAbbreviation'),
-      legalInn: container.$get(map, 'legalInn'),
-      legalOgrn: container.$get(map, 'legalOgrn'),
-      legalAddress: container.$get(map, 'legalAddress'),
+      legalTitle: container.$getOpt(map, 'legalTitle'),
+      legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
+      legalInn: container.$getOpt(map, 'legalInn'),
+      legalOgrn: container.$getOpt(map, 'legalOgrn'),
+      legalAddress: container.$getOpt(map, 'legalAddress'),
       avatar: container.$getOpt(map, 'avatar'));
 
   @override
@@ -58,10 +56,8 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
   Map<String, dynamic> toMap(ProUserAccount p) => {
         'publicID': container.$enc(p.publicID, 'publicID'),
         'proType': container.$enc(p.proType, 'proType'),
-        'id': container.$enc(p.id, 'id'),
-        'createDate': container.$enc(p.createDate, 'createDate'),
+        '_id': container.$enc(p.id, 'id'),
         'login': container.$enc(p.login, 'login'),
-        'password': container.$enc(p.password, 'password'),
         'firstName': container.$enc(p.firstName, 'firstName'),
         'lastName': container.$enc(p.lastName, 'lastName'),
         'middleName': container.$enc(p.middleName, 'middleName'),
@@ -73,18 +69,17 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
         'legalInn': container.$enc(p.legalInn, 'legalInn'),
         'legalOgrn': container.$enc(p.legalOgrn, 'legalOgrn'),
         'legalAddress': container.$enc(p.legalAddress, 'legalAddress'),
-        'avatar': container.$enc(p.avatar, 'avatar')
+        'avatar': container.$enc(p.avatar, 'avatar'),
+        'type': 'ProUserAccount'
       };
 
   @override
   String stringify(ProUserAccount self) =>
-      'ProUserAccount(id: ${container.asString(self.id)}, createDate: ${container.asString(self.createDate)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, publicID: ${container.asString(self.publicID)}, proType: ${container.asString(self.proType)})';
+      'ProUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, publicID: ${container.asString(self.publicID)}, proType: ${container.asString(self.proType)})';
   @override
   int hash(ProUserAccount self) =>
       container.hash(self.id) ^
-      container.hash(self.createDate) ^
       container.hash(self.login) ^
-      container.hash(self.password) ^
       container.hash(self.phone) ^
       container.hash(self.email) ^
       container.hash(self.firstName) ^
@@ -101,9 +96,7 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
   @override
   bool equals(ProUserAccount self, ProUserAccount other) =>
       container.isEqual(self.id, other.id) &&
-      container.isEqual(self.createDate, other.createDate) &&
       container.isEqual(self.login, other.login) &&
-      container.isEqual(self.password, other.password) &&
       container.isEqual(self.phone, other.phone) &&
       container.isEqual(self.email, other.email) &&
       container.isEqual(self.firstName, other.firstName) &&
@@ -155,9 +148,7 @@ abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount,
       {String? publicID,
       ProUserAccountType? proType,
       String? id,
-      DateTime? createDate,
       String? login,
-      String? password,
       String? firstName,
       String? lastName,
       String? middleName,
@@ -186,37 +177,33 @@ class _ProUserAccountCopyWithImpl<$R, $Out extends BaseModel>
           {String? publicID,
           ProUserAccountType? proType,
           String? id,
-          DateTime? createDate,
           String? login,
-          String? password,
           String? firstName,
           String? lastName,
-          String? middleName,
+          Object? middleName = $none,
           String? phone,
           String? email,
-          String? legalTitle,
-          String? legalAbbreviation,
-          String? legalInn,
-          String? legalOgrn,
-          String? legalAddress,
+          Object? legalTitle = $none,
+          Object? legalAbbreviation = $none,
+          Object? legalInn = $none,
+          Object? legalOgrn = $none,
+          Object? legalAddress = $none,
           Object? avatar = $none}) =>
       $then(ProUserAccount(
           publicID: publicID ?? $value.publicID,
           proType: proType ?? $value.proType,
           id: id ?? $value.id,
-          createDate: createDate ?? $value.createDate,
           login: login ?? $value.login,
-          password: password ?? $value.password,
           firstName: firstName ?? $value.firstName,
           lastName: lastName ?? $value.lastName,
-          middleName: middleName ?? $value.middleName,
+          middleName: or(middleName, $value.middleName),
           phone: phone ?? $value.phone,
           email: email ?? $value.email,
-          legalTitle: legalTitle ?? $value.legalTitle,
-          legalAbbreviation: legalAbbreviation ?? $value.legalAbbreviation,
-          legalInn: legalInn ?? $value.legalInn,
-          legalOgrn: legalOgrn ?? $value.legalOgrn,
-          legalAddress: legalAddress ?? $value.legalAddress,
+          legalTitle: or(legalTitle, $value.legalTitle),
+          legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
+          legalInn: or(legalInn, $value.legalInn),
+          legalOgrn: or(legalOgrn, $value.legalOgrn),
+          legalAddress: or(legalAddress, $value.legalAddress),
           avatar: or(avatar, $value.avatar)));
 }
 
