@@ -34,12 +34,12 @@ class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
 
   BusinessUserAccount({
     required this.businessType,
-    required super.id,
+    super.id,
     required super.login,
+    required super.password,
     required super.firstName,
     required super.lastName,
     super.middleName,
-    required super.phone,
     required super.email,
     super.legalTitle,
     super.legalAbbreviation,

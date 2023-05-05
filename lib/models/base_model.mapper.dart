@@ -30,7 +30,7 @@ class BaseModelMapperElement extends MapperElementBase<BaseModel> {
   BaseModel decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   BaseModel fromMap(Map<String, dynamic> map) =>
-      BaseModel(id: container.$get(map, '_id'));
+      BaseModel(id: container.$getOpt(map, '_id'));
 
   @override
   Function get encoder => encode;
@@ -90,5 +90,5 @@ class _BaseModelCopyWithImpl<$R, $Out extends BaseModel>
       _BaseModelCopyWithImpl($value, t, t2);
 
   @override
-  $R call({String? id}) => $then(BaseModel(id: id ?? $value.id));
+  $R call({Object? id = $none}) => $then(BaseModel(id: or(id, $value.id)));
 }

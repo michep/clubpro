@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:clubpro/api/api_user.dart';
 import 'package:clubpro/models/base_model.dart';
 import 'package:clubpro/models/business_user_account.dart';
 import 'package:clubpro/models/pro_user_account.dart';
@@ -11,7 +12,7 @@ part 'user_account.mapper.dart';
 @MappableClass(includeCustomMappers: [Uint8ListMapper], discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
 class UserAccount extends BaseModel with UserAccountMappable {
   final String login;
-  final String phone;
+  final String password;
   final String email;
   final String firstName;
   final String lastName;
@@ -25,12 +26,12 @@ class UserAccount extends BaseModel with UserAccountMappable {
   final Uint8List? avatar;
 
   UserAccount({
-    required super.id,
+    super.id,
     required this.login,
+    required this.password,
     required this.firstName,
     required this.lastName,
     this.middleName,
-    required this.phone,
     required this.email,
     this.legalTitle,
     this.legalAbbreviation,
@@ -42,4 +43,21 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   static final fromJson = UserAccountMapper.fromJson;
   static final fromMap = UserAccountMapper.fromMap;
+
+  @override
+  void save() async {
+    await ApiUser.createUser(this);
+  }
+
+  Future<Map<String, dynamic>> register() async {
+    return await ApiUser.registerUser(this);
+  }
+
+  Future<String?> sendSMSCode() async {
+    return await ApiUser.sendSMSCode(this);
+  }
+
+  Future<Map<String, dynamic>> checkSMSCode(String code) async {
+    return await ApiUser.checkSMSCode(this, code);
+  }
 }

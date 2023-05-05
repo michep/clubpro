@@ -36,12 +36,12 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
   ProUserAccount fromMap(Map<String, dynamic> map) => ProUserAccount(
       publicID: container.$get(map, 'publicID'),
       proType: container.$get(map, 'proType'),
-      id: container.$get(map, '_id'),
+      id: container.$getOpt(map, '_id'),
       login: container.$get(map, 'login'),
+      password: container.$get(map, 'password'),
       firstName: container.$get(map, 'firstName'),
       lastName: container.$get(map, 'lastName'),
       middleName: container.$getOpt(map, 'middleName'),
-      phone: container.$get(map, 'phone'),
       email: container.$get(map, 'email'),
       legalTitle: container.$getOpt(map, 'legalTitle'),
       legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
@@ -58,10 +58,10 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
         'proType': container.$enc(p.proType, 'proType'),
         '_id': container.$enc(p.id, 'id'),
         'login': container.$enc(p.login, 'login'),
+        'password': container.$enc(p.password, 'password'),
         'firstName': container.$enc(p.firstName, 'firstName'),
         'lastName': container.$enc(p.lastName, 'lastName'),
         'middleName': container.$enc(p.middleName, 'middleName'),
-        'phone': container.$enc(p.phone, 'phone'),
         'email': container.$enc(p.email, 'email'),
         'legalTitle': container.$enc(p.legalTitle, 'legalTitle'),
         'legalAbbreviation':
@@ -75,12 +75,12 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
 
   @override
   String stringify(ProUserAccount self) =>
-      'ProUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, publicID: ${container.asString(self.publicID)}, proType: ${container.asString(self.proType)})';
+      'ProUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, publicID: ${container.asString(self.publicID)}, proType: ${container.asString(self.proType)})';
   @override
   int hash(ProUserAccount self) =>
       container.hash(self.id) ^
       container.hash(self.login) ^
-      container.hash(self.phone) ^
+      container.hash(self.password) ^
       container.hash(self.email) ^
       container.hash(self.firstName) ^
       container.hash(self.lastName) ^
@@ -97,7 +97,7 @@ class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
   bool equals(ProUserAccount self, ProUserAccount other) =>
       container.isEqual(self.id, other.id) &&
       container.isEqual(self.login, other.login) &&
-      container.isEqual(self.phone, other.phone) &&
+      container.isEqual(self.password, other.password) &&
       container.isEqual(self.email, other.email) &&
       container.isEqual(self.firstName, other.firstName) &&
       container.isEqual(self.lastName, other.lastName) &&
@@ -149,10 +149,10 @@ abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount,
       ProUserAccountType? proType,
       String? id,
       String? login,
+      String? password,
       String? firstName,
       String? lastName,
       String? middleName,
-      String? phone,
       String? email,
       String? legalTitle,
       String? legalAbbreviation,
@@ -176,12 +176,12 @@ class _ProUserAccountCopyWithImpl<$R, $Out extends BaseModel>
   $R call(
           {String? publicID,
           ProUserAccountType? proType,
-          String? id,
+          Object? id = $none,
           String? login,
+          String? password,
           String? firstName,
           String? lastName,
           Object? middleName = $none,
-          String? phone,
           String? email,
           Object? legalTitle = $none,
           Object? legalAbbreviation = $none,
@@ -192,12 +192,12 @@ class _ProUserAccountCopyWithImpl<$R, $Out extends BaseModel>
       $then(ProUserAccount(
           publicID: publicID ?? $value.publicID,
           proType: proType ?? $value.proType,
-          id: id ?? $value.id,
+          id: or(id, $value.id),
           login: login ?? $value.login,
+          password: password ?? $value.password,
           firstName: firstName ?? $value.firstName,
           lastName: lastName ?? $value.lastName,
           middleName: or(middleName, $value.middleName),
-          phone: phone ?? $value.phone,
           email: email ?? $value.email,
           legalTitle: or(legalTitle, $value.legalTitle),
           legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),

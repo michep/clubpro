@@ -26,11 +26,12 @@ class DioService {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           if (_secureService.jwt != null) {
-            if (JwtDecoder.isExpired(_secureService.jwt!) && _secureService.login != null && _secureService.password != null) {
-              _secureService.jwt = null;
-              var user = await ApiAuth.authenticate(login: _secureService.login!, password: _secureService.password!);
-              if (user == null) {
-                print('!!!CANNOT REFRESH JWT TOKEN!!!');
+            if (JwtDecoder.isExpired(_secureService.jwt!) && _secureService.account != null) {
+              _secureService.clearJWT();
+              var token = await ApiAuth.getToken(_secureService.account!.login, _secureService.account!.password);
+              if (token == null) {
+                _secureService.logout();
+                handler.reject(DioError(requestOptions: options, type: DioErrorType.cancel, message: 'Token error'));
               }
             }
             options.headers.addAll({'Authorization': 'JWT ${_secureService.jwt}'});

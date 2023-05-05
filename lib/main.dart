@@ -1,5 +1,3 @@
-import 'package:clubpro/api/api_auth.dart';
-import 'package:clubpro/api/api_user.dart';
 import 'package:clubpro/clubpro_app.dart';
 import 'package:clubpro/service/dio_service.dart';
 import 'package:clubpro/service/security_service.dart';
@@ -9,15 +7,12 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var sec = SecurityService();
-  await sec.init();
   Get.put(sec);
-  var dio = DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path));
+  var dio = DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path)); //WEB
+  // var dio = DioService(baseUriFunc: (path) => Uri.http('10.0.2.2:8083', path)); //Android Emulator
   dio.init();
   Get.put(dio);
-
-  var r = await ApiAuth.authenticate(login: 'test', password: sec.hashPassword('password'));
-  await Future.delayed(Duration(seconds: 15));
-  var user = ApiUser.getUserByLogin('test');
+  await sec.init();
 
   runApp(ClubProApp());
 }

@@ -7,9 +7,10 @@ class ApiUser {
   static final dioservice = Get.find<DioService>();
 
   static Future<String?> createUser(UserAccount user) async {
-    var res = await dioservice.dio.putUri<Map<String, String>>(
+    var data = user.toMap()..remove('_id');
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
       dioservice.baseUriFunc('/user'),
-      data: user.toMap(),
+      data: data,
       options: Options(
         contentType: 'application/json',
       ),
@@ -32,5 +33,45 @@ class ApiUser {
     );
     if (res.data == null || res.data!.isEmpty) return null;
     return UserAccount.fromMap(res.data!);
+  }
+
+  static Future<Map<String, dynamic>> registerUser(UserAccount user) async {
+    var data = user.toMap()..remove('_id');
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/register'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty) return {'error': 'unknown error'};
+    return res.data!;
+  }
+
+  static Future<String?> sendSMSCode(UserAccount user) async {
+    var data = user.toMap();
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/${user.id}/sendcode'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty || res.data!['result'] == null) return null;
+    return res.data!['result']!;
+  }
+
+  static Future<Map<String, dynamic>> checkSMSCode(UserAccount user, String code) async {
+    var data = user.toMap();
+    data['smscode'] = code;
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/${user.id}/checkcode'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty) return {'error': 'unknown error'};
+    return res.data!;
   }
 }

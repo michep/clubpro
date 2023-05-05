@@ -5,13 +5,13 @@ part 'base_model.mapper.dart';
 @MappableClass()
 class BaseModel with BaseModelMappable {
   @MappableField(key: '_id')
-  final String id;
+  final String? id;
 
   BaseModel({
-    required this.id,
+    this.id,
   });
 
   void save() {
-    print(toJson());
+    throw UnimplementedError;
   }
 }

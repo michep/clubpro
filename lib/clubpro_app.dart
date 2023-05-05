@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:clubpro/page/home_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/page/login_page.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,16 @@ class ClubProApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'Club PRO',
       scrollBehavior: AppScrollBehavior(),
       home: StreamBuilder<SecurityState>(
         stream: _sec.stream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const LoginPage();
+            return const CircularProgressIndicator();
           }
-          return Text(snapshot.data!.name);
+          if (snapshot.data! == SecurityState.loggedout) return const LoginPage();
+          return HomePage();
         },
       ),
     );

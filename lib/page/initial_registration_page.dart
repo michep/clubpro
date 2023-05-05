@@ -1,5 +1,9 @@
+import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/page/smscode_registration_page.dart';
+import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/widget/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class InitialRegistrationPage extends StatefulWidget {
@@ -11,19 +15,20 @@ class InitialRegistrationPage extends StatefulWidget {
 
 class InitialRegistrationPageState extends State<InitialRegistrationPage> {
   final TextEditingController _logincont = TextEditingController();
-  final TextEditingController _phonecont = TextEditingController();
   final TextEditingController _passwordcont = TextEditingController();
   final TextEditingController _password2cont = TextEditingController();
   final TextEditingController _emailcont = TextEditingController();
   final TextEditingController _firstNamecont = TextEditingController();
   final TextEditingController _lastNamecont = TextEditingController();
   final TextEditingController _middleNamecont = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Form(
+          key: formKey,
           child: ResponsiveBuilder(
             builder: (context, sizingInformation) {
               if (sizingInformation.isMobile) {
@@ -45,21 +50,24 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
   }
 
   Widget tabletWrapper(Widget child) {
-    return SizedBox(
-      width: 400,
-      child: child,
+    return Center(
+      child: SizedBox(
+        width: 400,
+        child: child,
+      ),
     );
   }
 
   Widget content() {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const ClubProLogo(),
         TextFormField(
           controller: _logincont,
           decoration: const InputDecoration(
-            labelText: 'Имя для входа',
+            labelText: 'Номер телефона',
           ),
         ),
         TextFormField(
@@ -80,23 +88,13 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
         ),
         TextFormField(
           controller: _emailcont,
-          obscureText: true,
           enableSuggestions: false,
           decoration: const InputDecoration(
             labelText: 'Электронная почта',
           ),
         ),
         TextFormField(
-          controller: _phonecont,
-          obscureText: true,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Номер телефона',
-          ),
-        ),
-        TextFormField(
           controller: _lastNamecont,
-          obscureText: true,
           enableSuggestions: false,
           decoration: const InputDecoration(
             labelText: 'Фамилия',
@@ -104,7 +102,6 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
         ),
         TextFormField(
           controller: _firstNamecont,
-          obscureText: true,
           enableSuggestions: false,
           decoration: const InputDecoration(
             labelText: 'Имя',
@@ -112,24 +109,47 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
         ),
         TextFormField(
           controller: _middleNamecont,
-          obscureText: true,
           enableSuggestions: false,
           decoration: const InputDecoration(
             labelText: 'Отчество',
           ),
         ),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Зарегистрироваться'),
-              ),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: ElevatedButton(
+            onPressed: register,
+            child: const Text('Зарегистрироваться'),
+          ),
         ),
       ],
     );
+  }
+
+  Future<void> register() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (formKey.currentState!.validate()) {
+      var user = UserAccount.fromMap({
+        'login': _logincont.text,
+        'email': _emailcont.text,
+        'firstName': _firstNamecont.text,
+        'lastName': _lastNamecont.text,
+        'middleName': _middleNamecont.text,
+        'password': SecurityService.hashPassword(_passwordcont.text),
+      });
+      var reg = await user.register();
+      if (reg['error'] != null) {
+        Get.showSnackbar(
+          GetSnackBar(
+            message: reg['error'],
+            duration: const Duration(seconds: 3),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+      user = user.copyWith(id: reg['inserted_id']);
+      await user.sendSMSCode();
+      Get.offAll(() => SMSCodeRegistrationPage(user: user));
+    }
   }
 }

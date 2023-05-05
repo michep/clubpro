@@ -47,12 +47,12 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
         }
       });
   UserAccount fromMap(Map<String, dynamic> map) => UserAccount(
-      id: container.$get(map, '_id'),
+      id: container.$getOpt(map, '_id'),
       login: container.$get(map, 'login'),
+      password: container.$get(map, 'password'),
       firstName: container.$get(map, 'firstName'),
       lastName: container.$get(map, 'lastName'),
       middleName: container.$getOpt(map, 'middleName'),
-      phone: container.$get(map, 'phone'),
       email: container.$get(map, 'email'),
       legalTitle: container.$getOpt(map, 'legalTitle'),
       legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
@@ -67,10 +67,10 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
   Map<String, dynamic> toMap(UserAccount u) => {
         '_id': container.$enc(u.id, 'id'),
         'login': container.$enc(u.login, 'login'),
+        'password': container.$enc(u.password, 'password'),
         'firstName': container.$enc(u.firstName, 'firstName'),
         'lastName': container.$enc(u.lastName, 'lastName'),
         'middleName': container.$enc(u.middleName, 'middleName'),
-        'phone': container.$enc(u.phone, 'phone'),
         'email': container.$enc(u.email, 'email'),
         'legalTitle': container.$enc(u.legalTitle, 'legalTitle'),
         'legalAbbreviation':
@@ -83,12 +83,12 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
 
   @override
   String stringify(UserAccount self) =>
-      'UserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, phone: ${container.asString(self.phone)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)})';
+      'UserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)})';
   @override
   int hash(UserAccount self) =>
       container.hash(self.id) ^
       container.hash(self.login) ^
-      container.hash(self.phone) ^
+      container.hash(self.password) ^
       container.hash(self.email) ^
       container.hash(self.firstName) ^
       container.hash(self.lastName) ^
@@ -103,7 +103,7 @@ class UserAccountMapperElement extends MapperElementBase<UserAccount> {
   bool equals(UserAccount self, UserAccount other) =>
       container.isEqual(self.id, other.id) &&
       container.isEqual(self.login, other.login) &&
-      container.isEqual(self.phone, other.phone) &&
+      container.isEqual(self.password, other.password) &&
       container.isEqual(self.email, other.email) &&
       container.isEqual(self.firstName, other.firstName) &&
       container.isEqual(self.lastName, other.lastName) &&
@@ -149,10 +149,10 @@ abstract class UserAccountCopyWith<$R, $In extends UserAccount,
   $R call(
       {String? id,
       String? login,
+      String? password,
       String? firstName,
       String? lastName,
       String? middleName,
-      String? phone,
       String? email,
       String? legalTitle,
       String? legalAbbreviation,
@@ -174,12 +174,12 @@ class _UserAccountCopyWithImpl<$R, $Out extends BaseModel>
 
   @override
   $R call(
-          {String? id,
+          {Object? id = $none,
           String? login,
+          String? password,
           String? firstName,
           String? lastName,
           Object? middleName = $none,
-          String? phone,
           String? email,
           Object? legalTitle = $none,
           Object? legalAbbreviation = $none,
@@ -188,12 +188,12 @@ class _UserAccountCopyWithImpl<$R, $Out extends BaseModel>
           Object? legalOgrn = $none,
           Object? avatar = $none}) =>
       $then(UserAccount(
-          id: id ?? $value.id,
+          id: or(id, $value.id),
           login: login ?? $value.login,
+          password: password ?? $value.password,
           firstName: firstName ?? $value.firstName,
           lastName: lastName ?? $value.lastName,
           middleName: or(middleName, $value.middleName),
-          phone: phone ?? $value.phone,
           email: email ?? $value.email,
           legalTitle: or(legalTitle, $value.legalTitle),
           legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
