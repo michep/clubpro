@@ -1,5 +1,5 @@
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/page/smscode_registration_page.dart';
+import 'package:clubpro/page/registration/smscode_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/widget/logo.dart';
 import 'package:flutter/material.dart';

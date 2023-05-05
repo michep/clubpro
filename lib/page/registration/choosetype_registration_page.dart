@@ -1,5 +1,5 @@
-import 'package:clubpro/page/business_registration_page.dart';
-import 'package:clubpro/page/pro_registration_page.dart';
+import 'package:clubpro/page/registration/business_registration_page.dart';
+import 'package:clubpro/page/registration/pro_registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';

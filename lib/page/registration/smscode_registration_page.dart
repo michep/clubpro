@@ -1,5 +1,5 @@
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/page/choosetype_registration_page.dart';
+import 'package:clubpro/page/registration/choosetype_registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
