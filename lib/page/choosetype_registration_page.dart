@@ -1,11 +1,14 @@
+import 'package:clubpro/models/user_account.dart';
 import 'package:clubpro/page/business_registration_page.dart';
 import 'package:clubpro/page/pro_registration_page.dart';
+import 'package:clubpro/page/type_registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class ChooseTypeRegistrationPage extends StatelessWidget {
-  const ChooseTypeRegistrationPage({super.key});
+  final UserAccount user;
+  const ChooseTypeRegistrationPage({required this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,7 @@ class ChooseTypeRegistrationPage extends StatelessWidget {
           onPressed: business,
           child: Text('БИЗНЕС'),
         ),
+        const SizedBox(width: 20,),
         ElevatedButton(
           onPressed: pro,
           child: Text('ПРОФЕССИОНАЛ'),
@@ -55,10 +59,12 @@ class ChooseTypeRegistrationPage extends StatelessWidget {
   }
 
   Future<void> business() async {
-    Get.offAll(() => const BusinessRegistrationPage());
+    // Get.to(() => BusinessRegistrationPage(user: user,));
+    Get.to(() => TypeRegistrationPage(user: user, isBusiness: true,));
   }
 
   Future<void> pro() async {
-    Get.offAll(() => const ProRegistrationPage());
+    // Get.to(() => ProRegistrationPage(user: user,));
+    Get.to(() => TypeRegistrationPage(user: user, isBusiness: false,));
   }
 }

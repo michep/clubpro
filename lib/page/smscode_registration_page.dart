@@ -97,7 +97,8 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
       );
       return;
     }
-    Get.offAll(() => const ChooseTypeRegistrationPage());
+    
+    Get.offAll(() => ChooseTypeRegistrationPage(user: widget.user,));
   }
 
   Future<void> resend() async {

@@ -48,6 +48,19 @@ class ApiUser {
     return res.data!;
   }
 
+  static Future<Map<String, dynamic>> setAllUserData(UserAccount user) async {
+    var data = user.toMap();
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/register/${data['_id']}'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty) return {'error': 'unknown error'};
+    return res.data!;
+  }
+
   static Future<String?> sendSMSCode(UserAccount user) async {
     var data = user.toMap();
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
