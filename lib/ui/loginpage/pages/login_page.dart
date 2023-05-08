@@ -1,6 +1,6 @@
-import 'package:clubpro/page/registration/initial_registration_page.dart';
+import 'package:clubpro/ui/register/pages/initial_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
-import 'package:clubpro/widget/logo.dart';
+import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';

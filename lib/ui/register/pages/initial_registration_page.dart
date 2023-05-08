@@ -1,7 +1,7 @@
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/page/registration/smscode_registration_page.dart';
+import 'package:clubpro/ui/register/pages/smscode_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
-import 'package:clubpro/widget/logo.dart';
+import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -17,10 +17,6 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
   final TextEditingController _logincont = TextEditingController();
   final TextEditingController _passwordcont = TextEditingController();
   final TextEditingController _password2cont = TextEditingController();
-  final TextEditingController _emailcont = TextEditingController();
-  final TextEditingController _firstNamecont = TextEditingController();
-  final TextEditingController _lastNamecont = TextEditingController();
-  final TextEditingController _middleNamecont = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -86,34 +82,6 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
             labelText: 'Повторите пароль',
           ),
         ),
-        TextFormField(
-          controller: _emailcont,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Электронная почта',
-          ),
-        ),
-        TextFormField(
-          controller: _lastNamecont,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Фамилия',
-          ),
-        ),
-        TextFormField(
-          controller: _firstNamecont,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Имя',
-          ),
-        ),
-        TextFormField(
-          controller: _middleNamecont,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Отчество',
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: ElevatedButton(
@@ -130,10 +98,10 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
     if (formKey.currentState!.validate()) {
       var user = UserAccount.fromMap({
         'login': _logincont.text,
-        'email': _emailcont.text,
-        'firstName': _firstNamecont.text,
-        'lastName': _lastNamecont.text,
-        'middleName': _middleNamecont.text,
+        'email': '',
+        'firstName': '',
+        'lastName': '',
+        'middleName': '',
         'password': SecurityService.hashPassword(_passwordcont.text),
       });
       var reg = await user.register();

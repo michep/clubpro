@@ -48,10 +48,23 @@ class ApiUser {
     return res.data!;
   }
 
-  static Future<String?> sendSMSCode(UserAccount user) async {
+  static Future<Map<String, dynamic>> registerUserContinue(UserAccount user) async {
     var data = user.toMap();
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/${user.id}/sendcode'),
+      dioservice.baseUriFunc('/user/register/${data['_id']}'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty) return {'error': 'unknown error'};
+    return res.data!;
+  }
+
+  static Future<String?> registerSendSMSCode(UserAccount user) async {
+    var data = user.toMap();
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/register/${user.id}/sendcode'),
       data: data,
       options: Options(
         contentType: 'application/json',
@@ -61,11 +74,11 @@ class ApiUser {
     return res.data!['result']!;
   }
 
-  static Future<Map<String, dynamic>> checkSMSCode(UserAccount user, String code) async {
+  static Future<Map<String, dynamic>> registerCheckSMSCode(UserAccount user, String code) async {
     var data = user.toMap();
     data['smscode'] = code;
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/${user.id}/checkcode'),
+      dioservice.baseUriFunc('/user/register/${user.id}/checkcode'),
       data: data,
       options: Options(
         contentType: 'application/json',

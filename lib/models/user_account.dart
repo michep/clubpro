@@ -53,11 +53,15 @@ class UserAccount extends BaseModel with UserAccountMappable {
     return await ApiUser.registerUser(this);
   }
 
+  Future<Map<String, dynamic>> registerConmtinue() async {
+    return await ApiUser.registerUserContinue(this);
+  }
+
   Future<String?> sendSMSCode() async {
-    return await ApiUser.sendSMSCode(this);
+    return await ApiUser.registerSendSMSCode(this);
   }
 
   Future<Map<String, dynamic>> checkSMSCode(String code) async {
-    return await ApiUser.checkSMSCode(this, code);
+    return await ApiUser.registerCheckSMSCode(this, code);
   }
 }

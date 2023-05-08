@@ -20,13 +20,14 @@ class SecurityService {
   String? _jwt;
   SecurityAccount? _account;
   UserAccount? _currentUser;
-  SecurityState _state = SecurityState.loggedout;
+  late SecurityState _state;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   final BehaviorSubject<SecurityState> _stateUpdateController = BehaviorSubject();
   late final Stream<SecurityState> stream;
 
   SecurityService() {
     stream = _stateUpdateController.stream;
+    _state = SecurityState.loggedout;
     _stateUpdateController.add(SecurityState.loggedout);
   }
 
