@@ -14,5 +14,5 @@ void main() async {
   Get.put(dio);
   await sec.init();
 
-  runApp(ClubProApp());
+  runApp(const ClubProApp());
 }

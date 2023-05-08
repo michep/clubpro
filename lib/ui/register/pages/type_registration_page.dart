@@ -1,24 +1,29 @@
 import 'package:clubpro/models/business_user_account.dart';
 import 'package:clubpro/models/pro_user_account.dart';
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/page/home_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class TypeRegistrationPage extends StatelessWidget {
+class TypeRegistrationPage extends StatefulWidget {
   final UserAccount user;
   final bool isBusiness;
-  TypeRegistrationPage({required this.user, required this.isBusiness, super.key});
+  const TypeRegistrationPage({required this.user, required this.isBusiness, super.key});
 
+  @override
+  State<TypeRegistrationPage> createState() => _TypeRegistrationPageState();
+}
+
+class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
+  final _sec = Get.find<SecurityService>();
   final TextEditingController _emailcont = TextEditingController();
   final TextEditingController _firstNamecont = TextEditingController();
   final TextEditingController _lastNamecont = TextEditingController();
   final TextEditingController _middleNamecont = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey();
   ProUserAccountType? proType;
   BusinessUserAccountType? businessType;
-  final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -89,33 +94,41 @@ class TypeRegistrationPage extends StatelessWidget {
             labelText: 'Отчество',
           ),
         ),
-        isBusiness ? DropdownButtonFormField<BusinessUserAccountType>(
-          value: businessType,
-          items: BusinessUserAccountType.values
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
-          onChanged: (v) {
-            businessType = v;
-          },
-        ) : DropdownButtonFormField<ProUserAccountType>(
-          value: proType,
-          items: ProUserAccountType.values
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
-          onChanged: (v) {
-            proType = v;
-          },
-        ),
+        widget.isBusiness
+            ? DropdownButtonFormField<BusinessUserAccountType>(
+                value: businessType,
+                decoration: const InputDecoration(
+                  labelText: 'Тип бизнеса',
+                ),
+                items: BusinessUserAccountType.values
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (v) {
+                  businessType = v;
+                },
+              )
+            : DropdownButtonFormField<ProUserAccountType>(
+                value: proType,
+                decoration: const InputDecoration(
+                  labelText: 'Вид деятельности',
+                ),
+                items: ProUserAccountType.values
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (v) {
+                  proType = v;
+                },
+              ),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: ElevatedButton(
@@ -129,29 +142,29 @@ class TypeRegistrationPage extends StatelessWidget {
 
   Future<void> registerFinally() async {
     if (formKey.currentState!.validate()) {
-      var newUser = isBusiness
+      var newUser = widget.isBusiness
           ? BusinessUserAccount.fromMap({
-              '_id': user.id,
-              'login': user.login,
+              '_id': widget.user.id,
+              'login': widget.user.login,
               'email': _emailcont.text,
               'firstName': _firstNamecont.text,
               'lastName': _lastNamecont.text,
               'middleName': _middleNamecont.text,
-              'password': user.password,
+              'password': widget.user.password,
               'businessType': businessType,
             })
           : ProUserAccount.fromMap({
-              '_id': user.id,
+              '_id': widget.user.id,
               'publicID': 'publicID',
-              'login': user.login,
+              'login': widget.user.login,
               'email': _emailcont.text,
               'firstName': _firstNamecont.text,
               'lastName': _lastNamecont.text,
               'middleName': _middleNamecont.text,
-              'password': user.password,
+              'password': widget.user.password,
               'proType': proType,
             });
-      var reg = await newUser.setInfo();
+      var reg = await newUser.registerConmtinue();
       if (reg['error'] != null) {
         Get.showSnackbar(
           GetSnackBar(
@@ -162,7 +175,7 @@ class TypeRegistrationPage extends StatelessWidget {
         );
         return;
       }
-      var res = await Get.find<SecurityService>().login(
+      var res = await _sec.login(
         newUser.login,
         newUser.password,
       );
@@ -174,10 +187,7 @@ class TypeRegistrationPage extends StatelessWidget {
             backgroundColor: Colors.red,
           ),
         );
-      } 
-      // else {
-      //   Get.offAll(() => HomePage());
-      // }
+      }
     }
   }
 }

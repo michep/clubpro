@@ -1,5 +1,5 @@
 import 'package:clubpro/models/user_account.dart';
-import 'package:clubpro/page/choosetype_registration_page.dart';
+import 'package:clubpro/ui/register/pages/choosetype_registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -77,7 +77,7 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: ElevatedButton(
-            onPressed: resend,
+            onPressed: resendSMSCode,
             child: const Text('Прислать код еще раз'),
           ),
         ),
@@ -97,11 +97,13 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
       );
       return;
     }
-    
-    Get.offAll(() => ChooseTypeRegistrationPage(user: widget.user,));
+
+    Get.offAll(() => ChooseTypeRegistrationPage(
+          user: widget.user,
+        ));
   }
 
-  Future<void> resend() async {
+  Future<void> resendSMSCode() async {
     widget.user.sendSMSCode();
   }
 }
