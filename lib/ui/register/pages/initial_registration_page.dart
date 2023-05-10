@@ -43,7 +43,7 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
               ),
               inputFormatters: [
                 MaskTextInputFormatter(
-                  mask: '+7 (###) ###-##-##',
+                  mask: '+7 (###) ### ## ##',
                   filter: {'#': RegExp(r'[0-9]')},
                   type: MaskAutoCompletionType.eager,
                 ),
