@@ -11,11 +11,11 @@ part 'user_account.mapper.dart';
 // @MappableClass(discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
 @MappableClass(includeCustomMappers: [Uint8ListMapper], discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
 class UserAccount extends BaseModel with UserAccountMappable {
-  final String login;
-  final String password;
-  final String email;
-  final String firstName;
-  final String lastName;
+  final String? login;
+  final String? password;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
   final String? middleName;
   final String? legalTitle;
   final String? legalAbbreviation;
@@ -27,12 +27,12 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   UserAccount({
     super.id,
-    required this.login,
-    required this.password,
-    required this.firstName,
-    required this.lastName,
+    this.login,
+    this.password,
+    this.firstName,
+    this.lastName,
     this.middleName,
-    required this.email,
+    this.email,
     this.legalTitle,
     this.legalAbbreviation,
     this.legalAddress,

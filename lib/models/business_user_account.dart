@@ -30,17 +30,17 @@ enum BusinessUserAccountType {
 
 @MappableClass()
 class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
-  final BusinessUserAccountType businessType;
+  final BusinessUserAccountType? businessType;
 
   BusinessUserAccount({
-    required this.businessType,
+    this.businessType,
     super.id,
-    required super.login,
-    required super.password,
-    required super.firstName,
-    required super.lastName,
+    super.login,
+    super.password,
+    super.firstName,
+    super.lastName,
     super.middleName,
-    required super.email,
+    super.email,
     super.legalTitle,
     super.legalAbbreviation,
     super.legalInn,

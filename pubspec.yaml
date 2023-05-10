@@ -44,6 +44,7 @@ dependencies:
   crypto: ^3.0.2
   jwt_decoder: ^2.0.1
   rxdart: ^0.27.7
+  mask_text_input_formatter: ^2.4.0
 
 dev_dependencies:
   flutter_test:

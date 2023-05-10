@@ -34,19 +34,19 @@ enum ProUserAccountType {
 
 @MappableClass()
 class ProUserAccount extends UserAccount with ProUserAccountMappable {
-  final String publicID;
-  final ProUserAccountType proType;
+  final String? publicID;
+  final ProUserAccountType? proType;
 
   ProUserAccount({
-    required this.publicID,
-    required this.proType,
+    this.publicID,
+    this.proType,
     super.id,
-    required super.login,
-    required super.password,
-    required super.firstName,
-    required super.lastName,
+    super.login,
+    super.password,
+    super.firstName,
+    super.lastName,
     super.middleName,
-    required super.email,
+    super.email,
     super.legalTitle,
     super.legalAbbreviation,
     super.legalInn,

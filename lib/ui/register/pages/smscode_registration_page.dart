@@ -1,5 +1,8 @@
 import 'package:clubpro/models/user_account.dart';
 import 'package:clubpro/ui/register/pages/choosetype_registration_page.dart';
+import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
+import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
+import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -22,66 +25,39 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: formKey,
-          child: ResponsiveBuilder(
-            builder: (context, sizingInformation) {
-              if (sizingInformation.isMobile) {
-                return mobileWrapper(content());
-              }
-              return tabletWrapper(content());
-            },
-          ),
+    return ScaffoldRoot(
+      mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
+      tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _codecont,
+              enableSuggestions: false,
+              decoration: const InputDecoration(
+                labelText: 'СМС код',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ElevatedButton(
+                onPressed: checkcode,
+                child: const Text('Проверить код'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ElevatedButton(
+                onPressed: resendSMSCode,
+                child: const Text('Прислать код еще раз'),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget mobileWrapper(Widget child) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: content(),
-    );
-  }
-
-  Widget tabletWrapper(Widget child) {
-    return Center(
-      child: SizedBox(
-        width: 400,
-        child: child,
-      ),
-    );
-  }
-
-  Widget content() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        TextFormField(
-          controller: _codecont,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'СМС код',
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ElevatedButton(
-            onPressed: checkcode,
-            child: const Text('Проверить код'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ElevatedButton(
-            onPressed: resendSMSCode,
-            child: const Text('Прислать код еще раз'),
-          ),
-        ),
-      ],
     );
   }
 

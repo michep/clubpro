@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Text(_sec.currentUser!.firstName),
+            Text(_sec.currentUser!.firstName!),
             ElevatedButton(
               onPressed: logout,
               child: const Text('Выйти из приложения'),

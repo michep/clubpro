@@ -1,10 +1,14 @@
 import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/register/pages/smscode_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
+import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
+import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
 
 class InitialRegistrationPage extends StatefulWidget {
   const InitialRegistrationPage({super.key});
@@ -14,82 +18,69 @@ class InitialRegistrationPage extends StatefulWidget {
 }
 
 class InitialRegistrationPageState extends State<InitialRegistrationPage> {
-  final TextEditingController _logincont = TextEditingController();
-  final TextEditingController _passwordcont = TextEditingController();
-  final TextEditingController _password2cont = TextEditingController();
+  final TextEditingController logincont = TextEditingController(text: '+7');
+  final TextEditingController passwordcont = TextEditingController();
+  final TextEditingController password2cont = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: formKey,
-          child: ResponsiveBuilder(
-            builder: (context, sizingInformation) {
-              if (sizingInformation.isMobile) {
-                return mobileWrapper(content());
-              }
-              return tabletWrapper(content());
-            },
-          ),
+    return ScaffoldRoot(
+      mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
+      tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const ClubProLogo(),
+            TextFormField(
+              controller: logincont,
+              decoration: const InputDecoration(
+                labelText: 'Номер телефона',
+                hintText: '+7 (999) 000 00 00',
+              ),
+              inputFormatters: [
+                MaskTextInputFormatter(
+                  mask: '+7 (###) ###-##-##',
+                  filter: {'#': RegExp(r'[0-9]')},
+                  type: MaskAutoCompletionType.eager,
+                ),
+              ],
+              validator: (value) => Utils.validatePhone(value, 'Укажите номер телефона'),
+              textInputAction: TextInputAction.next,
+            ),
+            TextFormField(
+              controller: passwordcont,
+              obscureText: true,
+              enableSuggestions: false,
+              decoration: const InputDecoration(
+                labelText: 'Пароль',
+              ),
+              validator: (value) => Utils.validateNotEmpty(value, 'Пароль не может быть пустым'),
+              textInputAction: TextInputAction.next,
+            ),
+            TextFormField(
+              controller: password2cont,
+              obscureText: true,
+              enableSuggestions: false,
+              decoration: const InputDecoration(
+                labelText: 'Повторите пароль',
+              ),
+              validator: (value) => Utils.validateCompareValues(value, passwordcont.text, 'Пароли не совпадают'),
+              textInputAction: TextInputAction.next,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ElevatedButton(
+                onPressed: register,
+                child: const Text('Зарегистрироваться'),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget mobileWrapper(Widget child) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: content(),
-    );
-  }
-
-  Widget tabletWrapper(Widget child) {
-    return Center(
-      child: SizedBox(
-        width: 400,
-        child: child,
-      ),
-    );
-  }
-
-  Widget content() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const ClubProLogo(),
-        TextFormField(
-          controller: _logincont,
-          decoration: const InputDecoration(
-            labelText: 'Номер телефона',
-          ),
-        ),
-        TextFormField(
-          controller: _passwordcont,
-          obscureText: true,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Пароль',
-          ),
-        ),
-        TextFormField(
-          controller: _password2cont,
-          obscureText: true,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-            labelText: 'Повторите пароль',
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ElevatedButton(
-            onPressed: register,
-            child: const Text('Зарегистрироваться'),
-          ),
-        ),
-      ],
     );
   }
 
@@ -97,12 +88,8 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
       var user = UserAccount.fromMap({
-        'login': _logincont.text,
-        'email': '',
-        'firstName': '',
-        'lastName': '',
-        'middleName': '',
-        'password': SecurityService.hashPassword(_passwordcont.text),
+        'login': Utils.normalizePhone(logincont.text),
+        'password': SecurityService.hashPassword(passwordcont.text),
       });
       var reg = await user.register();
       if (reg['error'] != null) {
@@ -116,7 +103,17 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
         return;
       }
       user = user.copyWith(id: reg['inserted_id']);
-      await user.sendSMSCode();
+      var res = await user.sendSMSCode();
+      if (res == 'error') {
+        Get.showSnackbar(
+          const GetSnackBar(
+            message: 'Ошибка отправки кода подтверждения',
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       Get.offAll(() => SMSCodeRegistrationPage(user: user));
     }
   }
