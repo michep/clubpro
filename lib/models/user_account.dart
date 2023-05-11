@@ -9,7 +9,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 part 'user_account.mapper.dart';
 
 // @MappableClass(discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
-@MappableClass(includeCustomMappers: [Uint8ListMapper], discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
+@MappableClass(includeCustomMappers: [Uint8ListMapper()], discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
 class UserAccount extends BaseModel with UserAccountMappable {
   final String? login;
   final String? password;
@@ -41,8 +41,8 @@ class UserAccount extends BaseModel with UserAccountMappable {
     this.avatar,
   });
 
-  static final fromJson = UserAccountMapper.fromJson;
-  static final fromMap = UserAccountMapper.fromMap;
+  static const fromJson = UserAccountMapper.fromJson;
+  static const fromMap = UserAccountMapper.fromMap;
 
   @override
   void save() async {

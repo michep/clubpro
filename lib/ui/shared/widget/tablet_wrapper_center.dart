@@ -24,6 +24,5 @@ class TabletWrapperCenter extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

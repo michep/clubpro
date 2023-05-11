@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (res == null) {
         setState(() {
-          logincont.value = TextEditingValue.empty;
+          logincont.value = const TextEditingValue(text: '+7');
           passcont.value = TextEditingValue.empty;
           Get.showSnackbar(
             const GetSnackBar(

@@ -1,5 +1,6 @@
 import 'package:clubpro/models/user_account.dart';
 import 'package:clubpro/service/utils.dart';
+import 'package:clubpro/ui/loginpage/pages/login_page.dart';
 import 'package:clubpro/ui/register/pages/smscode_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
@@ -78,10 +79,21 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
                 child: const Text('Зарегистрироваться'),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: TextButton(
+                onPressed: login,
+                child: const Text('Выполнить вход'),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    Get.offAll(() => const LoginPage());
   }
 
   Future<void> register() async {

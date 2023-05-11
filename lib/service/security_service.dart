@@ -46,7 +46,7 @@ class SecurityService {
   Future<UserAccount?> login(String login, String password, {bool persist = true}) async {
     var token = await ApiAuth.getToken(login, password);
     if (token == null) {
-      _setState(SecurityState.loggedout);
+      await logout();
       return null;
     }
     _jwt = token;

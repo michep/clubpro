@@ -5,214 +5,23 @@
 
 part of 'business_user_account.dart';
 
-class BusinessUserAccountMapper extends MapperBase<BusinessUserAccount> {
-  static MapperContainer? _c;
-  static MapperContainer container = _c ??
-      ((_c = MapperContainer(
-        mappers: {BusinessUserAccountMapper()},
-      ))
-        ..linkAll({
-          UserAccountMapper.container,
-          BusinessUserAccountTypeMapper.container
-        }));
-
-  @override
-  BusinessUserAccountMapperElement createElement(MapperContainer container) {
-    return BusinessUserAccountMapperElement._(this, container);
-  }
-
-  @override
-  String get id => 'BusinessUserAccount';
-
-  static final fromMap = container.fromMap<BusinessUserAccount>;
-  static final fromJson = container.fromJson<BusinessUserAccount>;
-}
-
-class BusinessUserAccountMapperElement
-    extends MapperElementBase<BusinessUserAccount> {
-  BusinessUserAccountMapperElement._(super.mapper, super.container);
-
-  @override
-  Function get decoder => decode;
-  BusinessUserAccount decode(dynamic v) =>
-      checkedType(v, (Map<String, dynamic> map) => fromMap(map));
-  BusinessUserAccount fromMap(Map<String, dynamic> map) => BusinessUserAccount(
-      businessType: container.$getOpt(map, 'businessType'),
-      id: container.$getOpt(map, '_id'),
-      login: container.$getOpt(map, 'login'),
-      password: container.$getOpt(map, 'password'),
-      firstName: container.$getOpt(map, 'firstName'),
-      lastName: container.$getOpt(map, 'lastName'),
-      middleName: container.$getOpt(map, 'middleName'),
-      email: container.$getOpt(map, 'email'),
-      legalTitle: container.$getOpt(map, 'legalTitle'),
-      legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
-      legalInn: container.$getOpt(map, 'legalInn'),
-      legalOgrn: container.$getOpt(map, 'legalOgrn'),
-      legalAddress: container.$getOpt(map, 'legalAddress'),
-      avatar: container.$getOpt(map, 'avatar'));
-
-  @override
-  Function get encoder => encode;
-  dynamic encode(BusinessUserAccount v) => toMap(v);
-  Map<String, dynamic> toMap(BusinessUserAccount b) => {
-        'businessType': container.$enc(b.businessType, 'businessType'),
-        '_id': container.$enc(b.id, 'id'),
-        'login': container.$enc(b.login, 'login'),
-        'password': container.$enc(b.password, 'password'),
-        'firstName': container.$enc(b.firstName, 'firstName'),
-        'lastName': container.$enc(b.lastName, 'lastName'),
-        'middleName': container.$enc(b.middleName, 'middleName'),
-        'email': container.$enc(b.email, 'email'),
-        'legalTitle': container.$enc(b.legalTitle, 'legalTitle'),
-        'legalAbbreviation':
-            container.$enc(b.legalAbbreviation, 'legalAbbreviation'),
-        'legalInn': container.$enc(b.legalInn, 'legalInn'),
-        'legalOgrn': container.$enc(b.legalOgrn, 'legalOgrn'),
-        'legalAddress': container.$enc(b.legalAddress, 'legalAddress'),
-        'avatar': container.$enc(b.avatar, 'avatar'),
-        'type': 'BusinessUserAccount'
-      };
-
-  @override
-  String stringify(BusinessUserAccount self) =>
-      'BusinessUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, businessType: ${container.asString(self.businessType)})';
-  @override
-  int hash(BusinessUserAccount self) =>
-      container.hash(self.id) ^
-      container.hash(self.login) ^
-      container.hash(self.password) ^
-      container.hash(self.email) ^
-      container.hash(self.firstName) ^
-      container.hash(self.lastName) ^
-      container.hash(self.middleName) ^
-      container.hash(self.legalTitle) ^
-      container.hash(self.legalAbbreviation) ^
-      container.hash(self.legalInn) ^
-      container.hash(self.legalOgrn) ^
-      container.hash(self.legalAddress) ^
-      container.hash(self.avatar) ^
-      container.hash(self.businessType);
-  @override
-  bool equals(BusinessUserAccount self, BusinessUserAccount other) =>
-      container.isEqual(self.id, other.id) &&
-      container.isEqual(self.login, other.login) &&
-      container.isEqual(self.password, other.password) &&
-      container.isEqual(self.email, other.email) &&
-      container.isEqual(self.firstName, other.firstName) &&
-      container.isEqual(self.lastName, other.lastName) &&
-      container.isEqual(self.middleName, other.middleName) &&
-      container.isEqual(self.legalTitle, other.legalTitle) &&
-      container.isEqual(self.legalAbbreviation, other.legalAbbreviation) &&
-      container.isEqual(self.legalInn, other.legalInn) &&
-      container.isEqual(self.legalOgrn, other.legalOgrn) &&
-      container.isEqual(self.legalAddress, other.legalAddress) &&
-      container.isEqual(self.avatar, other.avatar) &&
-      container.isEqual(self.businessType, other.businessType);
-}
-
-mixin BusinessUserAccountMappable {
-  String toJson() =>
-      BusinessUserAccountMapper.container.toJson(this as BusinessUserAccount);
-  Map<String, dynamic> toMap() =>
-      BusinessUserAccountMapper.container.toMap(this as BusinessUserAccount);
-  BusinessUserAccountCopyWith<BusinessUserAccount, BusinessUserAccount,
-          BusinessUserAccount>
-      get copyWith => _BusinessUserAccountCopyWithImpl(
-          this as BusinessUserAccount, $identity, $identity);
-  @override
-  String toString() => BusinessUserAccountMapper.container.asString(this);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (runtimeType == other.runtimeType &&
-          BusinessUserAccountMapper.container.isEqual(this, other));
-  @override
-  int get hashCode => BusinessUserAccountMapper.container.hash(this);
-}
-
-extension BusinessUserAccountValueCopy<$R, $Out extends BaseModel>
-    on ObjectCopyWith<$R, BusinessUserAccount, $Out> {
-  BusinessUserAccountCopyWith<$R, BusinessUserAccount, $Out>
-      get asBusinessUserAccount =>
-          base.as((v, t, t2) => _BusinessUserAccountCopyWithImpl(v, t, t2));
-}
-
-typedef BusinessUserAccountCopyWithBound = BaseModel;
-
-abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
-    $Out extends BaseModel> implements UserAccountCopyWith<$R, $In, $Out> {
-  BusinessUserAccountCopyWith<$R2, $In, $Out2>
-      chain<$R2, $Out2 extends BaseModel>(
-          Then<BusinessUserAccount, $Out2> t, Then<$Out2, $R2> t2);
-  @override
-  $R call(
-      {BusinessUserAccountType? businessType,
-      String? id,
-      String? login,
-      String? password,
-      String? firstName,
-      String? lastName,
-      String? middleName,
-      String? email,
-      String? legalTitle,
-      String? legalAbbreviation,
-      String? legalInn,
-      String? legalOgrn,
-      String? legalAddress,
-      Uint8List? avatar});
-}
-
-class _BusinessUserAccountCopyWithImpl<$R, $Out extends BaseModel>
-    extends CopyWithBase<$R, BusinessUserAccount, $Out>
-    implements BusinessUserAccountCopyWith<$R, BusinessUserAccount, $Out> {
-  _BusinessUserAccountCopyWithImpl(super.value, super.then, super.then2);
-  @override
-  BusinessUserAccountCopyWith<$R2, BusinessUserAccount, $Out2>
-      chain<$R2, $Out2 extends BaseModel>(
-              Then<BusinessUserAccount, $Out2> t, Then<$Out2, $R2> t2) =>
-          _BusinessUserAccountCopyWithImpl($value, t, t2);
-
-  @override
-  $R call(
-          {Object? businessType = $none,
-          Object? id = $none,
-          Object? login = $none,
-          Object? password = $none,
-          Object? firstName = $none,
-          Object? lastName = $none,
-          Object? middleName = $none,
-          Object? email = $none,
-          Object? legalTitle = $none,
-          Object? legalAbbreviation = $none,
-          Object? legalInn = $none,
-          Object? legalOgrn = $none,
-          Object? legalAddress = $none,
-          Object? avatar = $none}) =>
-      $then(BusinessUserAccount(
-          businessType: or(businessType, $value.businessType),
-          id: or(id, $value.id),
-          login: or(login, $value.login),
-          password: or(password, $value.password),
-          firstName: or(firstName, $value.firstName),
-          lastName: or(lastName, $value.lastName),
-          middleName: or(middleName, $value.middleName),
-          email: or(email, $value.email),
-          legalTitle: or(legalTitle, $value.legalTitle),
-          legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
-          legalInn: or(legalInn, $value.legalInn),
-          legalOgrn: or(legalOgrn, $value.legalOgrn),
-          legalAddress: or(legalAddress, $value.legalAddress),
-          avatar: or(avatar, $value.avatar)));
-}
-
 class BusinessUserAccountTypeMapper
     extends EnumMapper<BusinessUserAccountType> {
-  static MapperContainer container = MapperContainer(
-    mappers: {BusinessUserAccountTypeMapper()},
-  );
+  BusinessUserAccountTypeMapper._();
 
-  static final fromValue = container.fromValue<BusinessUserAccountType>;
+  static BusinessUserAccountTypeMapper? _instance;
+  static BusinessUserAccountTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals
+          .use(_instance = BusinessUserAccountTypeMapper._());
+    }
+    return _instance!;
+  }
+
+  static BusinessUserAccountType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
 
   @override
   BusinessUserAccountType decode(dynamic value) {
@@ -242,6 +51,257 @@ class BusinessUserAccountTypeMapper
 }
 
 extension BusinessUserAccountTypeMapperExtension on BusinessUserAccountType {
-  String toValue() =>
-      BusinessUserAccountTypeMapper.container.toValue(this) as String;
+  String toValue() {
+    BusinessUserAccountTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue(this) as String;
+  }
+}
+
+class BusinessUserAccountMapper
+    extends SubClassMapperBase<BusinessUserAccount> {
+  BusinessUserAccountMapper._();
+
+  static BusinessUserAccountMapper? _instance;
+  static BusinessUserAccountMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = BusinessUserAccountMapper._());
+      UserAccountMapper.ensureInitialized().addSubMapper(_instance!);
+      BusinessUserAccountTypeMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  static T _guard<T>(T Function(MapperContainer) fn) {
+    ensureInitialized();
+    return fn(MapperContainer.globals);
+  }
+
+  @override
+  final String id = 'BusinessUserAccount';
+
+  static BusinessUserAccountType? _$businessType(BusinessUserAccount v) =>
+      v.businessType;
+  static const Field<BusinessUserAccount, BusinessUserAccountType>
+      _f$businessType = Field('businessType', _$businessType, opt: true);
+  static String? _$id(BusinessUserAccount v) => v.id;
+  static const Field<BusinessUserAccount, String> _f$id =
+      Field('id', _$id, key: '_id', opt: true);
+  static String? _$login(BusinessUserAccount v) => v.login;
+  static const Field<BusinessUserAccount, String> _f$login =
+      Field('login', _$login, opt: true);
+  static String? _$password(BusinessUserAccount v) => v.password;
+  static const Field<BusinessUserAccount, String> _f$password =
+      Field('password', _$password, opt: true);
+  static String? _$firstName(BusinessUserAccount v) => v.firstName;
+  static const Field<BusinessUserAccount, String> _f$firstName =
+      Field('firstName', _$firstName, opt: true);
+  static String? _$lastName(BusinessUserAccount v) => v.lastName;
+  static const Field<BusinessUserAccount, String> _f$lastName =
+      Field('lastName', _$lastName, opt: true);
+  static String? _$middleName(BusinessUserAccount v) => v.middleName;
+  static const Field<BusinessUserAccount, String> _f$middleName =
+      Field('middleName', _$middleName, opt: true);
+  static String? _$email(BusinessUserAccount v) => v.email;
+  static const Field<BusinessUserAccount, String> _f$email =
+      Field('email', _$email, opt: true);
+  static String? _$legalTitle(BusinessUserAccount v) => v.legalTitle;
+  static const Field<BusinessUserAccount, String> _f$legalTitle =
+      Field('legalTitle', _$legalTitle, opt: true);
+  static String? _$legalAbbreviation(BusinessUserAccount v) =>
+      v.legalAbbreviation;
+  static const Field<BusinessUserAccount, String> _f$legalAbbreviation =
+      Field('legalAbbreviation', _$legalAbbreviation, opt: true);
+  static String? _$legalInn(BusinessUserAccount v) => v.legalInn;
+  static const Field<BusinessUserAccount, String> _f$legalInn =
+      Field('legalInn', _$legalInn, opt: true);
+  static String? _$legalOgrn(BusinessUserAccount v) => v.legalOgrn;
+  static const Field<BusinessUserAccount, String> _f$legalOgrn =
+      Field('legalOgrn', _$legalOgrn, opt: true);
+  static String? _$legalAddress(BusinessUserAccount v) => v.legalAddress;
+  static const Field<BusinessUserAccount, String> _f$legalAddress =
+      Field('legalAddress', _$legalAddress, opt: true);
+  static Uint8List? _$avatar(BusinessUserAccount v) => v.avatar;
+  static const Field<BusinessUserAccount, Uint8List> _f$avatar =
+      Field('avatar', _$avatar, opt: true);
+
+  @override
+  final Map<Symbol, Field<BusinessUserAccount, dynamic>> fields = const {
+    #businessType: _f$businessType,
+    #id: _f$id,
+    #login: _f$login,
+    #password: _f$password,
+    #firstName: _f$firstName,
+    #lastName: _f$lastName,
+    #middleName: _f$middleName,
+    #email: _f$email,
+    #legalTitle: _f$legalTitle,
+    #legalAbbreviation: _f$legalAbbreviation,
+    #legalInn: _f$legalInn,
+    #legalOgrn: _f$legalOgrn,
+    #legalAddress: _f$legalAddress,
+    #avatar: _f$avatar,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'BusinessUserAccount';
+  @override
+  late final ClassMapperBase superMapper =
+      UserAccountMapper.ensureInitialized();
+
+  static BusinessUserAccount _instantiate(DecodingData data) {
+    return BusinessUserAccount(
+        businessType: data.dec(_f$businessType),
+        id: data.dec(_f$id),
+        login: data.dec(_f$login),
+        password: data.dec(_f$password),
+        firstName: data.dec(_f$firstName),
+        lastName: data.dec(_f$lastName),
+        middleName: data.dec(_f$middleName),
+        email: data.dec(_f$email),
+        legalTitle: data.dec(_f$legalTitle),
+        legalAbbreviation: data.dec(_f$legalAbbreviation),
+        legalInn: data.dec(_f$legalInn),
+        legalOgrn: data.dec(_f$legalOgrn),
+        legalAddress: data.dec(_f$legalAddress),
+        avatar: data.dec(_f$avatar));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static BusinessUserAccount fromMap(Map<String, dynamic> map) {
+    return _guard((c) => c.fromMap<BusinessUserAccount>(map));
+  }
+
+  static BusinessUserAccount fromJson(String json) {
+    return _guard((c) => c.fromJson<BusinessUserAccount>(json));
+  }
+}
+
+mixin BusinessUserAccountMappable {
+  String toJson() {
+    return BusinessUserAccountMapper._guard(
+        (c) => c.toJson(this as BusinessUserAccount));
+  }
+
+  Map<String, dynamic> toMap() {
+    return BusinessUserAccountMapper._guard(
+        (c) => c.toMap(this as BusinessUserAccount));
+  }
+
+  BusinessUserAccountCopyWith<BusinessUserAccount, BusinessUserAccount,
+          BusinessUserAccount>
+      get copyWith => _BusinessUserAccountCopyWithImpl(
+          this as BusinessUserAccount, $identity, $identity);
+  @override
+  String toString() {
+    return BusinessUserAccountMapper._guard((c) => c.asString(this));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            BusinessUserAccountMapper._guard((c) => c.isEqual(this, other)));
+  }
+
+  @override
+  int get hashCode {
+    return BusinessUserAccountMapper._guard((c) => c.hash(this));
+  }
+}
+
+extension BusinessUserAccountValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, BusinessUserAccount, $Out> {
+  BusinessUserAccountCopyWith<$R, BusinessUserAccount, $Out>
+      get $asBusinessUserAccount =>
+          $base.as((v, t, t2) => _BusinessUserAccountCopyWithImpl(v, t, t2));
+}
+
+abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
+    $Out> implements UserAccountCopyWith<$R, $In, $Out> {
+  @override
+  $R call(
+      {BusinessUserAccountType? businessType,
+      String? id,
+      String? login,
+      String? password,
+      String? firstName,
+      String? lastName,
+      String? middleName,
+      String? email,
+      String? legalTitle,
+      String? legalAbbreviation,
+      String? legalInn,
+      String? legalOgrn,
+      String? legalAddress,
+      Uint8List? avatar});
+  BusinessUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _BusinessUserAccountCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, BusinessUserAccount, $Out>
+    implements BusinessUserAccountCopyWith<$R, BusinessUserAccount, $Out> {
+  _BusinessUserAccountCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<BusinessUserAccount> $mapper =
+      BusinessUserAccountMapper.ensureInitialized();
+  @override
+  $R call(
+          {Object? businessType = $none,
+          Object? id = $none,
+          Object? login = $none,
+          Object? password = $none,
+          Object? firstName = $none,
+          Object? lastName = $none,
+          Object? middleName = $none,
+          Object? email = $none,
+          Object? legalTitle = $none,
+          Object? legalAbbreviation = $none,
+          Object? legalInn = $none,
+          Object? legalOgrn = $none,
+          Object? legalAddress = $none,
+          Object? avatar = $none}) =>
+      $apply(FieldCopyWithData({
+        if (businessType != $none) #businessType: businessType,
+        if (id != $none) #id: id,
+        if (login != $none) #login: login,
+        if (password != $none) #password: password,
+        if (firstName != $none) #firstName: firstName,
+        if (lastName != $none) #lastName: lastName,
+        if (middleName != $none) #middleName: middleName,
+        if (email != $none) #email: email,
+        if (legalTitle != $none) #legalTitle: legalTitle,
+        if (legalAbbreviation != $none) #legalAbbreviation: legalAbbreviation,
+        if (legalInn != $none) #legalInn: legalInn,
+        if (legalOgrn != $none) #legalOgrn: legalOgrn,
+        if (legalAddress != $none) #legalAddress: legalAddress,
+        if (avatar != $none) #avatar: avatar
+      }));
+  @override
+  BusinessUserAccount $make(CopyWithData data) => BusinessUserAccount(
+      businessType: data.get(#businessType, or: $value.businessType),
+      id: data.get(#id, or: $value.id),
+      login: data.get(#login, or: $value.login),
+      password: data.get(#password, or: $value.password),
+      firstName: data.get(#firstName, or: $value.firstName),
+      lastName: data.get(#lastName, or: $value.lastName),
+      middleName: data.get(#middleName, or: $value.middleName),
+      email: data.get(#email, or: $value.email),
+      legalTitle: data.get(#legalTitle, or: $value.legalTitle),
+      legalAbbreviation:
+          data.get(#legalAbbreviation, or: $value.legalAbbreviation),
+      legalInn: data.get(#legalInn, or: $value.legalInn),
+      legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
+      legalAddress: data.get(#legalAddress, or: $value.legalAddress),
+      avatar: data.get(#avatar, or: $value.avatar));
+
+  @override
+  BusinessUserAccountCopyWith<$R2, BusinessUserAccount, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _BusinessUserAccountCopyWithImpl($value, $cast, t);
 }

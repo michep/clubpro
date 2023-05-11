@@ -8,7 +8,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var sec = SecurityService();
   Get.put(sec);
-  var dio = DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path)); //WEB
+  var dio = DioService(baseUriFunc: (path) => Uri.https('clubpro.space', path)); //REAL
+  //var dio = DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path)); //WEB
   // var dio = DioService(baseUriFunc: (path) => Uri.http('10.0.2.2:8083', path)); //Android Emulator
   dio.init();
   Get.put(dio);

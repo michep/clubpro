@@ -8,7 +8,6 @@ import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class TypeRegistrationPage extends StatefulWidget {
   final UserAccount user;

@@ -5,214 +5,21 @@
 
 part of 'pro_user_account.dart';
 
-class ProUserAccountMapper extends MapperBase<ProUserAccount> {
-  static MapperContainer? _c;
-  static MapperContainer container = _c ??
-      ((_c = MapperContainer(
-        mappers: {ProUserAccountMapper()},
-      ))
-        ..linkAll(
-            {UserAccountMapper.container, ProUserAccountTypeMapper.container}));
+class ProUserAccountTypeMapper extends EnumMapper<ProUserAccountType> {
+  ProUserAccountTypeMapper._();
 
-  @override
-  ProUserAccountMapperElement createElement(MapperContainer container) {
-    return ProUserAccountMapperElement._(this, container);
+  static ProUserAccountTypeMapper? _instance;
+  static ProUserAccountTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ProUserAccountTypeMapper._());
+    }
+    return _instance!;
   }
 
-  @override
-  String get id => 'ProUserAccount';
-
-  static final fromMap = container.fromMap<ProUserAccount>;
-  static final fromJson = container.fromJson<ProUserAccount>;
-}
-
-class ProUserAccountMapperElement extends MapperElementBase<ProUserAccount> {
-  ProUserAccountMapperElement._(super.mapper, super.container);
-
-  @override
-  Function get decoder => decode;
-  ProUserAccount decode(dynamic v) =>
-      checkedType(v, (Map<String, dynamic> map) => fromMap(map));
-  ProUserAccount fromMap(Map<String, dynamic> map) => ProUserAccount(
-      publicID: container.$getOpt(map, 'publicID'),
-      proType: container.$getOpt(map, 'proType'),
-      id: container.$getOpt(map, '_id'),
-      login: container.$getOpt(map, 'login'),
-      password: container.$getOpt(map, 'password'),
-      firstName: container.$getOpt(map, 'firstName'),
-      lastName: container.$getOpt(map, 'lastName'),
-      middleName: container.$getOpt(map, 'middleName'),
-      email: container.$getOpt(map, 'email'),
-      legalTitle: container.$getOpt(map, 'legalTitle'),
-      legalAbbreviation: container.$getOpt(map, 'legalAbbreviation'),
-      legalInn: container.$getOpt(map, 'legalInn'),
-      legalOgrn: container.$getOpt(map, 'legalOgrn'),
-      legalAddress: container.$getOpt(map, 'legalAddress'),
-      avatar: container.$getOpt(map, 'avatar'));
-
-  @override
-  Function get encoder => encode;
-  dynamic encode(ProUserAccount v) => toMap(v);
-  Map<String, dynamic> toMap(ProUserAccount p) => {
-        'publicID': container.$enc(p.publicID, 'publicID'),
-        'proType': container.$enc(p.proType, 'proType'),
-        '_id': container.$enc(p.id, 'id'),
-        'login': container.$enc(p.login, 'login'),
-        'password': container.$enc(p.password, 'password'),
-        'firstName': container.$enc(p.firstName, 'firstName'),
-        'lastName': container.$enc(p.lastName, 'lastName'),
-        'middleName': container.$enc(p.middleName, 'middleName'),
-        'email': container.$enc(p.email, 'email'),
-        'legalTitle': container.$enc(p.legalTitle, 'legalTitle'),
-        'legalAbbreviation':
-            container.$enc(p.legalAbbreviation, 'legalAbbreviation'),
-        'legalInn': container.$enc(p.legalInn, 'legalInn'),
-        'legalOgrn': container.$enc(p.legalOgrn, 'legalOgrn'),
-        'legalAddress': container.$enc(p.legalAddress, 'legalAddress'),
-        'avatar': container.$enc(p.avatar, 'avatar'),
-        'type': 'ProUserAccount'
-      };
-
-  @override
-  String stringify(ProUserAccount self) =>
-      'ProUserAccount(id: ${container.asString(self.id)}, login: ${container.asString(self.login)}, password: ${container.asString(self.password)}, email: ${container.asString(self.email)}, firstName: ${container.asString(self.firstName)}, lastName: ${container.asString(self.lastName)}, middleName: ${container.asString(self.middleName)}, legalTitle: ${container.asString(self.legalTitle)}, legalAbbreviation: ${container.asString(self.legalAbbreviation)}, legalInn: ${container.asString(self.legalInn)}, legalOgrn: ${container.asString(self.legalOgrn)}, legalAddress: ${container.asString(self.legalAddress)}, avatar: ${container.asString(self.avatar)}, publicID: ${container.asString(self.publicID)}, proType: ${container.asString(self.proType)})';
-  @override
-  int hash(ProUserAccount self) =>
-      container.hash(self.id) ^
-      container.hash(self.login) ^
-      container.hash(self.password) ^
-      container.hash(self.email) ^
-      container.hash(self.firstName) ^
-      container.hash(self.lastName) ^
-      container.hash(self.middleName) ^
-      container.hash(self.legalTitle) ^
-      container.hash(self.legalAbbreviation) ^
-      container.hash(self.legalInn) ^
-      container.hash(self.legalOgrn) ^
-      container.hash(self.legalAddress) ^
-      container.hash(self.avatar) ^
-      container.hash(self.publicID) ^
-      container.hash(self.proType);
-  @override
-  bool equals(ProUserAccount self, ProUserAccount other) =>
-      container.isEqual(self.id, other.id) &&
-      container.isEqual(self.login, other.login) &&
-      container.isEqual(self.password, other.password) &&
-      container.isEqual(self.email, other.email) &&
-      container.isEqual(self.firstName, other.firstName) &&
-      container.isEqual(self.lastName, other.lastName) &&
-      container.isEqual(self.middleName, other.middleName) &&
-      container.isEqual(self.legalTitle, other.legalTitle) &&
-      container.isEqual(self.legalAbbreviation, other.legalAbbreviation) &&
-      container.isEqual(self.legalInn, other.legalInn) &&
-      container.isEqual(self.legalOgrn, other.legalOgrn) &&
-      container.isEqual(self.legalAddress, other.legalAddress) &&
-      container.isEqual(self.avatar, other.avatar) &&
-      container.isEqual(self.publicID, other.publicID) &&
-      container.isEqual(self.proType, other.proType);
-}
-
-mixin ProUserAccountMappable {
-  String toJson() =>
-      ProUserAccountMapper.container.toJson(this as ProUserAccount);
-  Map<String, dynamic> toMap() =>
-      ProUserAccountMapper.container.toMap(this as ProUserAccount);
-  ProUserAccountCopyWith<ProUserAccount, ProUserAccount, ProUserAccount>
-      get copyWith => _ProUserAccountCopyWithImpl(
-          this as ProUserAccount, $identity, $identity);
-  @override
-  String toString() => ProUserAccountMapper.container.asString(this);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (runtimeType == other.runtimeType &&
-          ProUserAccountMapper.container.isEqual(this, other));
-  @override
-  int get hashCode => ProUserAccountMapper.container.hash(this);
-}
-
-extension ProUserAccountValueCopy<$R, $Out extends BaseModel>
-    on ObjectCopyWith<$R, ProUserAccount, $Out> {
-  ProUserAccountCopyWith<$R, ProUserAccount, $Out> get asProUserAccount =>
-      base.as((v, t, t2) => _ProUserAccountCopyWithImpl(v, t, t2));
-}
-
-typedef ProUserAccountCopyWithBound = BaseModel;
-
-abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount,
-    $Out extends BaseModel> implements UserAccountCopyWith<$R, $In, $Out> {
-  ProUserAccountCopyWith<$R2, $In, $Out2> chain<$R2, $Out2 extends BaseModel>(
-      Then<ProUserAccount, $Out2> t, Then<$Out2, $R2> t2);
-  @override
-  $R call(
-      {String? publicID,
-      ProUserAccountType? proType,
-      String? id,
-      String? login,
-      String? password,
-      String? firstName,
-      String? lastName,
-      String? middleName,
-      String? email,
-      String? legalTitle,
-      String? legalAbbreviation,
-      String? legalInn,
-      String? legalOgrn,
-      String? legalAddress,
-      Uint8List? avatar});
-}
-
-class _ProUserAccountCopyWithImpl<$R, $Out extends BaseModel>
-    extends CopyWithBase<$R, ProUserAccount, $Out>
-    implements ProUserAccountCopyWith<$R, ProUserAccount, $Out> {
-  _ProUserAccountCopyWithImpl(super.value, super.then, super.then2);
-  @override
-  ProUserAccountCopyWith<$R2, ProUserAccount, $Out2>
-      chain<$R2, $Out2 extends BaseModel>(
-              Then<ProUserAccount, $Out2> t, Then<$Out2, $R2> t2) =>
-          _ProUserAccountCopyWithImpl($value, t, t2);
-
-  @override
-  $R call(
-          {Object? publicID = $none,
-          Object? proType = $none,
-          Object? id = $none,
-          Object? login = $none,
-          Object? password = $none,
-          Object? firstName = $none,
-          Object? lastName = $none,
-          Object? middleName = $none,
-          Object? email = $none,
-          Object? legalTitle = $none,
-          Object? legalAbbreviation = $none,
-          Object? legalInn = $none,
-          Object? legalOgrn = $none,
-          Object? legalAddress = $none,
-          Object? avatar = $none}) =>
-      $then(ProUserAccount(
-          publicID: or(publicID, $value.publicID),
-          proType: or(proType, $value.proType),
-          id: or(id, $value.id),
-          login: or(login, $value.login),
-          password: or(password, $value.password),
-          firstName: or(firstName, $value.firstName),
-          lastName: or(lastName, $value.lastName),
-          middleName: or(middleName, $value.middleName),
-          email: or(email, $value.email),
-          legalTitle: or(legalTitle, $value.legalTitle),
-          legalAbbreviation: or(legalAbbreviation, $value.legalAbbreviation),
-          legalInn: or(legalInn, $value.legalInn),
-          legalOgrn: or(legalOgrn, $value.legalOgrn),
-          legalAddress: or(legalAddress, $value.legalAddress),
-          avatar: or(avatar, $value.avatar)));
-}
-
-class ProUserAccountTypeMapper extends EnumMapper<ProUserAccountType> {
-  static MapperContainer container = MapperContainer(
-    mappers: {ProUserAccountTypeMapper()},
-  );
-
-  static final fromValue = container.fromValue<ProUserAccountType>;
+  static ProUserAccountType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
 
   @override
   ProUserAccountType decode(dynamic value) {
@@ -254,6 +61,259 @@ class ProUserAccountTypeMapper extends EnumMapper<ProUserAccountType> {
 }
 
 extension ProUserAccountTypeMapperExtension on ProUserAccountType {
-  String toValue() =>
-      ProUserAccountTypeMapper.container.toValue(this) as String;
+  String toValue() {
+    ProUserAccountTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue(this) as String;
+  }
+}
+
+class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
+  ProUserAccountMapper._();
+
+  static ProUserAccountMapper? _instance;
+  static ProUserAccountMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ProUserAccountMapper._());
+      UserAccountMapper.ensureInitialized().addSubMapper(_instance!);
+      ProUserAccountTypeMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  static T _guard<T>(T Function(MapperContainer) fn) {
+    ensureInitialized();
+    return fn(MapperContainer.globals);
+  }
+
+  @override
+  final String id = 'ProUserAccount';
+
+  static String? _$publicID(ProUserAccount v) => v.publicID;
+  static const Field<ProUserAccount, String> _f$publicID =
+      Field('publicID', _$publicID, opt: true);
+  static ProUserAccountType? _$proType(ProUserAccount v) => v.proType;
+  static const Field<ProUserAccount, ProUserAccountType> _f$proType =
+      Field('proType', _$proType, opt: true);
+  static String? _$id(ProUserAccount v) => v.id;
+  static const Field<ProUserAccount, String> _f$id =
+      Field('id', _$id, key: '_id', opt: true);
+  static String? _$login(ProUserAccount v) => v.login;
+  static const Field<ProUserAccount, String> _f$login =
+      Field('login', _$login, opt: true);
+  static String? _$password(ProUserAccount v) => v.password;
+  static const Field<ProUserAccount, String> _f$password =
+      Field('password', _$password, opt: true);
+  static String? _$firstName(ProUserAccount v) => v.firstName;
+  static const Field<ProUserAccount, String> _f$firstName =
+      Field('firstName', _$firstName, opt: true);
+  static String? _$lastName(ProUserAccount v) => v.lastName;
+  static const Field<ProUserAccount, String> _f$lastName =
+      Field('lastName', _$lastName, opt: true);
+  static String? _$middleName(ProUserAccount v) => v.middleName;
+  static const Field<ProUserAccount, String> _f$middleName =
+      Field('middleName', _$middleName, opt: true);
+  static String? _$email(ProUserAccount v) => v.email;
+  static const Field<ProUserAccount, String> _f$email =
+      Field('email', _$email, opt: true);
+  static String? _$legalTitle(ProUserAccount v) => v.legalTitle;
+  static const Field<ProUserAccount, String> _f$legalTitle =
+      Field('legalTitle', _$legalTitle, opt: true);
+  static String? _$legalAbbreviation(ProUserAccount v) => v.legalAbbreviation;
+  static const Field<ProUserAccount, String> _f$legalAbbreviation =
+      Field('legalAbbreviation', _$legalAbbreviation, opt: true);
+  static String? _$legalInn(ProUserAccount v) => v.legalInn;
+  static const Field<ProUserAccount, String> _f$legalInn =
+      Field('legalInn', _$legalInn, opt: true);
+  static String? _$legalOgrn(ProUserAccount v) => v.legalOgrn;
+  static const Field<ProUserAccount, String> _f$legalOgrn =
+      Field('legalOgrn', _$legalOgrn, opt: true);
+  static String? _$legalAddress(ProUserAccount v) => v.legalAddress;
+  static const Field<ProUserAccount, String> _f$legalAddress =
+      Field('legalAddress', _$legalAddress, opt: true);
+  static Uint8List? _$avatar(ProUserAccount v) => v.avatar;
+  static const Field<ProUserAccount, Uint8List> _f$avatar =
+      Field('avatar', _$avatar, opt: true);
+
+  @override
+  final Map<Symbol, Field<ProUserAccount, dynamic>> fields = const {
+    #publicID: _f$publicID,
+    #proType: _f$proType,
+    #id: _f$id,
+    #login: _f$login,
+    #password: _f$password,
+    #firstName: _f$firstName,
+    #lastName: _f$lastName,
+    #middleName: _f$middleName,
+    #email: _f$email,
+    #legalTitle: _f$legalTitle,
+    #legalAbbreviation: _f$legalAbbreviation,
+    #legalInn: _f$legalInn,
+    #legalOgrn: _f$legalOgrn,
+    #legalAddress: _f$legalAddress,
+    #avatar: _f$avatar,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'ProUserAccount';
+  @override
+  late final ClassMapperBase superMapper =
+      UserAccountMapper.ensureInitialized();
+
+  static ProUserAccount _instantiate(DecodingData data) {
+    return ProUserAccount(
+        publicID: data.dec(_f$publicID),
+        proType: data.dec(_f$proType),
+        id: data.dec(_f$id),
+        login: data.dec(_f$login),
+        password: data.dec(_f$password),
+        firstName: data.dec(_f$firstName),
+        lastName: data.dec(_f$lastName),
+        middleName: data.dec(_f$middleName),
+        email: data.dec(_f$email),
+        legalTitle: data.dec(_f$legalTitle),
+        legalAbbreviation: data.dec(_f$legalAbbreviation),
+        legalInn: data.dec(_f$legalInn),
+        legalOgrn: data.dec(_f$legalOgrn),
+        legalAddress: data.dec(_f$legalAddress),
+        avatar: data.dec(_f$avatar));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ProUserAccount fromMap(Map<String, dynamic> map) {
+    return _guard((c) => c.fromMap<ProUserAccount>(map));
+  }
+
+  static ProUserAccount fromJson(String json) {
+    return _guard((c) => c.fromJson<ProUserAccount>(json));
+  }
+}
+
+mixin ProUserAccountMappable {
+  String toJson() {
+    return ProUserAccountMapper._guard((c) => c.toJson(this as ProUserAccount));
+  }
+
+  Map<String, dynamic> toMap() {
+    return ProUserAccountMapper._guard((c) => c.toMap(this as ProUserAccount));
+  }
+
+  ProUserAccountCopyWith<ProUserAccount, ProUserAccount, ProUserAccount>
+      get copyWith => _ProUserAccountCopyWithImpl(
+          this as ProUserAccount, $identity, $identity);
+  @override
+  String toString() {
+    return ProUserAccountMapper._guard((c) => c.asString(this));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            ProUserAccountMapper._guard((c) => c.isEqual(this, other)));
+  }
+
+  @override
+  int get hashCode {
+    return ProUserAccountMapper._guard((c) => c.hash(this));
+  }
+}
+
+extension ProUserAccountValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ProUserAccount, $Out> {
+  ProUserAccountCopyWith<$R, ProUserAccount, $Out> get $asProUserAccount =>
+      $base.as((v, t, t2) => _ProUserAccountCopyWithImpl(v, t, t2));
+}
+
+abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount, $Out>
+    implements UserAccountCopyWith<$R, $In, $Out> {
+  @override
+  $R call(
+      {String? publicID,
+      ProUserAccountType? proType,
+      String? id,
+      String? login,
+      String? password,
+      String? firstName,
+      String? lastName,
+      String? middleName,
+      String? email,
+      String? legalTitle,
+      String? legalAbbreviation,
+      String? legalInn,
+      String? legalOgrn,
+      String? legalAddress,
+      Uint8List? avatar});
+  ProUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ProUserAccountCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ProUserAccount, $Out>
+    implements ProUserAccountCopyWith<$R, ProUserAccount, $Out> {
+  _ProUserAccountCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ProUserAccount> $mapper =
+      ProUserAccountMapper.ensureInitialized();
+  @override
+  $R call(
+          {Object? publicID = $none,
+          Object? proType = $none,
+          Object? id = $none,
+          Object? login = $none,
+          Object? password = $none,
+          Object? firstName = $none,
+          Object? lastName = $none,
+          Object? middleName = $none,
+          Object? email = $none,
+          Object? legalTitle = $none,
+          Object? legalAbbreviation = $none,
+          Object? legalInn = $none,
+          Object? legalOgrn = $none,
+          Object? legalAddress = $none,
+          Object? avatar = $none}) =>
+      $apply(FieldCopyWithData({
+        if (publicID != $none) #publicID: publicID,
+        if (proType != $none) #proType: proType,
+        if (id != $none) #id: id,
+        if (login != $none) #login: login,
+        if (password != $none) #password: password,
+        if (firstName != $none) #firstName: firstName,
+        if (lastName != $none) #lastName: lastName,
+        if (middleName != $none) #middleName: middleName,
+        if (email != $none) #email: email,
+        if (legalTitle != $none) #legalTitle: legalTitle,
+        if (legalAbbreviation != $none) #legalAbbreviation: legalAbbreviation,
+        if (legalInn != $none) #legalInn: legalInn,
+        if (legalOgrn != $none) #legalOgrn: legalOgrn,
+        if (legalAddress != $none) #legalAddress: legalAddress,
+        if (avatar != $none) #avatar: avatar
+      }));
+  @override
+  ProUserAccount $make(CopyWithData data) => ProUserAccount(
+      publicID: data.get(#publicID, or: $value.publicID),
+      proType: data.get(#proType, or: $value.proType),
+      id: data.get(#id, or: $value.id),
+      login: data.get(#login, or: $value.login),
+      password: data.get(#password, or: $value.password),
+      firstName: data.get(#firstName, or: $value.firstName),
+      lastName: data.get(#lastName, or: $value.lastName),
+      middleName: data.get(#middleName, or: $value.middleName),
+      email: data.get(#email, or: $value.email),
+      legalTitle: data.get(#legalTitle, or: $value.legalTitle),
+      legalAbbreviation:
+          data.get(#legalAbbreviation, or: $value.legalAbbreviation),
+      legalInn: data.get(#legalInn, or: $value.legalInn),
+      legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
+      legalAddress: data.get(#legalAddress, or: $value.legalAddress),
+      avatar: data.get(#avatar, or: $value.avatar));
+
+  @override
+  ProUserAccountCopyWith<$R2, ProUserAccount, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
+      _ProUserAccountCopyWithImpl($value, $cast, t);
 }

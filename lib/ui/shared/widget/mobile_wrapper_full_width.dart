@@ -14,6 +14,5 @@ class MobileWrapperFullWidth extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: child,
     );
-    ;
   }
 }

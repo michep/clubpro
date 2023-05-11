@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:clubpro/models/base_model.dart';
 import 'package:clubpro/models/user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
@@ -49,6 +48,6 @@ class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
     super.avatar,
   });
 
-  static final fromJson = BusinessUserAccountMapper.fromJson;
-  static final fromMap = BusinessUserAccountMapper.fromMap;
+  static const fromJson = BusinessUserAccountMapper.fromJson;
+  static const fromMap = BusinessUserAccountMapper.fromMap;
 }
