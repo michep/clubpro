@@ -1,3 +1,4 @@
+import 'package:clubpro/ui/loginpage/pages/phone_reset_password_page.dart';
 import 'package:clubpro/ui/register/pages/initial_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
@@ -71,6 +72,13 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: TextButton(
+                onPressed: reset,
+                child: const Text('Сбросить пароль'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: TextButton(
                 onPressed: register,
                 child: const Text('Зарегистрироваться'),
               ),
@@ -106,5 +114,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> register() async {
     Get.to(() => const InitialRegistrationPage());
+  }
+
+  Future<void> reset() async {
+    Get.offAll(() => const PhonePasswordResetPage());
   }
 }

@@ -82,7 +82,8 @@ class BusinessUserAccountMapper
   static BusinessUserAccountType? _$businessType(BusinessUserAccount v) =>
       v.businessType;
   static const Field<BusinessUserAccount, BusinessUserAccountType>
-      _f$businessType = Field('businessType', _$businessType, opt: true);
+      _f$businessType =
+      Field('businessType', _$businessType, key: 'business_type', opt: true);
   static String? _$id(BusinessUserAccount v) => v.id;
   static const Field<BusinessUserAccount, String> _f$id =
       Field('id', _$id, key: '_id', opt: true);
@@ -94,35 +95,36 @@ class BusinessUserAccountMapper
       Field('password', _$password, opt: true);
   static String? _$firstName(BusinessUserAccount v) => v.firstName;
   static const Field<BusinessUserAccount, String> _f$firstName =
-      Field('firstName', _$firstName, opt: true);
+      Field('firstName', _$firstName, key: 'firstname', opt: true);
   static String? _$lastName(BusinessUserAccount v) => v.lastName;
   static const Field<BusinessUserAccount, String> _f$lastName =
-      Field('lastName', _$lastName, opt: true);
+      Field('lastName', _$lastName, key: 'lastname', opt: true);
   static String? _$middleName(BusinessUserAccount v) => v.middleName;
   static const Field<BusinessUserAccount, String> _f$middleName =
-      Field('middleName', _$middleName, opt: true);
+      Field('middleName', _$middleName, key: 'middlename', opt: true);
   static String? _$email(BusinessUserAccount v) => v.email;
   static const Field<BusinessUserAccount, String> _f$email =
       Field('email', _$email, opt: true);
   static String? _$legalTitle(BusinessUserAccount v) => v.legalTitle;
   static const Field<BusinessUserAccount, String> _f$legalTitle =
-      Field('legalTitle', _$legalTitle, opt: true);
+      Field('legalTitle', _$legalTitle, key: 'legal_title', opt: true);
   static String? _$legalAbbreviation(BusinessUserAccount v) =>
       v.legalAbbreviation;
-  static const Field<BusinessUserAccount, String> _f$legalAbbreviation =
-      Field('legalAbbreviation', _$legalAbbreviation, opt: true);
+  static const Field<BusinessUserAccount, String> _f$legalAbbreviation = Field(
+      'legalAbbreviation', _$legalAbbreviation,
+      key: 'legal_abbreviation', opt: true);
   static String? _$legalInn(BusinessUserAccount v) => v.legalInn;
   static const Field<BusinessUserAccount, String> _f$legalInn =
-      Field('legalInn', _$legalInn, opt: true);
+      Field('legalInn', _$legalInn, key: 'legal_inn', opt: true);
   static String? _$legalOgrn(BusinessUserAccount v) => v.legalOgrn;
   static const Field<BusinessUserAccount, String> _f$legalOgrn =
-      Field('legalOgrn', _$legalOgrn, opt: true);
+      Field('legalOgrn', _$legalOgrn, key: 'legal_ogrn', opt: true);
   static String? _$legalAddress(BusinessUserAccount v) => v.legalAddress;
   static const Field<BusinessUserAccount, String> _f$legalAddress =
-      Field('legalAddress', _$legalAddress, opt: true);
-  static Uint8List? _$avatar(BusinessUserAccount v) => v.avatar;
-  static const Field<BusinessUserAccount, Uint8List> _f$avatar =
-      Field('avatar', _$avatar, opt: true);
+      Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
+  static String? _$avatarFileId(BusinessUserAccount v) => v.avatarFileId;
+  static const Field<BusinessUserAccount, String> _f$avatarFileId =
+      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
 
   @override
   final Map<Symbol, Field<BusinessUserAccount, dynamic>> fields = const {
@@ -139,11 +141,11 @@ class BusinessUserAccountMapper
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
     #legalAddress: _f$legalAddress,
-    #avatar: _f$avatar,
+    #avatarFileId: _f$avatarFileId,
   };
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'accountType';
   @override
   final dynamic discriminatorValue = 'BusinessUserAccount';
   @override
@@ -165,7 +167,7 @@ class BusinessUserAccountMapper
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
         legalAddress: data.dec(_f$legalAddress),
-        avatar: data.dec(_f$avatar));
+        avatarFileId: data.dec(_f$avatarFileId));
   }
 
   @override
@@ -237,7 +239,7 @@ abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
       String? legalInn,
       String? legalOgrn,
       String? legalAddress,
-      Uint8List? avatar});
+      String? avatarFileId});
   BusinessUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -265,7 +267,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
           Object? legalInn = $none,
           Object? legalOgrn = $none,
           Object? legalAddress = $none,
-          Object? avatar = $none}) =>
+          Object? avatarFileId = $none}) =>
       $apply(FieldCopyWithData({
         if (businessType != $none) #businessType: businessType,
         if (id != $none) #id: id,
@@ -280,7 +282,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
         if (legalAddress != $none) #legalAddress: legalAddress,
-        if (avatar != $none) #avatar: avatar
+        if (avatarFileId != $none) #avatarFileId: avatarFileId
       }));
   @override
   BusinessUserAccount $make(CopyWithData data) => BusinessUserAccount(
@@ -298,7 +300,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
-      avatar: data.get(#avatar, or: $value.avatar));
+      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
 
   @override
   BusinessUserAccountCopyWith<$R2, BusinessUserAccount, $Out2>

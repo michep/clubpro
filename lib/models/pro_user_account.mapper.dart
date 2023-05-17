@@ -88,12 +88,13 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
   @override
   final String id = 'ProUserAccount';
 
-  static String? _$publicID(ProUserAccount v) => v.publicID;
-  static const Field<ProUserAccount, String> _f$publicID =
-      Field('publicID', _$publicID, opt: true);
+  static String? _$publicIdentity(ProUserAccount v) => v.publicIdentity;
+  static const Field<ProUserAccount, String> _f$publicIdentity = Field(
+      'publicIdentity', _$publicIdentity,
+      key: 'public_identity', opt: true);
   static ProUserAccountType? _$proType(ProUserAccount v) => v.proType;
   static const Field<ProUserAccount, ProUserAccountType> _f$proType =
-      Field('proType', _$proType, opt: true);
+      Field('proType', _$proType, key: 'pro_type', opt: true);
   static String? _$id(ProUserAccount v) => v.id;
   static const Field<ProUserAccount, String> _f$id =
       Field('id', _$id, key: '_id', opt: true);
@@ -105,38 +106,39 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
       Field('password', _$password, opt: true);
   static String? _$firstName(ProUserAccount v) => v.firstName;
   static const Field<ProUserAccount, String> _f$firstName =
-      Field('firstName', _$firstName, opt: true);
+      Field('firstName', _$firstName, key: 'firstname', opt: true);
   static String? _$lastName(ProUserAccount v) => v.lastName;
   static const Field<ProUserAccount, String> _f$lastName =
-      Field('lastName', _$lastName, opt: true);
+      Field('lastName', _$lastName, key: 'lastname', opt: true);
   static String? _$middleName(ProUserAccount v) => v.middleName;
   static const Field<ProUserAccount, String> _f$middleName =
-      Field('middleName', _$middleName, opt: true);
+      Field('middleName', _$middleName, key: 'middlename', opt: true);
   static String? _$email(ProUserAccount v) => v.email;
   static const Field<ProUserAccount, String> _f$email =
       Field('email', _$email, opt: true);
   static String? _$legalTitle(ProUserAccount v) => v.legalTitle;
   static const Field<ProUserAccount, String> _f$legalTitle =
-      Field('legalTitle', _$legalTitle, opt: true);
+      Field('legalTitle', _$legalTitle, key: 'legal_title', opt: true);
   static String? _$legalAbbreviation(ProUserAccount v) => v.legalAbbreviation;
-  static const Field<ProUserAccount, String> _f$legalAbbreviation =
-      Field('legalAbbreviation', _$legalAbbreviation, opt: true);
+  static const Field<ProUserAccount, String> _f$legalAbbreviation = Field(
+      'legalAbbreviation', _$legalAbbreviation,
+      key: 'legal_abbreviation', opt: true);
   static String? _$legalInn(ProUserAccount v) => v.legalInn;
   static const Field<ProUserAccount, String> _f$legalInn =
-      Field('legalInn', _$legalInn, opt: true);
+      Field('legalInn', _$legalInn, key: 'legal_inn', opt: true);
   static String? _$legalOgrn(ProUserAccount v) => v.legalOgrn;
   static const Field<ProUserAccount, String> _f$legalOgrn =
-      Field('legalOgrn', _$legalOgrn, opt: true);
+      Field('legalOgrn', _$legalOgrn, key: 'legal_ogrn', opt: true);
   static String? _$legalAddress(ProUserAccount v) => v.legalAddress;
   static const Field<ProUserAccount, String> _f$legalAddress =
-      Field('legalAddress', _$legalAddress, opt: true);
-  static Uint8List? _$avatar(ProUserAccount v) => v.avatar;
-  static const Field<ProUserAccount, Uint8List> _f$avatar =
-      Field('avatar', _$avatar, opt: true);
+      Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
+  static String? _$avatarFileId(ProUserAccount v) => v.avatarFileId;
+  static const Field<ProUserAccount, String> _f$avatarFileId =
+      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
 
   @override
   final Map<Symbol, Field<ProUserAccount, dynamic>> fields = const {
-    #publicID: _f$publicID,
+    #publicIdentity: _f$publicIdentity,
     #proType: _f$proType,
     #id: _f$id,
     #login: _f$login,
@@ -150,11 +152,11 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
     #legalAddress: _f$legalAddress,
-    #avatar: _f$avatar,
+    #avatarFileId: _f$avatarFileId,
   };
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'accountType';
   @override
   final dynamic discriminatorValue = 'ProUserAccount';
   @override
@@ -163,7 +165,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
 
   static ProUserAccount _instantiate(DecodingData data) {
     return ProUserAccount(
-        publicID: data.dec(_f$publicID),
+        publicIdentity: data.dec(_f$publicIdentity),
         proType: data.dec(_f$proType),
         id: data.dec(_f$id),
         login: data.dec(_f$login),
@@ -177,7 +179,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
         legalAddress: data.dec(_f$legalAddress),
-        avatar: data.dec(_f$avatar));
+        avatarFileId: data.dec(_f$avatarFileId));
   }
 
   @override
@@ -232,7 +234,7 @@ abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount, $Out>
     implements UserAccountCopyWith<$R, $In, $Out> {
   @override
   $R call(
-      {String? publicID,
+      {String? publicIdentity,
       ProUserAccountType? proType,
       String? id,
       String? login,
@@ -246,7 +248,7 @@ abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount, $Out>
       String? legalInn,
       String? legalOgrn,
       String? legalAddress,
-      Uint8List? avatar});
+      String? avatarFileId});
   ProUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -261,7 +263,7 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
       ProUserAccountMapper.ensureInitialized();
   @override
   $R call(
-          {Object? publicID = $none,
+          {Object? publicIdentity = $none,
           Object? proType = $none,
           Object? id = $none,
           Object? login = $none,
@@ -275,9 +277,9 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
           Object? legalInn = $none,
           Object? legalOgrn = $none,
           Object? legalAddress = $none,
-          Object? avatar = $none}) =>
+          Object? avatarFileId = $none}) =>
       $apply(FieldCopyWithData({
-        if (publicID != $none) #publicID: publicID,
+        if (publicIdentity != $none) #publicIdentity: publicIdentity,
         if (proType != $none) #proType: proType,
         if (id != $none) #id: id,
         if (login != $none) #login: login,
@@ -291,11 +293,11 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
         if (legalAddress != $none) #legalAddress: legalAddress,
-        if (avatar != $none) #avatar: avatar
+        if (avatarFileId != $none) #avatarFileId: avatarFileId
       }));
   @override
   ProUserAccount $make(CopyWithData data) => ProUserAccount(
-      publicID: data.get(#publicID, or: $value.publicID),
+      publicIdentity: data.get(#publicIdentity, or: $value.publicIdentity),
       proType: data.get(#proType, or: $value.proType),
       id: data.get(#id, or: $value.id),
       login: data.get(#login, or: $value.login),
@@ -310,7 +312,7 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
-      avatar: data.get(#avatar, or: $value.avatar));
+      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
 
   @override
   ProUserAccountCopyWith<$R2, ProUserAccount, $Out2> $chain<$R2, $Out2>(

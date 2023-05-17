@@ -1,29 +1,35 @@
-import 'dart:typed_data';
 import 'package:clubpro/api/api_user.dart';
 import 'package:clubpro/models/base_model.dart';
 import 'package:clubpro/models/business_user_account.dart';
 import 'package:clubpro/models/pro_user_account.dart';
-import 'package:clubpro/models/uint8list_mapper.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
 part 'user_account.mapper.dart';
 
 // @MappableClass(discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
-@MappableClass(includeCustomMappers: [Uint8ListMapper()], discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
+@MappableClass(discriminatorKey: 'accountType', includeSubClasses: [ProUserAccount, BusinessUserAccount])
 class UserAccount extends BaseModel with UserAccountMappable {
   final String? login;
   final String? password;
   final String? email;
+  @MappableField(key: 'firstname')
   final String? firstName;
+  @MappableField(key: 'lastname')
   final String? lastName;
+  @MappableField(key: 'middlename')
   final String? middleName;
+  @MappableField(key: 'legal_title')
   final String? legalTitle;
+  @MappableField(key: 'legal_abbreviation')
   final String? legalAbbreviation;
+  @MappableField(key: 'legal_inn')
   final String? legalInn;
+  @MappableField(key: 'legal_ogrn')
   final String? legalOgrn;
+  @MappableField(key: 'legal_address')
   final String? legalAddress;
-
-  final Uint8List? avatar;
+  @MappableField(key: 'avatar_file_id')
+  final String? avatarFileId;
 
   UserAccount({
     super.id,
@@ -38,7 +44,7 @@ class UserAccount extends BaseModel with UserAccountMappable {
     this.legalAddress,
     this.legalInn,
     this.legalOgrn,
-    this.avatar,
+    this.avatarFileId,
   });
 
   static const fromJson = UserAccountMapper.fromJson;
@@ -53,15 +59,19 @@ class UserAccount extends BaseModel with UserAccountMappable {
     return await ApiUser.registerUser(this);
   }
 
-  Future<Map<String, dynamic>> registerConmtinue() async {
+  Future<Map<String, dynamic>> registerContinue() async {
     return await ApiUser.registerUserContinue(this);
   }
 
-  Future<String?> sendSMSCode() async {
-    return await ApiUser.registerSendSMSCode(this);
+  Future<Map<String, dynamic>> sendSMSCode() async {
+    return await ApiUser.sendSMSCode(this);
   }
 
   Future<Map<String, dynamic>> checkSMSCode(String code) async {
-    return await ApiUser.registerCheckSMSCode(this, code);
+    return await ApiUser.checkSMSCode(this, code);
+  }
+
+  Future<Map<String, dynamic>> resetPassword(String code) async {
+    return await ApiUser.resetPassword(this, code);
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:clubpro/models/user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
@@ -33,11 +32,14 @@ enum ProUserAccountType {
 
 @MappableClass()
 class ProUserAccount extends UserAccount with ProUserAccountMappable {
-  final String? publicID;
+  @MappableField(key: 'public_identity')
+  final String? publicIdentity;
+
+  @MappableField(key: 'pro_type')
   final ProUserAccountType? proType;
 
   ProUserAccount({
-    this.publicID,
+    this.publicIdentity,
     this.proType,
     super.id,
     super.login,
@@ -51,7 +53,7 @@ class ProUserAccount extends UserAccount with ProUserAccountMappable {
     super.legalInn,
     super.legalOgrn,
     super.legalAddress,
-    super.avatar,
+    super.avatarFileId,
   });
 
   static const fromJson = ProUserAccountMapper.fromJson;

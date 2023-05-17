@@ -19,6 +19,19 @@ class ApiUser {
     return res.data!['inserted_id'];
   }
 
+  static Future<String?> updateUser(UserAccount user) async {
+    var data = user.toMap();
+    var res = await dioservice.dio.postUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty) return null;
+    return res.data!['upserted_id'];
+  }
+
   static Future<UserAccount?> getUserById(String id) async {
     var res = await dioservice.dio.getUri<Map<String, dynamic>>(
       dioservice.baseUriFunc('/user/id/$id'),
@@ -61,24 +74,38 @@ class ApiUser {
     return res.data!;
   }
 
-  static Future<String?> registerSendSMSCode(UserAccount user) async {
+  static Future<Map<String, dynamic>> sendSMSCode(UserAccount user) async {
     var data = user.toMap();
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/register/${user.id}/sendcode'),
+      dioservice.baseUriFunc('/user/sendcode'),
       data: data,
       options: Options(
         contentType: 'application/json',
       ),
     );
-    if (res.data == null || res.data!.isEmpty || res.data!['result'] == null) return null;
-    return res.data!['result']!;
+    if (res.data == null || res.data!.isEmpty || res.data!['result'] == null) return {'error': 'unknown error'};
+    return res.data!;
   }
 
-  static Future<Map<String, dynamic>> registerCheckSMSCode(UserAccount user, String code) async {
+  static Future<Map<String, dynamic>> checkSMSCode(UserAccount user, String code) async {
     var data = user.toMap();
     data['smscode'] = code;
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/register/${user.id}/checkcode'),
+      dioservice.baseUriFunc('/user/checkcode'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+    if (res.data == null || res.data!.isEmpty || res.data!['result'] == 'error') return {'error': 'unknown error'};
+    return res.data!;
+  }
+
+  static Future<Map<String, dynamic>> resetPassword(UserAccount user, String code) async {
+    var data = user.toMap();
+    data['smscode'] = code;
+    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/user/resetpassword'),
       data: data,
       options: Options(
         contentType: 'application/json',

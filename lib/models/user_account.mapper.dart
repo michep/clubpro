@@ -13,7 +13,6 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = UserAccountMapper._());
       BaseModelMapper.ensureInitialized().addSubMapper(_instance!);
-      MapperContainer.globals.use(Uint8ListMapper());
       ProUserAccountMapper.ensureInitialized();
       BusinessUserAccountMapper.ensureInitialized();
     }
@@ -39,34 +38,35 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
       Field('password', _$password, opt: true);
   static String? _$firstName(UserAccount v) => v.firstName;
   static const Field<UserAccount, String> _f$firstName =
-      Field('firstName', _$firstName, opt: true);
+      Field('firstName', _$firstName, key: 'firstname', opt: true);
   static String? _$lastName(UserAccount v) => v.lastName;
   static const Field<UserAccount, String> _f$lastName =
-      Field('lastName', _$lastName, opt: true);
+      Field('lastName', _$lastName, key: 'lastname', opt: true);
   static String? _$middleName(UserAccount v) => v.middleName;
   static const Field<UserAccount, String> _f$middleName =
-      Field('middleName', _$middleName, opt: true);
+      Field('middleName', _$middleName, key: 'middlename', opt: true);
   static String? _$email(UserAccount v) => v.email;
   static const Field<UserAccount, String> _f$email =
       Field('email', _$email, opt: true);
   static String? _$legalTitle(UserAccount v) => v.legalTitle;
   static const Field<UserAccount, String> _f$legalTitle =
-      Field('legalTitle', _$legalTitle, opt: true);
+      Field('legalTitle', _$legalTitle, key: 'legal_title', opt: true);
   static String? _$legalAbbreviation(UserAccount v) => v.legalAbbreviation;
-  static const Field<UserAccount, String> _f$legalAbbreviation =
-      Field('legalAbbreviation', _$legalAbbreviation, opt: true);
+  static const Field<UserAccount, String> _f$legalAbbreviation = Field(
+      'legalAbbreviation', _$legalAbbreviation,
+      key: 'legal_abbreviation', opt: true);
   static String? _$legalAddress(UserAccount v) => v.legalAddress;
   static const Field<UserAccount, String> _f$legalAddress =
-      Field('legalAddress', _$legalAddress, opt: true);
+      Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
   static String? _$legalInn(UserAccount v) => v.legalInn;
   static const Field<UserAccount, String> _f$legalInn =
-      Field('legalInn', _$legalInn, opt: true);
+      Field('legalInn', _$legalInn, key: 'legal_inn', opt: true);
   static String? _$legalOgrn(UserAccount v) => v.legalOgrn;
   static const Field<UserAccount, String> _f$legalOgrn =
-      Field('legalOgrn', _$legalOgrn, opt: true);
-  static Uint8List? _$avatar(UserAccount v) => v.avatar;
-  static const Field<UserAccount, Uint8List> _f$avatar =
-      Field('avatar', _$avatar, opt: true);
+      Field('legalOgrn', _$legalOgrn, key: 'legal_ogrn', opt: true);
+  static String? _$avatarFileId(UserAccount v) => v.avatarFileId;
+  static const Field<UserAccount, String> _f$avatarFileId =
+      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
 
   @override
   final Map<Symbol, Field<UserAccount, dynamic>> fields = const {
@@ -82,11 +82,11 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
     #legalAddress: _f$legalAddress,
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
-    #avatar: _f$avatar,
+    #avatarFileId: _f$avatarFileId,
   };
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'model';
   @override
   final dynamic discriminatorValue = 'UserAccount';
   @override
@@ -106,7 +106,7 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
         legalAddress: data.dec(_f$legalAddress),
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
-        avatar: data.dec(_f$avatar));
+        avatarFileId: data.dec(_f$avatarFileId));
   }
 
   @override
@@ -172,7 +172,7 @@ abstract class UserAccountCopyWith<$R, $In extends UserAccount, $Out>
       String? legalAddress,
       String? legalInn,
       String? legalOgrn,
-      Uint8List? avatar});
+      String? avatarFileId});
   UserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -198,7 +198,7 @@ class _UserAccountCopyWithImpl<$R, $Out>
           Object? legalAddress = $none,
           Object? legalInn = $none,
           Object? legalOgrn = $none,
-          Object? avatar = $none}) =>
+          Object? avatarFileId = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (login != $none) #login: login,
@@ -212,7 +212,7 @@ class _UserAccountCopyWithImpl<$R, $Out>
         if (legalAddress != $none) #legalAddress: legalAddress,
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
-        if (avatar != $none) #avatar: avatar
+        if (avatarFileId != $none) #avatarFileId: avatarFileId
       }));
   @override
   UserAccount $make(CopyWithData data) => UserAccount(
@@ -229,7 +229,7 @@ class _UserAccountCopyWithImpl<$R, $Out>
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
-      avatar: data.get(#avatar, or: $value.avatar));
+      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
 
   @override
   UserAccountCopyWith<$R2, UserAccount, $Out2> $chain<$R2, $Out2>(

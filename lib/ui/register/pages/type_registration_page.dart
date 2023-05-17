@@ -131,7 +131,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
               'password': widget.user.password,
               'proType': proType,
             });
-      var reg = await newUser.registerConmtinue();
+      var reg = await newUser.registerContinue();
       if (reg['error'] != null) {
         Get.showSnackbar(
           GetSnackBar(

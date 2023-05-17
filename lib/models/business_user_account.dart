@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:clubpro/models/user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
@@ -29,6 +28,7 @@ enum BusinessUserAccountType {
 
 @MappableClass()
 class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
+  @MappableField(key: 'business_type')
   final BusinessUserAccountType? businessType;
 
   BusinessUserAccount({
@@ -45,7 +45,7 @@ class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
     super.legalInn,
     super.legalOgrn,
     super.legalAddress,
-    super.avatar,
+    super.avatarFileId,
   });
 
   static const fromJson = BusinessUserAccountMapper.fromJson;
