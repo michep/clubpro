@@ -1,6 +1,6 @@
-import 'package:clubpro/models/business_user_account.dart';
-import 'package:clubpro/models/pro_user_account.dart';
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/business_user_account.dart';
+import 'package:clubpro/models/user_account/pro_user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
@@ -31,6 +31,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Регистрация пользователя ${widget.isBusiness ? 'Бизнесс' : 'Про'}',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(
@@ -45,7 +46,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
               decoration: const InputDecoration(
                 labelText: 'Электронная почта',
               ),
-              validator: (value) => Utils.validateNotEmpty(value, 'Укажите электронную почту'),
+              validator: (value) => Utils.validateEmail(value, 'Укажите электронную почту'),
               textInputAction: TextInputAction.next,
             ),
             TextFormField(
@@ -111,26 +112,26 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
   Future<void> registerFinally() async {
     if (formKey.currentState!.validate()) {
       var newUser = widget.isBusiness
-          ? BusinessUserAccount.fromMap({
-              '_id': widget.user.id,
-              'login': widget.user.login,
-              'email': _emailcont.text,
-              'firstName': _firstNamecont.text,
-              'lastName': _lastNamecont.text,
-              'middleName': _middleNamecont.text,
-              'password': widget.user.password,
-              'businessType': businessType,
-            })
-          : ProUserAccount.fromMap({
-              '_id': widget.user.id,
-              'login': widget.user.login,
-              'email': _emailcont.text,
-              'firstName': _firstNamecont.text,
-              'lastName': _lastNamecont.text,
-              'middleName': _middleNamecont.text,
-              'password': widget.user.password,
-              'proType': proType,
-            });
+          ? BusinessUserAccount(
+              id: widget.user.id,
+              login: widget.user.login,
+              email: _emailcont.text,
+              firstName: _firstNamecont.text,
+              lastName: _lastNamecont.text,
+              middleName: _middleNamecont.text,
+              password: widget.user.password,
+              businessType: businessType,
+            )
+          : ProUserAccount(
+              id: widget.user.id,
+              login: widget.user.login,
+              email: _emailcont.text,
+              firstName: _firstNamecont.text,
+              lastName: _lastNamecont.text,
+              middleName: _middleNamecont.text,
+              password: widget.user.password,
+              proType: proType,
+            );
       var reg = await newUser.registerContinue();
       if (reg['error'] != null) {
         Get.showSnackbar(

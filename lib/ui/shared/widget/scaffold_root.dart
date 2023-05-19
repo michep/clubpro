@@ -1,3 +1,7 @@
+import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/scaffold_desktop.dart';
+import 'package:clubpro/ui/shared/widget/scaffold_mobile.dart';
+import 'package:clubpro/ui/shared/widget/scaffold_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -6,41 +10,48 @@ class ScaffoldRoot extends StatelessWidget {
   final Widget Function(Widget)? tabletWrapper;
   final Widget Function(Widget)? desktopWrapper;
   final Widget child;
+  late final String title;
+  final AppMenu? appMenu;
 
-  const ScaffoldRoot({
+  ScaffoldRoot({
     required this.child,
     this.mobileWrapper,
     this.tabletWrapper,
     this.desktopWrapper,
+    this.appMenu,
+    String? title,
     super.key,
-  });
+  }) {
+    if (title == null) {
+      this.title = 'ClubPRO';
+    } else {
+      this.title = 'ClubPRO - $title';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: ResponsiveBuilder(
-          builder: (context, sizingInformation) {
-            if (sizingInformation.isDesktop) {
-              return desktopWrapper != null
-                  ? desktopWrapper!(child)
-                  : tabletWrapper != null
-                      ? tabletWrapper!(child)
-                      : mobileWrapper != null
-                          ? mobileWrapper!(child)
-                          : child;
-            } else if (sizingInformation.isTablet) {
-              return tabletWrapper != null
-                  ? tabletWrapper!(child)
-                  : mobileWrapper != null
-                      ? mobileWrapper!(child)
-                      : child;
-            }
-            return mobileWrapper != null ? mobileWrapper!(child) : child;
-          },
-        ),
-      ),
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        if (sizingInformation.isDesktop) {
+          return ScaffoldDesktop(
+            title: title,
+            appMenu: appMenu,
+            child: child,
+          );
+        } else if (sizingInformation.isTablet) {
+          return ScaffoldTablet(
+            title: title,
+            appMenu: appMenu,
+            child: child,
+          );
+        }
+        return ScaffoldMobile(
+          title: title,
+          appMenu: appMenu,
+          child: child,
+        );
+      },
     );
   }
 }

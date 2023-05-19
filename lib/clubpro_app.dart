@@ -20,7 +20,7 @@ class _ClubProAppState extends State<ClubProApp> {
   @override
   void initState() {
     super.initState();
-    _sub = _sec.stream.listen(dispatch);
+    _sub = _sec.securityStateStream.listen(dispatch);
   }
 
   @override

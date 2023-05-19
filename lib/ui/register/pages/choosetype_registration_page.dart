@@ -1,4 +1,4 @@
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/ui/register/pages/type_registration_page.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';

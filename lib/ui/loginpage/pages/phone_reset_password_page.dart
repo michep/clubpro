@@ -1,4 +1,4 @@
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/loginpage/pages/smscode_reset_password_page.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
@@ -26,6 +26,7 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Сбросить пароль',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(
@@ -62,7 +63,7 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
               padding: const EdgeInsets.only(top: 16.0),
               child: TextButton(
                 onPressed: login,
-                child: const Text('Выполнить вход'),
+                child: const Text('Вернуться для входа в приложение'),
               ),
             ),
           ],
@@ -78,9 +79,9 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
   Future<void> next() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
-      var user = UserAccount.fromMap({
-        'login': Utils.normalizePhone(logincont.text),
-      });
+      var user = UserAccount(
+        login: Utils.normalizePhone(logincont.text),
+      );
 
       var res = await user.sendSMSCode();
       if (res['error'] != null) {
@@ -94,11 +95,7 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
         return;
       }
 
-      Get.offAll(() => SMSCodePasswordResetPage(
-            user: UserAccount(
-              login: Utils.normalizePhone(logincont.text),
-            ),
-          ));
+      Get.offAll(() => SMSCodePasswordResetPage(user: user));
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/ui/register/pages/choosetype_registration_page.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
@@ -33,8 +33,15 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Регистрация пользователя',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(

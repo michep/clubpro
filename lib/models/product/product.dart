@@ -35,3 +35,5 @@ class Product extends BaseModel with ProductMappable {
   static const fromJson = ProductMapper.fromJson;
   static const fromMap = ProductMapper.fromMap;
 }
+
+extension ProductMethods on Product {}

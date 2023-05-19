@@ -1,4 +1,4 @@
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
 part 'business_user_account.mapper.dart';

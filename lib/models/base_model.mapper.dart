@@ -12,9 +12,6 @@ class BaseModelMapper extends ClassMapperBase<BaseModel> {
   static BaseModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = BaseModelMapper._());
-      UserAccountMapper.ensureInitialized();
-      CatalogFolderMapper.ensureInitialized();
-      ProductMapper.ensureInitialized();
     }
     return _instance!;
   }

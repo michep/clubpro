@@ -13,6 +13,7 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = CatalogFolderMapper._());
       BaseModelMapper.ensureInitialized().addSubMapper(_instance!);
+      AttributeTemplateMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -45,6 +46,9 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
   static String? _$seo(CatalogFolder v) => v.seo;
   static const Field<CatalogFolder, String> _f$seo =
       Field('seo', _$seo, opt: true);
+  static List<AttributeTemplate>? _$attributes(CatalogFolder v) => v.attributes;
+  static const Field<CatalogFolder, List<AttributeTemplate>> _f$attributes =
+      Field('attributes', _$attributes, opt: true);
 
   @override
   final Map<Symbol, Field<CatalogFolder, dynamic>> fields = const {
@@ -54,10 +58,11 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
     #order: _f$order,
     #pictureFileId: _f$pictureFileId,
     #seo: _f$seo,
+    #attributes: _f$attributes,
   };
 
   @override
-  final String discriminatorKey = 'model';
+  final String discriminatorKey = '_baseType';
   @override
   final dynamic discriminatorValue = 'CatalogFolder';
   @override
@@ -70,7 +75,8 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
         parentFolderId: data.dec(_f$parentFolderId),
         order: data.dec(_f$order),
         pictureFileId: data.dec(_f$pictureFileId),
-        seo: data.dec(_f$seo));
+        seo: data.dec(_f$seo),
+        attributes: data.dec(_f$attributes));
   }
 
   @override
@@ -123,6 +129,9 @@ extension CatalogFolderValueCopy<$R, $Out>
 
 abstract class CatalogFolderCopyWith<$R, $In extends CatalogFolder, $Out>
     implements BaseModelCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, AttributeTemplate,
+          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>?
+      get attributes;
   @override
   $R call(
       {String? id,
@@ -130,7 +139,8 @@ abstract class CatalogFolderCopyWith<$R, $In extends CatalogFolder, $Out>
       String? parentFolderId,
       int? order,
       String? pictureFileId,
-      String? seo});
+      String? seo,
+      List<AttributeTemplate>? attributes});
   CatalogFolderCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -143,20 +153,29 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
   late final ClassMapperBase<CatalogFolder> $mapper =
       CatalogFolderMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, AttributeTemplate,
+          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>?
+      get attributes => $value.attributes != null
+          ? ListCopyWith($value.attributes!, (v, t) => v.copyWith.$chain(t),
+              (v) => call(attributes: v))
+          : null;
+  @override
   $R call(
           {Object? id = $none,
           Object? name = $none,
           Object? parentFolderId = $none,
           Object? order = $none,
           Object? pictureFileId = $none,
-          Object? seo = $none}) =>
+          Object? seo = $none,
+          Object? attributes = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (name != $none) #name: name,
         if (parentFolderId != $none) #parentFolderId: parentFolderId,
         if (order != $none) #order: order,
         if (pictureFileId != $none) #pictureFileId: pictureFileId,
-        if (seo != $none) #seo: seo
+        if (seo != $none) #seo: seo,
+        if (attributes != $none) #attributes: attributes
       }));
   @override
   CatalogFolder $make(CopyWithData data) => CatalogFolder(
@@ -165,7 +184,8 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
       parentFolderId: data.get(#parentFolderId, or: $value.parentFolderId),
       order: data.get(#order, or: $value.order),
       pictureFileId: data.get(#pictureFileId, or: $value.pictureFileId),
-      seo: data.get(#seo, or: $value.seo));
+      seo: data.get(#seo, or: $value.seo),
+      attributes: data.get(#attributes, or: $value.attributes));
 
   @override
   CatalogFolderCopyWith<$R2, CatalogFolder, $Out2> $chain<$R2, $Out2>(

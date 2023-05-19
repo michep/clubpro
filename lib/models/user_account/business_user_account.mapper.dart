@@ -145,7 +145,7 @@ class BusinessUserAccountMapper
   };
 
   @override
-  final String discriminatorKey = 'accountType';
+  final String discriminatorKey = '_accountType';
   @override
   final dynamic discriminatorValue = 'BusinessUserAccount';
   @override

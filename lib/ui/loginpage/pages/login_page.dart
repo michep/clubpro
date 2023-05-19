@@ -27,12 +27,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Вход в приложение',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(
         key: formKey,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const ClubProLogo(),
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.only(top: 16.0),
               child: TextButton(
                 onPressed: reset,
-                child: const Text('Сбросить пароль'),
+                child: const Text('Забыл пароль'),
               ),
             ),
             Padding(
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
     if (formKey.currentState!.validate()) {
       var res = await Get.find<SecurityService>().login(
         Utils.normalizePhone(logincont.text),
-        SecurityService.hashPassword(passcont.text),
+        Utils.hashPassword(passcont.text),
       );
       if (res == null) {
         setState(() {
@@ -113,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> register() async {
-    Get.to(() => const InitialRegistrationPage());
+    Get.offAll(() => const InitialRegistrationPage());
   }
 
   Future<void> reset() async {

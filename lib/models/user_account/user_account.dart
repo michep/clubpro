@@ -1,13 +1,15 @@
+import 'dart:typed_data';
+import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/api/api_user.dart';
+import 'package:clubpro/models/user_account/admin_user_account.dart';
 import 'package:clubpro/models/base_model.dart';
-import 'package:clubpro/models/business_user_account.dart';
-import 'package:clubpro/models/pro_user_account.dart';
+import 'package:clubpro/models/user_account/business_user_account.dart';
+import 'package:clubpro/models/user_account/pro_user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
 part 'user_account.mapper.dart';
 
-// @MappableClass(discriminatorKey: 'type', includeSubClasses: [ProUserAccount, BusinessUserAccount])
-@MappableClass(discriminatorKey: 'accountType', includeSubClasses: [ProUserAccount, BusinessUserAccount])
+@MappableClass(discriminatorKey: '_accountType', includeSubClasses: [ProUserAccount, BusinessUserAccount, AdminUserAccount])
 class UserAccount extends BaseModel with UserAccountMappable {
   final String? login;
   final String? password;
@@ -31,6 +33,8 @@ class UserAccount extends BaseModel with UserAccountMappable {
   @MappableField(key: 'avatar_file_id')
   final String? avatarFileId;
 
+  Uint8List? _avatarData;
+
   UserAccount({
     super.id,
     this.login,
@@ -49,10 +53,13 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   static const fromJson = UserAccountMapper.fromJson;
   static const fromMap = UserAccountMapper.fromMap;
+}
 
-  @override
-  void save() async {
-    await ApiUser.createUser(this);
+extension UserAccountMethods on UserAccount {
+  Future<UserAccount> save() async {
+    var newid = await ApiUser.saveUser(this);
+    id ??= newid;
+    return this;
   }
 
   Future<Map<String, dynamic>> register() async {
@@ -73,5 +80,12 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   Future<Map<String, dynamic>> resetPassword(String code) async {
     return await ApiUser.resetPassword(this, code);
+  }
+
+  Future<Uint8List?> avatar({bool forceRefresh = false}) async {
+    if (avatarFileId == null) return null;
+    if (_avatarData != null) return _avatarData;
+    _avatarData = await ApiFilestore.getFile(avatarFileId!);
+    return _avatarData;
   }
 }

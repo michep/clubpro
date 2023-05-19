@@ -1,8 +1,7 @@
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/loginpage/pages/login_page.dart';
 import 'package:clubpro/ui/register/pages/smscode_registration_page.dart';
-import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
@@ -27,6 +26,7 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Регистрация пользователя',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(
@@ -99,10 +99,10 @@ class InitialRegistrationPageState extends State<InitialRegistrationPage> {
   Future<void> register() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
-      var user = UserAccount.fromMap({
-        'login': Utils.normalizePhone(logincont.text),
-        'password': SecurityService.hashPassword(passwordcont.text),
-      });
+      var user = UserAccount(
+        login: Utils.normalizePhone(logincont.text),
+        password: Utils.hashPassword(passwordcont.text),
+      );
       var reg = await user.register();
       if (reg['error'] != null) {
         Get.showSnackbar(

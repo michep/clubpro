@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/service/utils.dart';
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/ui/loginpage/pages/login_page.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
@@ -37,8 +36,15 @@ class SMSCodePasswordResetPageState extends State<SMSCodePasswordResetPage> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
+      title: 'Сбросить пароль',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
       child: Form(
@@ -94,19 +100,30 @@ class SMSCodePasswordResetPageState extends State<SMSCodePasswordResetPage> {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text('Повтор кода через $counter секунд'),
                   ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: TextButton(
+                onPressed: login,
+                child: const Text('Вернуться для входа в приложение'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
+  Future<void> login() async {
+    Get.offAll(() => const LoginPage());
+  }
+
   Future<void> resetpassword() async {
-    var user = widget.user.copyWith(password: SecurityService.hashPassword(passwordcont.text));
+    var user = widget.user.copyWith(password: Utils.hashPassword(passwordcont.text));
     var res = await user.resetPassword(codecont.text);
     if (res['result'] != 'ok') {
       Get.showSnackbar(
         const GetSnackBar(
-          message: 'Неверный код подтверждения',
+          message: 'Ошибка при обновлении пароля',
           duration: Duration(seconds: 3),
           backgroundColor: Colors.red,
         ),

@@ -70,7 +70,7 @@ class ProductMapper extends SubClassMapperBase<Product> {
   };
 
   @override
-  final String discriminatorKey = 'model';
+  final String discriminatorKey = '_baseType';
   @override
   final dynamic discriminatorValue = 'Product';
   @override

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:clubpro/service/dio_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';

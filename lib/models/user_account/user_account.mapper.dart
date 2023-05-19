@@ -15,6 +15,7 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
       BaseModelMapper.ensureInitialized().addSubMapper(_instance!);
       ProUserAccountMapper.ensureInitialized();
       BusinessUserAccountMapper.ensureInitialized();
+      AdminUserAccountMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -86,7 +87,7 @@ class UserAccountMapper extends SubClassMapperBase<UserAccount> {
   };
 
   @override
-  final String discriminatorKey = 'model';
+  final String discriminatorKey = '_baseType';
   @override
   final dynamic discriminatorValue = 'UserAccount';
   @override

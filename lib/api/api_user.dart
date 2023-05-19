@@ -1,10 +1,18 @@
 import 'package:clubpro/service/dio_service.dart';
-import 'package:clubpro/models/user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class ApiUser {
   static final dioservice = Get.find<DioService>();
+
+  static Future<String?> saveUser(UserAccount user) async {
+    if (user.id == null) {
+      return createUser(user);
+    } else {
+      return updateUser(user);
+    }
+  }
 
   static Future<String?> createUser(UserAccount user) async {
     var data = user.toMap()..remove('_id');
@@ -22,7 +30,7 @@ class ApiUser {
   static Future<String?> updateUser(UserAccount user) async {
     var data = user.toMap();
     var res = await dioservice.dio.postUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user'),
+      dioservice.baseUriFunc('/user/${user.id}'),
       data: data,
       options: Options(
         contentType: 'application/json',
@@ -34,7 +42,7 @@ class ApiUser {
 
   static Future<UserAccount?> getUserById(String id) async {
     var res = await dioservice.dio.getUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/id/$id'),
+      dioservice.baseUriFunc('/user/$id'),
     );
     if (res.data == null || res.data!.isEmpty) return null;
     return UserAccount.fromMap(res.data!);
@@ -64,7 +72,7 @@ class ApiUser {
   static Future<Map<String, dynamic>> registerUserContinue(UserAccount user) async {
     var data = user.toMap();
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/user/register/${data['_id']}'),
+      dioservice.baseUriFunc('/user/register/${user.id}'),
       data: data,
       options: Options(
         contentType: 'application/json',
@@ -76,7 +84,7 @@ class ApiUser {
 
   static Future<Map<String, dynamic>> sendSMSCode(UserAccount user) async {
     var data = user.toMap();
-    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+    var res = await dioservice.dio.postUri<Map<String, dynamic>>(
       dioservice.baseUriFunc('/user/sendcode'),
       data: data,
       options: Options(
@@ -90,7 +98,7 @@ class ApiUser {
   static Future<Map<String, dynamic>> checkSMSCode(UserAccount user, String code) async {
     var data = user.toMap();
     data['smscode'] = code;
-    var res = await dioservice.dio.putUri<Map<String, dynamic>>(
+    var res = await dioservice.dio.postUri<Map<String, dynamic>>(
       dioservice.baseUriFunc('/user/checkcode'),
       data: data,
       options: Options(

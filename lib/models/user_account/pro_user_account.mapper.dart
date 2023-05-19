@@ -156,7 +156,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
   };
 
   @override
-  final String discriminatorKey = 'accountType';
+  final String discriminatorKey = '_accountType';
   @override
   final dynamic discriminatorValue = 'ProUserAccount';
   @override
