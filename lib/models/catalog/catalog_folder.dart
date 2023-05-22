@@ -55,11 +55,14 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     return _pictureData;
   }
 
-  static Future<List<CatalogFolder>?> getFolders(CatalogFolder? folder) async {
-    if (folder != null) {
-      return await folder.subFolders();
-    } else {
-      return await ApiCatalogFolder.getRootFolders();
-    }
+  static Future<List<CatalogFolder>?> getFoldersByParent(CatalogFolder? parentFolder) async {
+    if (parentFolder == null) return await ApiCatalogFolder.getRootFolders();
+    return parentFolder.subFolders();
+  }
+
+  Future<CatalogFolder> save() async {
+    var newid = await ApiCatalogFolder.saveFolder(this);
+    id ??= newid;
+    return this;
   }
 }

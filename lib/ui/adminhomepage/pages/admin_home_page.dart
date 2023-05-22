@@ -1,6 +1,7 @@
 import 'package:clubpro/models/app_menu.dart';
 import 'package:clubpro/service/admin_page_service.dart';
 import 'package:clubpro/service/security_service.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/add_catalog.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/admin_profile.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_list.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
@@ -56,6 +57,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     switch (page) {
       case AdminPages.catalog:
         return CatalogFoldersList();
+      case AdminPages.addcatalog:
+        return AddCatalogPage(parentCatalog: _adminpage.parentFolder);
       case AdminPages.profile:
         return const AdminProfile();
       default:

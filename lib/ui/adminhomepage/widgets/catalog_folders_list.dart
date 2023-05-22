@@ -1,10 +1,12 @@
 import 'package:clubpro/models/catalog/catalog_folder.dart';
+import 'package:clubpro/service/admin_page_service.dart';
 import 'package:clubpro/service/catalog_folders_list_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CatalogFoldersList extends StatelessWidget {
   final _catalogfolder = Get.find<CatalogFolderService>();
+  final _adminpage = Get.find<AdminPageService>();
 
   CatalogFoldersList({
     super.key,
@@ -18,7 +20,7 @@ class CatalogFoldersList extends StatelessWidget {
             stream: _catalogfolder.currentFolderStream,
             builder: (context, snapshot) {
               return FutureBuilder<List<CatalogFolder>?>(
-                future: CatalogFolder.getFolders(snapshot.data),
+                future: CatalogFolder.getFoldersByParent(snapshot.data),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) return const CircularProgressIndicator();
                   return ListView(
@@ -47,7 +49,10 @@ class CatalogFoldersList extends StatelessWidget {
         Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              _adminpage.setParentFolder(_catalogfolder.currentFolder);
+              _adminpage.setAdminPage(AdminPages.addcatalog);
+            },
             child: const Icon(Icons.add_outlined),
           ),
         ),
