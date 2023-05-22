@@ -15,5 +15,3 @@ class SelectAttributeTemplate extends AttributeTemplate with SelectAttributeTemp
   static const fromJson = SelectAttributeTemplateMapper.fromJson;
   static const fromMap = SelectAttributeTemplateMapper.fromMap;
 }
-
-extension SelectAttributeTemplateMethods on SelectAttributeTemplate {}

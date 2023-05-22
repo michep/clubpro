@@ -33,8 +33,6 @@ class UserAccount extends BaseModel with UserAccountMappable {
   @MappableField(key: 'avatar_file_id')
   final String? avatarFileId;
 
-  Uint8List? _avatarData;
-
   UserAccount({
     super.id,
     this.login,
@@ -53,9 +51,15 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   static const fromJson = UserAccountMapper.fromJson;
   static const fromMap = UserAccountMapper.fromMap;
-}
 
-extension UserAccountMethods on UserAccount {
+  String get fullname {
+    var res = '';
+    if (lastName != null) res = lastName!;
+    if (firstName != null) res = '$res $firstName';
+    if (middleName != null) res = '$res $middleName';
+    return res;
+  }
+
   Future<UserAccount> save() async {
     var newid = await ApiUser.saveUser(this);
     id ??= newid;
@@ -82,6 +86,7 @@ extension UserAccountMethods on UserAccount {
     return await ApiUser.resetPassword(this, code);
   }
 
+  Uint8List? _avatarData;
   Future<Uint8List?> avatar({bool forceRefresh = false}) async {
     if (avatarFileId == null) return null;
     if (_avatarData != null) return _avatarData;

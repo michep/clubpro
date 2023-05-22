@@ -13,9 +13,11 @@ class DioService {
 
   DioService({
     required this.baseUriFunc,
-  });
+  }) {
+    _init();
+  }
 
-  void init() {
+  void _init() {
     if (dio.httpClientAdapter is IOHttpClientAdapter) {
       (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
         client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;

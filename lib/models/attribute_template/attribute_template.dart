@@ -15,5 +15,3 @@ class AttributeTemplate with AttributeTemplateMappable {
   static const fromJson = AttributeTemplateMapper.fromJson;
   static const fromMap = AttributeTemplateMapper.fromMap;
 }
-
-extension AttributeTemplateMethods on AttributeTemplate {}

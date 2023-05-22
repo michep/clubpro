@@ -1,13 +1,22 @@
+import 'dart:typed_data';
+import 'package:clubpro/models/user_account/user_account.dart';
+import 'package:clubpro/service/security_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+typedef VoidFunction = void Function();
 
 class AppMenu {
-  final Widget? header;
+  final UserAccount? user;
+  final VoidFunction? userProfile;
   final List<AppMenuItem> items;
   final List<AppMenuItem>? bottomItems;
+  final _sec = Get.find<SecurityService>();
 
   AppMenu({
     required this.items,
-    this.header,
+    this.user,
+    this.userProfile,
     this.bottomItems,
   });
 
@@ -15,28 +24,15 @@ class AppMenu {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (header != null)
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 100,
-                  child: Container(
-                    height: 100,
-                    color: Colors.blue,
-                    padding: const EdgeInsets.all(16.0),
-                    child: header!,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        if (user != null) renderHeader(user!),
         ...items.map(
           (e) => ListTile(
             leading: Icon(e.icon),
             title: e.title,
-            onTap: e.action,
+            onTap: () {
+              Get.back();
+              if (e.action != null) e.action!();
+            },
           ),
         ),
         const Spacer(),
@@ -45,15 +41,68 @@ class AppMenu {
             (e) => ListTile(
               leading: Icon(e.icon),
               title: e.title,
-              onTap: e.action,
+              onTap: () {
+                Get.back();
+                if (e.action != null) e.action!();
+              },
             ),
           ),
       ],
     );
   }
-}
 
-typedef VoidFunction = void Function();
+  Widget renderHeader(UserAccount user) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Container(
+          height: 100,
+          color: Colors.blue,
+          padding: const EdgeInsets.all(8.0),
+          child: FutureBuilder<Uint8List?>(
+            future: _sec.currentUser!.avatar(),
+            builder: (context, snapshot) {
+              return CircleAvatar(
+                radius: 40,
+                backgroundImage: snapshot.hasData ? Image.memory(snapshot.data!).image : null,
+              );
+            },
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 100,
+            color: Colors.blue,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Text(
+                    user.fullname,
+                  ),
+                ),
+                if (userProfile != null)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+                          userProfile!();
+                        },
+                        child: const Icon(Icons.settings_outlined),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class AppMenuItem {
   final Widget title;

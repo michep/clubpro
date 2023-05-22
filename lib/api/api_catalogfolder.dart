@@ -34,4 +34,12 @@ class ApiCatalogFolder {
     if (res.data == null || res.data!.isEmpty) return null;
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
   }
+
+  static Future<List<CatalogFolder>?> getRootFolders() async {
+    var res = await dioservice.dio.getUri<List>(
+      dioservice.baseUriFunc('/catalog/root'),
+    );
+    if (res.data == null || res.data!.isEmpty) return null;
+    return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
+  }
 }

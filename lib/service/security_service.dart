@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:clubpro/api/api_auth.dart';
 import 'package:clubpro/api/api_user.dart';
 import 'package:clubpro/models/user_account/user_account.dart';
@@ -18,27 +17,21 @@ class SecurityService {
   String? _jwt;
   SecurityAccount? _account;
   UserAccount? _currentUser;
-  late SecurityState _state;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  final BehaviorSubject<SecurityState> _stateUpdateController = BehaviorSubject();
-  final BehaviorSubject<UserAccount?> _userUpdateController = BehaviorSubject();
-  late final Stream<SecurityState> securityStateStream;
-  late final Stream<UserAccount?> userAccountStream;
+  final BehaviorSubject<SecurityState?> _stateUpdateController = BehaviorSubject();
 
   SecurityService() {
-    securityStateStream = _stateUpdateController.stream;
-    userAccountStream = _userUpdateController.stream;
-    _state = SecurityState.loggedout;
-    _stateUpdateController.add(SecurityState.loggedout);
-    _userUpdateController.add(null);
+    _stateUpdateController.add(null);
   }
 
   String? get jwt => _jwt;
   SecurityAccount? get account => _account;
   UserAccount? get currentUser => _currentUser;
+  SecurityState? get currentState => _stateUpdateController.value;
+  Stream<SecurityState?> get securityStateStream => _stateUpdateController.stream;
 
   void setCurrentUser(UserAccount? user) {
-    _setState(_state, user);
+    _setState(_stateUpdateController.value, user);
   }
 
   Future<void> init() async {
@@ -46,6 +39,8 @@ class SecurityService {
     var password = await _storage.read(key: 'password');
     if (login != null && password != null) {
       await this.login(login, password, persist: false);
+    } else {
+      await logout();
     }
   }
 
@@ -78,15 +73,13 @@ class SecurityService {
     _jwt = null;
   }
 
-  void _setState(SecurityState newstate, UserAccount? user) {
-    if (_state == newstate && _currentUser == user) return;
-    if (_state != newstate) {
-      _state = newstate;
+  void _setState(SecurityState? newstate, UserAccount? user) {
+    if (currentState == newstate && currentUser == user) return;
+    if (currentState != newstate) {
       _stateUpdateController.add(newstate);
     }
-    if (_currentUser != user) {
+    if (currentUser != user) {
       _currentUser = user;
-      _userUpdateController.add(user);
     }
   }
 

@@ -24,9 +24,12 @@ class ScaffoldDesktop extends StatelessWidget {
         child: Row(
           children: [
             if (appMenu != null)
-              SizedBox(
-                width: 320,
-                child: appMenu != null ? appMenu!.renderColumn() : const SizedBox.shrink(),
+              Material(
+                elevation: 4,
+                child: SizedBox(
+                  width: 320,
+                  child: appMenu != null ? appMenu!.renderColumn() : const SizedBox.shrink(),
+                ),
               ),
             Expanded(
               child: Padding(

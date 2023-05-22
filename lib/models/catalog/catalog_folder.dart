@@ -18,10 +18,6 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
   final String? seo;
   final List<AttributeTemplate>? attributes;
 
-  CatalogFolder? _parentFolder;
-  List<CatalogFolder>? _subFolders;
-  Uint8List? _pictureData;
-
   CatalogFolder({
     super.id,
     this.name,
@@ -34,9 +30,8 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
 
   static const fromJson = CatalogFolderMapper.fromJson;
   static const fromMap = CatalogFolderMapper.fromMap;
-}
 
-extension CatalogFolderMethods on CatalogFolder {
+  CatalogFolder? _parentFolder;
   Future<CatalogFolder?> parentFolder({bool forceRefresh = false}) async {
     if (parentFolderId == null) return null;
     if (_parentFolder != null && !forceRefresh) return _parentFolder;
@@ -44,6 +39,7 @@ extension CatalogFolderMethods on CatalogFolder {
     return _parentFolder;
   }
 
+  List<CatalogFolder>? _subFolders;
   Future<List<CatalogFolder>?> subFolders({bool forceRefresh = false}) async {
     if (id == null) return null;
     if (_subFolders != null && !forceRefresh) return _subFolders;
@@ -51,10 +47,19 @@ extension CatalogFolderMethods on CatalogFolder {
     return _subFolders;
   }
 
+  Uint8List? _pictureData;
   Future<Uint8List?> picture({bool forceRefresh = false}) async {
     if (pictureFileId == null) return null;
     if (_pictureData != null) return _pictureData;
     _pictureData = await ApiFilestore.getFile(pictureFileId!);
     return _pictureData;
+  }
+
+  static Future<List<CatalogFolder>?> getFolders(CatalogFolder? folder) async {
+    if (folder != null) {
+      return await folder.subFolders();
+    } else {
+      return await ApiCatalogFolder.getRootFolders();
+    }
   }
 }

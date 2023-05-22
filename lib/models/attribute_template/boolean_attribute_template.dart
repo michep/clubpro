@@ -12,5 +12,3 @@ class BooleanAttributeTemplate extends AttributeTemplate with BooleanAttributeTe
   static const fromJson = BooleanAttributeTemplateMapper.fromJson;
   static const fromMap = BooleanAttributeTemplateMapper.fromMap;
 }
-
-extension BooleanAttributeTemplateMethods on BooleanAttributeTemplate {}

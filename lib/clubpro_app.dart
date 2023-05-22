@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:clubpro/ui/homepage/pages/home_page.dart';
+import 'package:clubpro/ui/adminhomepage/pages/admin_home_page.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/loginpage/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -35,16 +35,21 @@ class _ClubProAppState extends State<ClubProApp> {
       title: 'Club PRO',
       scrollBehavior: AppScrollBehavior(),
       home: const Scaffold(
-        body: CircularProgressIndicator(),
+        body: Center(child: CircularProgressIndicator()),
       ),
     );
   }
 
-  void dispatch(SecurityState state) {
-    if (state == SecurityState.loggedout) {
-      Get.offAll(() => const LoginPage());
-    } else {
-      Get.offAll(() => HomePage());
+  void dispatch(SecurityState? state) {
+    switch (state) {
+      case SecurityState.loggedout:
+        Get.offAll(() => const LoginPage());
+        break;
+      case SecurityState.loggedin:
+        Get.offAll(() => const AdminHomePage());
+        break;
+      default:
+        break;
     }
   }
 }
