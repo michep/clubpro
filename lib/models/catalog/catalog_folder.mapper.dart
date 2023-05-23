@@ -46,9 +46,9 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
   static String? _$seo(CatalogFolder v) => v.seo;
   static const Field<CatalogFolder, String> _f$seo =
       Field('seo', _$seo, opt: true);
-  static List<AttributeTemplate>? _$attributes(CatalogFolder v) => v.attributes;
+  static List<AttributeTemplate> _$attributes(CatalogFolder v) => v.attributes;
   static const Field<CatalogFolder, List<AttributeTemplate>> _f$attributes =
-      Field('attributes', _$attributes, opt: true);
+      Field('attributes', _$attributes, opt: true, def: const []);
 
   @override
   final Map<Symbol, Field<CatalogFolder, dynamic>> fields = const {
@@ -130,7 +130,7 @@ extension CatalogFolderValueCopy<$R, $Out>
 abstract class CatalogFolderCopyWith<$R, $In extends CatalogFolder, $Out>
     implements BaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, AttributeTemplate,
-          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>?
+          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>
       get attributes;
   @override
   $R call(
@@ -154,11 +154,9 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
       CatalogFolderMapper.ensureInitialized();
   @override
   ListCopyWith<$R, AttributeTemplate,
-          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>?
-      get attributes => $value.attributes != null
-          ? ListCopyWith($value.attributes!, (v, t) => v.copyWith.$chain(t),
-              (v) => call(attributes: v))
-          : null;
+          AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>
+      get attributes => ListCopyWith($value.attributes,
+          (v, t) => v.copyWith.$chain(t), (v) => call(attributes: v));
   @override
   $R call(
           {Object? id = $none,
@@ -167,7 +165,7 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
           Object? order = $none,
           Object? pictureFileId = $none,
           Object? seo = $none,
-          Object? attributes = $none}) =>
+          List<AttributeTemplate>? attributes}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (name != $none) #name: name,
@@ -175,7 +173,7 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
         if (order != $none) #order: order,
         if (pictureFileId != $none) #pictureFileId: pictureFileId,
         if (seo != $none) #seo: seo,
-        if (attributes != $none) #attributes: attributes
+        if (attributes != null) #attributes: attributes
       }));
   @override
   CatalogFolder $make(CopyWithData data) => CatalogFolder(

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:clubpro/api/api_auth.dart';
 import 'package:dio/io.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -30,11 +29,11 @@ class DioService {
           if (_secureService.jwt != null) {
             if (JwtDecoder.isExpired(_secureService.jwt!) && _secureService.account != null) {
               _secureService.clearJWT();
-              var token = await ApiAuth.getToken(_secureService.account!.login, _secureService.account!.password);
-              if (token == null) {
+              await _secureService.login(_secureService.account!.login, _secureService.account!.password, persist: false);
+              if (_secureService.jwt == null) {
                 _secureService.logout();
                 handler.reject(DioError(requestOptions: options, type: DioErrorType.cancel, message: 'Token error'));
-              }
+              } else {}
             }
             options.headers.addAll({'Authorization': 'JWT ${_secureService.jwt}'});
           }

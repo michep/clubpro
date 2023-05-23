@@ -34,6 +34,7 @@ class _ClubProAppState extends State<ClubProApp> {
     return GetMaterialApp(
       title: 'Club PRO',
       scrollBehavior: AppScrollBehavior(),
+      debugShowCheckedModeBanner: false,
       home: const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),

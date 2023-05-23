@@ -16,7 +16,7 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
   @MappableField(key: 'picture_file_id')
   final String? pictureFileId;
   final String? seo;
-  final List<AttributeTemplate>? attributes;
+  final List<AttributeTemplate> attributes;
 
   CatalogFolder({
     super.id,
@@ -25,7 +25,7 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     this.order,
     this.pictureFileId,
     this.seo,
-    this.attributes,
+    this.attributes = const [],
   });
 
   static const fromJson = CatalogFolderMapper.fromJson;
@@ -55,9 +55,14 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     return _pictureData;
   }
 
-  static Future<List<CatalogFolder>?> getFoldersByParent(CatalogFolder? parentFolder) async {
-    if (parentFolder == null) return await ApiCatalogFolder.getRootFolders();
-    return parentFolder.subFolders();
+  static List<CatalogFolder>? _rootFolders;
+  static Future<List<CatalogFolder>?> getFoldersByParent(CatalogFolder? parentFolder, {bool forceRefresh = false}) async {
+    if (parentFolder == null) {
+      if (_rootFolders != null && !forceRefresh) return _rootFolders;
+      _rootFolders = await ApiCatalogFolder.getRootFolders();
+      return _rootFolders;
+    }
+    return await parentFolder.subFolders(forceRefresh: forceRefresh);
   }
 
   Future<CatalogFolder> save() async {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 
 class Utils {
   static String hashPassword(String password) {
@@ -26,5 +27,9 @@ class Utils {
 
   static String? validateCompareValues(String? value1, String? value2, String message) {
     return (value1 == null || value1.isEmpty || value2 == null || value2.isEmpty || value1 != value2) ? message : null;
+  }
+
+  static Widget circularProgressIndicator() {
+    return const Center(child: CircularProgressIndicator());
   }
 }

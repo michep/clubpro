@@ -1,6 +1,5 @@
 import 'package:clubpro/clubpro_app.dart';
-import 'package:clubpro/service/admin_page_service.dart';
-import 'package:clubpro/service/catalog_folders_list_service.dart';
+import 'package:clubpro/service/subnavigator_service.dart';
 import 'package:clubpro/service/dio_service.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,7 @@ void main() async {
     DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path)), //WEB Local DB
     // var dio = DioService(baseUriFunc: (path) => Uri.http('10.0.2.2:8083', path)), //Android Emulator Local DB
   );
-  Get.put(AdminPageService());
-  Get.put(CatalogFolderService());
+  Get.put(SubNavigatorService());
 
   runApp(const ClubProApp());
 }
