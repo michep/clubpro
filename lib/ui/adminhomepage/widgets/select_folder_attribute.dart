@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class SelectCatalogFolderAttribute extends StatefulWidget {
   final CatalogFolder folder;
   final int attributeIdx;
-  final VoidFunction update;
+  final void Function(VoidFunction) update;
 
   const SelectCatalogFolderAttribute({
     required this.folder,
@@ -23,12 +23,13 @@ class SelectCatalogFolderAttribute extends StatefulWidget {
 class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttribute> {
   final TextEditingController namecont = TextEditingController();
   final TextEditingController valuecont = TextEditingController();
+  late SelectAttributeTemplate attribute;
 
   @override
   void initState() {
     super.initState();
-    // attribute = widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate;
-    namecont.value = TextEditingValue(text: widget.folder.attributes[widget.attributeIdx].name ?? '');
+    attribute = widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate;
+    namecont.value = TextEditingValue(text: attribute.name ?? '');
   }
 
   @override
@@ -50,7 +51,7 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
                 labelText: 'Название атрибута',
               ),
               validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
-              onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = widget.folder.attributes[widget.attributeIdx].copyWith(name: value),
+              onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -59,15 +60,13 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
                 runSpacing: 6,
                 alignment: WrapAlignment.start,
                 children: [
-                  ...(widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate).values.map(
-                        (e) => Chip(
-                          label: Text(e),
-                          deleteIcon: const Icon(Icons.remove_circle_outline_outlined),
-                          onDeleted: () => setState(() {
-                            widget.folder.attributes.removeAt(widget.attributeIdx);
-                          }),
-                        ),
-                      ),
+                  ...attribute.values.map(
+                    (e) => Chip(
+                      label: Text(e),
+                      deleteIcon: const Icon(Icons.remove_circle_outline_outlined),
+                      onDeleted: () => deleteValue(e),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -84,12 +83,7 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        (widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate).values.add(valuecont.text);
-                        valuecont.value = TextEditingValue.empty;
-                      });
-                    },
+                    onPressed: addValue,
                     child: const Text('Добавить значение атрибута'),
                   ),
                 ),
@@ -99,5 +93,18 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
         ),
       ),
     );
+  }
+
+  void addValue() {
+    setState(() {
+      attribute.values.add(valuecont.text);
+      valuecont.value = TextEditingValue.empty;
+    });
+  }
+
+  void deleteValue(String value) {
+    setState(() {
+      attribute.values.remove(value);
+    });
   }
 }

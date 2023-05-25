@@ -32,7 +32,7 @@ class SelectAttributeTemplateMapper
       Field('name', _$name, opt: true);
   static List<String> _$values(SelectAttributeTemplate v) => v.values;
   static const Field<SelectAttributeTemplate, List<String>> _f$values =
-      Field('values', _$values, opt: true, def: const []);
+      Field('values', _$values, opt: true);
 
   @override
   final Map<Symbol, Field<SelectAttributeTemplate, dynamic>> fields = const {
@@ -131,10 +131,10 @@ class _SelectAttributeTemplateCopyWithImpl<$R, $Out>
       ListCopyWith($value.values, (v, t) => ObjectCopyWith(v, $identity, t),
           (v) => call(values: v));
   @override
-  $R call({Object? name = $none, List<String>? values}) =>
+  $R call({Object? name = $none, Object? values = $none}) =>
       $apply(FieldCopyWithData({
         if (name != $none) #name: name,
-        if (values != null) #values: values
+        if (values != $none) #values: values
       }));
   @override
   SelectAttributeTemplate $make(CopyWithData data) => SelectAttributeTemplate(

@@ -19,30 +19,39 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldRoot(
-      appMenu: AppMenu(
-        userProfile: () => Get.to(() => const AdminProfile(), id: 1),
-        user: _sec.currentUser!,
-        items: [
-          AppMenuItem(
-            title: const Text('Каталог'),
-            icon: Icons.folder,
-            action: () => Get.offAll(() => const CatalogFoldersList(), id: 1),
-          ),
-        ],
-        bottomItems: [
-          AppMenuItem(
-            title: const Text('Выход'),
-            icon: Icons.logout,
-            action: logout,
-          )
-        ],
-      ),
-      child: Navigator(
-        key: Get.nestedKey(1),
-        onGenerateRoute: (settings) {
-          return GetPageRoute(page: () => const SizedBox.shrink());
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        if (Get.global(1).currentState?.canPop() == true) {
+          Get.global(1).currentState?.pop();
+          return false;
+        }
+        return true;
+      },
+      child: ScaffoldRoot(
+        appMenu: AppMenu(
+          userProfile: () => Get.to(() => const AdminProfile(), id: 1),
+          user: _sec.currentUser!,
+          items: [
+            AppMenuItem(
+              title: const Text('Каталог'),
+              icon: Icons.folder,
+              action: () => Get.to(() => const CatalogFoldersList(), id: 1),
+            ),
+          ],
+          bottomItems: [
+            AppMenuItem(
+              title: const Text('Выход'),
+              icon: Icons.logout,
+              action: logout,
+            )
+          ],
+        ),
+        child: Navigator(
+          key: Get.nestedKey(1),
+          onGenerateRoute: (settings) {
+            return GetPageRoute(page: () => const SizedBox.shrink());
+          },
+        ),
       ),
     );
   }

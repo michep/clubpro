@@ -21,49 +21,6 @@ class _CatalogFoldersListState extends State<CatalogFoldersList> {
 
   @override
   Widget build(BuildContext context) {
-    // return Center(
-    //   child: SizedBox.square(
-    //     dimension: 100,
-    //     child: Container(color: Colors.red),
-    //   ),
-    // );
-
-    // return FutureBuilder<List<CatalogFolder>?>(
-    //   future: CatalogFolder.getFoldersByParent(widget.folder, forceRefresh: forceRefresh),
-    //   builder: (context, snapshot) {
-    //     forceRefresh = false;
-    //     if (snapshot.connectionState != ConnectionState.done) return const SizedBox.shrink();
-    //     return RefreshIndicator(
-    //       onRefresh: () async {
-    //         setState(() {
-    //           forceRefresh = true;
-    //         });
-    //       },
-    //       child: ListView(
-    //         children: [
-    //           if (widget.folder != null)
-    //             ListTile(
-    //               onTap: () => Get.back(id: 1),
-    //               leading: const Icon(Icons.chevron_left),
-    //               title: const Text('BACK'),
-    //             ),
-    //           if (snapshot.data != null)
-    //             ...snapshot.data!
-    //                 .map((e) => ListTile(
-    //                       onTap: () => Get.to(() => CatalogFoldersList(folder: e), id: 1),
-    //                       title: Text(e.name!),
-    //                       trailing: IconButton(
-    //                         icon: const Icon(Icons.edit_outlined),
-    //                         onPressed: () => editFolder(e),
-    //                       ),
-    //                     ))
-    //                 .toList(),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // );
-
     return Stack(
       children: [
         FutureBuilder<List<CatalogFolder>?>(

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class CatalogFolderAttribute extends StatefulWidget {
   final CatalogFolder folder;
   final int attributeIdx;
-  final VoidFunction update;
+  final void Function(VoidFunction) update;
 
   const CatalogFolderAttribute({
     required this.folder,
@@ -39,6 +39,9 @@ class _CatalogFolderAttributeState extends State<CatalogFolderAttribute> {
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: 'Выберите тип атрибута',
+              ),
               items: const [
                 DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
                 DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
@@ -47,16 +50,13 @@ class _CatalogFolderAttributeState extends State<CatalogFolderAttribute> {
               onChanged: (value) {
                 switch (value) {
                   case 'boolean':
-                    widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate();
-                    widget.update();
+                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate());
                     break;
                   case 'select':
-                    widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate();
-                    widget.update();
+                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate());
                     break;
                   case 'text':
-                    widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate();
-                    widget.update();
+                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
                     break;
                 }
               },

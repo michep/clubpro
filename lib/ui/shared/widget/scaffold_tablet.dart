@@ -21,8 +21,10 @@ class ScaffoldTablet extends StatelessWidget {
         title: Text(title),
       ),
       drawer: appMenu != null
-          ? Drawer(
-              child: appMenu!.renderColumn(),
+          ? SafeArea(
+              child: Drawer(
+                child: appMenu!.renderColumn(),
+              ),
             )
           : null,
       body: SafeArea(

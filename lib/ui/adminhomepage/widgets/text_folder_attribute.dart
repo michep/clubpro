@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class TextCatalogFolderAttribute extends StatefulWidget {
   final CatalogFolder folder;
   final int attributeIdx;
-  final VoidFunction update;
+  final void Function(VoidFunction) update;
 
   const TextCatalogFolderAttribute({
     required this.folder,

@@ -48,7 +48,7 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
       Field('seo', _$seo, opt: true);
   static List<AttributeTemplate> _$attributes(CatalogFolder v) => v.attributes;
   static const Field<CatalogFolder, List<AttributeTemplate>> _f$attributes =
-      Field('attributes', _$attributes, opt: true, def: const []);
+      Field('attributes', _$attributes, opt: true);
 
   @override
   final Map<Symbol, Field<CatalogFolder, dynamic>> fields = const {
@@ -165,7 +165,7 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
           Object? order = $none,
           Object? pictureFileId = $none,
           Object? seo = $none,
-          List<AttributeTemplate>? attributes}) =>
+          Object? attributes = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (name != $none) #name: name,
@@ -173,7 +173,7 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
         if (order != $none) #order: order,
         if (pictureFileId != $none) #pictureFileId: pictureFileId,
         if (seo != $none) #seo: seo,
-        if (attributes != null) #attributes: attributes
+        if (attributes != $none) #attributes: attributes
       }));
   @override
   CatalogFolder $make(CopyWithData data) => CatalogFolder(
