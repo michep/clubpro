@@ -47,8 +47,9 @@ class _CatalogFoldersListState extends State<CatalogFoldersList> {
                         .map((e) => ListTile(
                               onTap: () => Get.to(() => CatalogFoldersList(folder: e), id: 1),
                               title: Text(e.name!),
+                              subtitle: Text('Order: ${e.order?.toString() ?? ''}'),
                               trailing: IconButton(
-                                icon: const Icon(Icons.edit_outlined),
+                                icon: const Icon(Icons.edit),
                                 onPressed: () => editFolder(e),
                               ),
                             ))

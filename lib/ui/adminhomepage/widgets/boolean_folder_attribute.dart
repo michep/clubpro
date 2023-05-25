@@ -37,24 +37,38 @@ class _BooleanCatalogFolderAttributeState extends State<BooleanCatalogFolderAttr
       margin: const EdgeInsets.all(8),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            const Text(
-              'Логический атрибут',
-              style: TextStyle(fontSize: 12),
-            ),
-            TextFormField(
-              controller: namecont,
-              decoration: const InputDecoration(
-                labelText: 'Название атрибута',
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Логический атрибут',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  TextFormField(
+                    controller: namecont,
+                    decoration: const InputDecoration(
+                      labelText: 'Название атрибута',
+                    ),
+                    validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
+                    onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
+                  ),
+                ],
               ),
-              validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
-              onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: deleteAttribute,
             ),
           ],
         ),
       ),
     );
+  }
+
+  void deleteAttribute() {
+    widget.update(() => widget.folder.attributes.removeAt(widget.attributeIdx));
   }
 }

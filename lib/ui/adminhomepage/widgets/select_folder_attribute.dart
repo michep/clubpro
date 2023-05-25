@@ -38,56 +38,66 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
       margin: const EdgeInsets.all(8),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            const Text(
-              'Атрибут выбора одного значения',
-              style: TextStyle(fontSize: 12),
-            ),
-            TextFormField(
-              controller: namecont,
-              decoration: const InputDecoration(
-                labelText: 'Название атрибута',
-              ),
-              validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
-              onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                alignment: WrapAlignment.start,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...attribute.values.map(
-                    (e) => Chip(
-                      label: Text(e),
-                      deleteIcon: const Icon(Icons.remove_circle_outline_outlined),
-                      onDeleted: () => deleteValue(e),
+                  const Text(
+                    'Атрибут выбора одного значения',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  TextFormField(
+                    controller: namecont,
+                    decoration: const InputDecoration(
+                      labelText: 'Название атрибута',
                     ),
+                    validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
+                    onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      alignment: WrapAlignment.start,
+                      children: [
+                        ...attribute.values.map(
+                          (e) => Chip(
+                            label: Text(e),
+                            deleteIcon: const Icon(Icons.clear),
+                            onDeleted: () => deleteValue(e),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: valuecont,
+                          decoration: const InputDecoration(
+                            labelText: 'Значение',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextButton(
+                          onPressed: addValue,
+                          child: const Text('Добавить значение атрибута'),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: valuecont,
-                    decoration: const InputDecoration(
-                      labelText: 'Значение',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: TextButton(
-                    onPressed: addValue,
-                    child: const Text('Добавить значение атрибута'),
-                  ),
-                ),
-              ],
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: deleteAttribute,
             ),
           ],
         ),
@@ -106,5 +116,9 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
     setState(() {
       attribute.values.remove(value);
     });
+  }
+
+  void deleteAttribute() {
+    widget.update(() => widget.folder.attributes.removeAt(widget.attributeIdx));
   }
 }

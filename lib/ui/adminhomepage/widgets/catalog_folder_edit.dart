@@ -19,6 +19,7 @@ class CatalogFolderEdit extends StatefulWidget {
 }
 
 class _CatalogFolderEditState extends State<CatalogFolderEdit> {
+  late final CatalogFolder originalFolder;
   final TextEditingController namecont = TextEditingController();
   final TextEditingController ordercont = TextEditingController();
   final ScrollController scrollcont = ScrollController();
@@ -27,6 +28,7 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   @override
   void initState() {
     super.initState();
+    originalFolder = CatalogFolder.fromMap(widget.folder.toMap());
     if (widget.folder.name != null) {
       namecont.value = TextEditingValue(text: widget.folder.name!);
       ordercont.value = TextEditingValue(text: widget.folder.order?.toString() ?? '');
@@ -46,9 +48,9 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
               TextFormField(
                 controller: namecont,
                 decoration: const InputDecoration(
-                  labelText: 'Имя папки каталога',
+                  labelText: 'Название раздела каталога',
                 ),
-                validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя папки'),
+                validator: (value) => Utils.validateNotEmpty(value, 'Укажите название раздела'),
                 textInputAction: TextInputAction.next,
               ),
               TextFormField(
@@ -81,7 +83,7 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: TextButton(
-                  onPressed: () => Get.back(id: 1),
+                  onPressed: back,
                   child: const Text('BACK'),
                 ),
               ),
@@ -100,6 +102,11 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
         ),
       ],
     );
+  }
+
+  void back() {
+    var refresh = (widget.folder != originalFolder);
+    Get.back(result: refresh, id: 1);
   }
 
   Future<void> saveFolder() async {

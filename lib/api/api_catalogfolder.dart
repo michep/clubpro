@@ -30,7 +30,7 @@ class ApiCatalogFolder {
 
   static Future<List<CatalogFolder>> getProducts(String id, FolderProductType type) async {
     var res = await dioservice.dio.getUri<List>(
-      dioservice.baseUriFunc('/catalog/$id/subfolders'),
+      dioservice.baseUriFunc('/catalog/$id/products/$type'),
     );
     if (res.data == null || res.data!.isEmpty) return [];
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();

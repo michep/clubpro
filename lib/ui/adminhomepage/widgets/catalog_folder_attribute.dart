@@ -38,31 +38,45 @@ class _CatalogFolderAttributeState extends State<CatalogFolderAttribute> {
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Выберите тип атрибута',
-              ),
-              items: const [
-                DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
-                DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
-                DropdownMenuItem(value: 'text', child: Text('Текстовый атрибут')),
+            child: Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Выберите тип атрибута',
+                    ),
+                    items: const [
+                      DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
+                      DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
+                      DropdownMenuItem(value: 'text', child: Text('Текстовый атрибут')),
+                    ],
+                    onChanged: (value) {
+                      switch (value) {
+                        case 'boolean':
+                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate());
+                          break;
+                        case 'select':
+                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate());
+                          break;
+                        case 'text':
+                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
+                          break;
+                      }
+                    },
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: deleteAttribute,
+                ),
               ],
-              onChanged: (value) {
-                switch (value) {
-                  case 'boolean':
-                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate());
-                    break;
-                  case 'select':
-                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate());
-                    break;
-                  case 'text':
-                    widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
-                    break;
-                }
-              },
             ),
           ),
         );
     }
+  }
+
+  void deleteAttribute() {
+    widget.update(() => widget.folder.attributes.removeAt(widget.attributeIdx));
   }
 }
