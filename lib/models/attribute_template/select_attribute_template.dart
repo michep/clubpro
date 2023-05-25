@@ -5,12 +5,14 @@ part 'select_attribute_template.mapper.dart';
 
 @MappableClass()
 class SelectAttributeTemplate extends AttributeTemplate with SelectAttributeTemplateMappable {
-  List<String> values;
+  late final List<String> values;
 
   SelectAttributeTemplate({
     super.name,
-    this.values = const [],
-  });
+    List<String>? values,
+  }) {
+    this.values = values ?? [];
+  }
 
   static const fromJson = SelectAttributeTemplateMapper.fromJson;
   static const fromMap = SelectAttributeTemplateMapper.fromMap;

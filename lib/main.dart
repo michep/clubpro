@@ -15,9 +15,9 @@ void main() async {
     },
   );
   Get.put(
-    // var dio = DioService(baseUriFunc: (path) => Uri.https('clubpro.space', path)), //REAL DB
+    // DioService(baseUriFunc: (path) => Uri.https('clubpro.space', path)), //REAL DB
     DioService(baseUriFunc: (path) => Uri.http('127.0.0.1:8083', path)), //WEB Local DB
-    // var dio = DioService(baseUriFunc: (path) => Uri.http('10.0.2.2:8083', path)), //Android Emulator Local DB
+    // DioService(baseUriFunc: (path) => Uri.http('10.0.2.2:8083', path)), //Android Emulator Local DB
   );
   Get.put(SubNavigatorService());
 

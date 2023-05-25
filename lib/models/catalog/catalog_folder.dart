@@ -16,7 +16,7 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
   @MappableField(key: 'picture_file_id')
   final String? pictureFileId;
   final String? seo;
-  final List<AttributeTemplate> attributes;
+  late final List<AttributeTemplate> attributes;
 
   CatalogFolder({
     super.id,
@@ -25,8 +25,10 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     this.order,
     this.pictureFileId,
     this.seo,
-    this.attributes = const [],
-  });
+    List<AttributeTemplate>? attributes,
+  }) {
+    this.attributes = attributes ?? [];
+  }
 
   static const fromJson = CatalogFolderMapper.fromJson;
   static const fromMap = CatalogFolderMapper.fromMap;

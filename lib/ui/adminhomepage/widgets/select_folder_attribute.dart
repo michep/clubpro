@@ -52,21 +52,24 @@ class _SelectCatalogFolderAttributeState extends State<SelectCatalogFolderAttrib
               validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
               onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = widget.folder.attributes[widget.attributeIdx].copyWith(name: value),
             ),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              alignment: WrapAlignment.start,
-              children: [
-                ...(widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate).values.map(
-                      (e) => Chip(
-                        label: Text(e),
-                        deleteIcon: const Icon(Icons.remove_circle_outline_outlined),
-                        onDeleted: () => setState(() {
-                          widget.folder.attributes.removeAt(widget.attributeIdx);
-                        }),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                alignment: WrapAlignment.start,
+                children: [
+                  ...(widget.folder.attributes[widget.attributeIdx] as SelectAttributeTemplate).values.map(
+                        (e) => Chip(
+                          label: Text(e),
+                          deleteIcon: const Icon(Icons.remove_circle_outline_outlined),
+                          onDeleted: () => setState(() {
+                            widget.folder.attributes.removeAt(widget.attributeIdx);
+                          }),
+                        ),
                       ),
-                    ),
-              ],
+                ],
+              ),
             ),
             Row(
               children: [
