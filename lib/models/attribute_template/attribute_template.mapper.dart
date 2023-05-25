@@ -14,6 +14,7 @@ class AttributeTemplateMapper extends ClassMapperBase<AttributeTemplate> {
       MapperContainer.globals.use(_instance = AttributeTemplateMapper._());
       BooleanAttributeTemplateMapper.ensureInitialized();
       SelectAttributeTemplateMapper.ensureInitialized();
+      TextAttributeTemplateMapper.ensureInitialized();
     }
     return _instance!;
   }

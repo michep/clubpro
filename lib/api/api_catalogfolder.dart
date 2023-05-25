@@ -20,27 +20,27 @@ class ApiCatalogFolder {
     return CatalogFolder.fromMap(res.data!);
   }
 
-  static Future<List<CatalogFolder>?> getSubFolders(String id) async {
+  static Future<List<CatalogFolder>> getSubFolders(String id) async {
     var res = await dioservice.dio.getUri<List>(
       dioservice.baseUriFunc('/catalog/$id/subfolders'),
     );
-    if (res.data == null || res.data!.isEmpty) return null;
+    if (res.data == null || res.data!.isEmpty) return [];
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
   }
 
-  static Future<List<CatalogFolder>?> getProducts(String id, FolderProductType type) async {
+  static Future<List<CatalogFolder>> getProducts(String id, FolderProductType type) async {
     var res = await dioservice.dio.getUri<List>(
       dioservice.baseUriFunc('/catalog/$id/subfolders'),
     );
-    if (res.data == null || res.data!.isEmpty) return null;
+    if (res.data == null || res.data!.isEmpty) return [];
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
   }
 
-  static Future<List<CatalogFolder>?> getRootFolders() async {
+  static Future<List<CatalogFolder>> getRootFolders() async {
     var res = await dioservice.dio.getUri<List>(
       dioservice.baseUriFunc('/catalog/root'),
     );
-    if (res.data == null || res.data!.isEmpty) return null;
+    if (res.data == null || res.data!.isEmpty) return [];
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
   }
 
@@ -77,5 +77,4 @@ class ApiCatalogFolder {
     if (res.data == null || res.data!.isEmpty) return null;
     return res.data!['upserted_id'];
   }
-
 }

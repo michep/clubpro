@@ -32,6 +32,7 @@ class _ClubProAppState extends State<ClubProApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      transitionDuration: const Duration(milliseconds: 0),
       title: 'Club PRO',
       scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,

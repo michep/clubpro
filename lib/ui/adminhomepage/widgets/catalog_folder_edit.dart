@@ -1,12 +1,17 @@
 import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
-import 'package:clubpro/service/subnavigator_service.dart';
 import 'package:clubpro/service/utils.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_attribute.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CatalogFolderEdit extends StatefulWidget {
-  const CatalogFolderEdit({super.key});
+  final CatalogFolder folder;
+
+  const CatalogFolderEdit({
+    required this.folder,
+    super.key,
+  });
 
   @override
   State<CatalogFolderEdit> createState() => _CatalogFolderEditState();
@@ -15,15 +20,12 @@ class CatalogFolderEdit extends StatefulWidget {
 class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   final TextEditingController namecont = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final _subnav = Get.find<SubNavigatorService>();
-  late final CatalogFolder subject;
 
   @override
   void initState() {
     super.initState();
-    subject = _subnav.currentSubnav?.value!;
-    if (subject.name != null) {
-      namecont.value = TextEditingValue(text: subject.name!);
+    if (widget.folder.name != null) {
+      namecont.value = TextEditingValue(text: widget.folder.name!);
     }
   }
 
@@ -38,12 +40,20 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
           TextFormField(
             controller: namecont,
             decoration: const InputDecoration(
-              labelText: 'Имя папки',
+              labelText: 'Имя папки каталога',
             ),
             validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя папки'),
             textInputAction: TextInputAction.next,
           ),
-          ...renderAttributes(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ...renderAttributes(),
+                ],
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: ElevatedButton(
@@ -61,7 +71,7 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: TextButton(
-              onPressed: () => _subnav.pop(),
+              onPressed: () => Get.back(id: 1),
               child: const Text('BACK'),
             ),
           ),
@@ -73,19 +83,23 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   Future<void> saveFolder() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
-      CatalogFolder folder = subject.copyWith(name: namecont.text);
+      CatalogFolder folder = widget.folder.copyWith(name: namecont.text);
       await folder.save();
-      _subnav.pop();
+      Get.back<bool>(result: true, id: 1);
     }
   }
 
   List<Widget> renderAttributes() {
-    return [];
+    List<Widget> res = [];
+    for (int i = 0; i < widget.folder.attributes.length; i++) {
+      res.add(CatalogFolderAttribute(folder: widget.folder, attributeIdx: i, update: () => setState(() {})));
+    }
+    return res;
   }
 
   void addAttribute() {
     setState(() {
-      subject.attributes.add(AttributeTemplate());
+      widget.folder.attributes.add(AttributeTemplate());
     });
   }
 }

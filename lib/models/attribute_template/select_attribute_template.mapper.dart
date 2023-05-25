@@ -30,9 +30,9 @@ class SelectAttributeTemplateMapper
   static String? _$name(SelectAttributeTemplate v) => v.name;
   static const Field<SelectAttributeTemplate, String> _f$name =
       Field('name', _$name, opt: true);
-  static List<String>? _$values(SelectAttributeTemplate v) => v.values;
+  static List<String> _$values(SelectAttributeTemplate v) => v.values;
   static const Field<SelectAttributeTemplate, List<String>> _f$values =
-      Field('values', _$values, opt: true);
+      Field('values', _$values, opt: true, def: const []);
 
   @override
   final Map<Symbol, Field<SelectAttributeTemplate, dynamic>> fields = const {
@@ -110,7 +110,7 @@ abstract class SelectAttributeTemplateCopyWith<
     $R,
     $In extends SelectAttributeTemplate,
     $Out> implements AttributeTemplateCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>? get values;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get values;
   @override
   $R call({String? name, List<String>? values});
   SelectAttributeTemplateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
@@ -127,16 +127,14 @@ class _SelectAttributeTemplateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SelectAttributeTemplate> $mapper =
       SelectAttributeTemplateMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>? get values =>
-      $value.values != null
-          ? ListCopyWith($value.values!,
-              (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(values: v))
-          : null;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get values =>
+      ListCopyWith($value.values, (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(values: v));
   @override
-  $R call({Object? name = $none, Object? values = $none}) =>
+  $R call({Object? name = $none, List<String>? values}) =>
       $apply(FieldCopyWithData({
         if (name != $none) #name: name,
-        if (values != $none) #values: values
+        if (values != null) #values: values
       }));
   @override
   SelectAttributeTemplate $make(CopyWithData data) => SelectAttributeTemplate(

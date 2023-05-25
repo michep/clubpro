@@ -1,8 +1,5 @@
 import 'package:clubpro/models/app_menu.dart';
-import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/service/security_service.dart';
-import 'package:clubpro/service/subnavigator_service.dart';
-import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_edit.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/admin_profile.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_list.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
@@ -18,30 +15,20 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   final _sec = Get.find<SecurityService>();
-  final _subnav = Get.find<SubNavigatorService>();
   Widget? image;
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
       appMenu: AppMenu(
-        userProfile: () => _subnav.pushFirst(
-          SubNavigatorValue<CatalogFolder?>(
-            page: AppPages.adminprofile,
-          ),
-        ),
+        userProfile: () => Get.to(() => const AdminProfile(), id: 1),
         user: _sec.currentUser!,
         items: [
           AppMenuItem(
             title: const Text('Каталог'),
             icon: Icons.folder,
-            action: () => _subnav.pushFirst(
-              SubNavigatorValue<CatalogFolder?>(
-                page: AppPages.admincatalog,
-                forceRefresh: true,
-              ),
-            ),
-          )
+            action: () => Get.offAll(() => const CatalogFoldersList(), id: 1),
+          ),
         ],
         bottomItems: [
           AppMenuItem(
@@ -51,31 +38,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
           )
         ],
       ),
-      child: StreamBuilder<SubNavigatorValue?>(
-        stream: _subnav.subnavStream,
-        builder: (context, snapshot) {
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: _selectPage(snapshot.data),
-          );
+      child: Navigator(
+        key: Get.nestedKey(1),
+        onGenerateRoute: (settings) {
+          return GetPageRoute(page: () => const SizedBox.shrink());
         },
       ),
     );
-  }
-
-  Widget _selectPage(SubNavigatorValue? subnav) {
-    switch (subnav?.page) {
-      case AppPages.admincatalog:
-        return CatalogFoldersList(forceRefresh: subnav!.forceRefresh);
-      case AppPages.adminaddcatalogfolder:
-        return const CatalogFolderEdit();
-      case AppPages.admineditcatalogfolder:
-        return const CatalogFolderEdit();
-      case AppPages.adminprofile:
-        return const AdminProfile();
-      default:
-        return const SizedBox.shrink();
-    }
   }
 
   void logout() async {
