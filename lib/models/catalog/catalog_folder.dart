@@ -72,4 +72,8 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     id ??= newid;
     return this;
   }
+
+  Future<void> delete() async {
+    return await ApiCatalogFolder.deleteFolder(this);
+  }
 }

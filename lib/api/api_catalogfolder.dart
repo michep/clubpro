@@ -1,3 +1,4 @@
+import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/service/dio_service.dart';
 import 'package:dio/dio.dart';
@@ -76,5 +77,17 @@ class ApiCatalogFolder {
     );
     if (res.data == null || res.data!.isEmpty) return null;
     return res.data!['upserted_id'];
+  }
+
+  static Future<void> deleteFolder(CatalogFolder folder) async {
+    if (folder.pictureFileId != null) await ApiFilestore.deleteFile(folder.pictureFileId!);
+    var data = folder.toMap();
+    await dioservice.dio.deleteUri<Map<String, dynamic>>(
+      dioservice.baseUriFunc('/catalog/${folder.id}'),
+      data: data,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
   }
 }

@@ -124,7 +124,7 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   List<Widget> renderAttributes() {
     List<Widget> res = [];
     for (int i = 0; i < widget.folder.attributes.length; i++) {
-      res.add(CatalogFolderAttribute(folder: widget.folder, attributeIdx: i, update: setState));
+      res.add(CatalogFolderAttribute.factory(folder: widget.folder, attributeIdx: i, update: setState));
     }
     return res;
   }

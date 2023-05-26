@@ -1,4 +1,5 @@
 import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/attribute_template/boolean_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/select_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/text_attribute_template.dart';
@@ -6,6 +7,7 @@ import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/boolean_folder_attribute.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/select_folder_attribute.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/text_folder_attribute.dart';
+import 'package:clubpro/service/utils.dart';
 import 'package:flutter/material.dart';
 
 class CatalogFolderAttribute extends StatefulWidget {
@@ -20,60 +22,84 @@ class CatalogFolderAttribute extends StatefulWidget {
     super.key,
   });
 
+  factory CatalogFolderAttribute.factory({
+    required CatalogFolder folder,
+    required int attributeIdx,
+    required void Function(VoidFunction) update,
+    Key? key,
+  }) {
+    switch (folder.attributes[attributeIdx].runtimeType) {
+      case BooleanAttributeTemplate:
+        return BooleanCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+      case TextAttributeTemplate:
+        return TextCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+      case SelectAttributeTemplate:
+        return SelectCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+      default:
+        return CatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+    }
+  }
+
   @override
-  State<CatalogFolderAttribute> createState() => _CatalogFolderAttributeState();
+  State<CatalogFolderAttribute> createState() => CatalogFolderAttributeState();
 }
 
-class _CatalogFolderAttributeState extends State<CatalogFolderAttribute> {
+class CatalogFolderAttributeState<T extends CatalogFolderAttribute, U extends AttributeTemplate> extends State<T> {
+  final TextEditingController namecont = TextEditingController();
+  late U attribute;
+
+  @override
+  void initState() {
+    super.initState();
+    attribute = widget.folder.attributes[widget.attributeIdx] as U;
+    namecont.value = TextEditingValue(text: attribute.name ?? '');
+  }
+
   @override
   Widget build(BuildContext context) {
-    switch (widget.folder.attributes[widget.attributeIdx].runtimeType) {
-      case BooleanAttributeTemplate:
-        return BooleanCatalogFolderAttribute(folder: widget.folder, attributeIdx: widget.attributeIdx, update: widget.update);
-      case SelectAttributeTemplate:
-        return SelectCatalogFolderAttribute(folder: widget.folder, attributeIdx: widget.attributeIdx, update: widget.update);
-      case TextAttributeTemplate:
-        return TextCatalogFolderAttribute(folder: widget.folder, attributeIdx: widget.attributeIdx, update: widget.update);
-      default:
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Выберите тип атрибута',
-                    ),
-                    items: const [
-                      DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
-                      DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
-                      DropdownMenuItem(value: 'text', child: Text('Текстовый атрибут')),
-                    ],
-                    onChanged: (value) {
-                      switch (value) {
-                        case 'boolean':
-                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate());
-                          break;
-                        case 'select':
-                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate());
-                          break;
-                        case 'text':
-                          widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
-                          break;
-                      }
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: deleteAttribute,
-                ),
-              ],
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            content(),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: deleteAttribute,
             ),
-          ),
-        );
-    }
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget content() {
+    return Expanded(
+      child: DropdownButtonFormField<String>(
+        decoration: const InputDecoration(
+          labelText: 'Выберите тип атрибута',
+        ),
+        items: const [
+          DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
+          DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
+          DropdownMenuItem(value: 'text', child: Text('Текстовый атрибут')),
+        ],
+        validator: (value) => Utils.validateNotEmpty(value, 'Нужно выбрать тип атрибута'),
+        onChanged: (value) {
+          switch (value) {
+            case 'boolean':
+              widget.update(() => widget.folder.attributes[widget.attributeIdx] = BooleanAttributeTemplate());
+              break;
+            case 'select':
+              widget.update(() => widget.folder.attributes[widget.attributeIdx] = SelectAttributeTemplate());
+              break;
+            case 'text':
+              widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
+              break;
+          }
+        },
+      ),
+    );
   }
 
   void deleteAttribute() {
