@@ -56,7 +56,7 @@ class _SelectCatalogFolderAttributeState extends CatalogFolderAttributeState<Sel
           Row(
             children: [
               ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 300),
+                constraints: const BoxConstraints(maxWidth: 250),
                 child: TextFormField(
                   controller: valuecont,
                   decoration: const InputDecoration(

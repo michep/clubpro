@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:clubpro/service/dio_service.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ApiFilestore {
@@ -28,6 +28,32 @@ class ApiFilestore {
       options: Options(responseType: ResponseType.bytes),
     );
     return res.data!;
+  }
+
+  static Future<Uint8List> getFileOfNoImageFile(String? fileid) async {
+    Uint8List? res;
+    if (fileid != null) {
+      var resp = await dioservice.dio.getUri<Uint8List>(
+        dioservice.baseUriFunc('/file/$fileid'),
+        options: Options(responseType: ResponseType.bytes),
+      );
+      if (resp.data != null) {
+        res = resp.data!;
+      } else {
+        res = await getNoImageFile();
+      }
+    } else {
+      res = await getNoImageFile();
+    }
+
+    return res;
+  }
+
+  static Uint8List? _noImageData;
+  static Future<Uint8List> getNoImageFile() async {
+    // var asdasd = await rootBundle.loadString('AssetManifest.json');
+    _noImageData ??= (await rootBundle.load('assets/images/no-image.png')).buffer.asUint8List();
+    return _noImageData!;
   }
 
   static Future<void> deleteFile(String fileid) async {

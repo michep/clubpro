@@ -57,6 +57,13 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     return _pictureData;
   }
 
+  Future<Uint8List?> pictureOrNoFile({bool forceRefresh = false}) async {
+    if (pictureFileId == null) return ApiFilestore.getFileOfNoImageFile(null);
+    if (_pictureData != null) return _pictureData;
+    _pictureData = await ApiFilestore.getFile(pictureFileId!);
+    return _pictureData;
+  }
+
   static List<CatalogFolder>? _rootFolders;
   static Future<List<CatalogFolder>?> getFoldersByParent(CatalogFolder? parentFolder, {bool forceRefresh = false}) async {
     if (parentFolder == null) {

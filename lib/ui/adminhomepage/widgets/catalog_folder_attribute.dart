@@ -1,10 +1,14 @@
 import 'package:clubpro/models/app_menu.dart';
 import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/attribute_template/boolean_attribute_template.dart';
+import 'package:clubpro/models/attribute_template/int_attribute_template.dart';
+import 'package:clubpro/models/attribute_template/real_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/select_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/text_attribute_template.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/boolean_folder_attribute.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/int_folder_attribute.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/real_folder_attribute.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/select_folder_attribute.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/text_folder_attribute.dart';
 import 'package:clubpro/service/utils.dart';
@@ -35,6 +39,10 @@ class CatalogFolderAttribute extends StatefulWidget {
         return TextCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
       case SelectAttributeTemplate:
         return SelectCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+      case IntAttributeTemplate:
+        return IntCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+      case RealAttributeTemplate:
+        return RealCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
       default:
         return CatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
     }
@@ -83,6 +91,8 @@ class CatalogFolderAttributeState<T extends CatalogFolderAttribute, U extends At
           DropdownMenuItem(value: 'boolean', child: Text('Логический атрибут')),
           DropdownMenuItem(value: 'select', child: Text('Атрибут выбора одного значения')),
           DropdownMenuItem(value: 'text', child: Text('Текстовый атрибут')),
+          DropdownMenuItem(value: 'int', child: Text('Целый числовой атрибут')),
+          DropdownMenuItem(value: 'real', child: Text('Десятичный числовой атрибут')),
         ],
         validator: (value) => Utils.validateNotEmpty(value, 'Нужно выбрать тип атрибута'),
         onChanged: (value) {
@@ -95,6 +105,12 @@ class CatalogFolderAttributeState<T extends CatalogFolderAttribute, U extends At
               break;
             case 'text':
               widget.update(() => widget.folder.attributes[widget.attributeIdx] = TextAttributeTemplate());
+              break;
+            case 'int':
+              widget.update(() => widget.folder.attributes[widget.attributeIdx] = IntAttributeTemplate());
+              break;
+            case 'real':
+              widget.update(() => widget.folder.attributes[widget.attributeIdx] = RealAttributeTemplate());
               break;
           }
         },

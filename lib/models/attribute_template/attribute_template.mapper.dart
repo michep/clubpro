@@ -15,6 +15,8 @@ class AttributeTemplateMapper extends ClassMapperBase<AttributeTemplate> {
       BooleanAttributeTemplateMapper.ensureInitialized();
       SelectAttributeTemplateMapper.ensureInitialized();
       TextAttributeTemplateMapper.ensureInitialized();
+      IntAttributeTemplateMapper.ensureInitialized();
+      RealAttributeTemplateMapper.ensureInitialized();
     }
     return _instance!;
   }
