@@ -17,6 +17,7 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
   final String? pictureFileId;
   final String? seo;
   late final List<AttributeTemplate> attributes;
+  late final List<String> breadcrumbs;
 
   CatalogFolder({
     super.id,
@@ -26,12 +27,16 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
     this.pictureFileId,
     this.seo,
     List<AttributeTemplate>? attributes,
+    List<String>? breadcrumbs,
   }) {
     this.attributes = attributes ?? [];
+    this.breadcrumbs = breadcrumbs ?? [];
   }
 
   static const fromJson = CatalogFolderMapper.fromJson;
   static const fromMap = CatalogFolderMapper.fromMap;
+
+  String get breadcrumbstring => '/ ${<String>[...breadcrumbs, name != null ? name! : ''].join(' / ')}';
 
   CatalogFolder? _parentFolder;
   Future<CatalogFolder?> parentFolder({bool forceRefresh = false}) async {

@@ -13,8 +13,8 @@ class Product extends BaseModel with ProductMappable {
   final String? primaryFolderId;
   @MappableField(key: 'secondaryfolder_ids')
   final List<String>? secondaryFolderIds;
-  @MappableField(key: 'picture_file_id')
-  final String? pictureFileId;
+  @MappableField(key: 'picture_file_ids')
+  final List<String>? pictureFileIds;
   @MappableField(key: 'video_link')
   final String? videoLink;
   @MappableField(key: 'vendor_code')
@@ -26,7 +26,7 @@ class Product extends BaseModel with ProductMappable {
     this.altName,
     this.primaryFolderId,
     this.secondaryFolderIds,
-    this.pictureFileId,
+    this.pictureFileIds,
     this.videoLink,
     this.vendorCode,
     this.description,

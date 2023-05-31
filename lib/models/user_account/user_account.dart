@@ -93,4 +93,10 @@ class UserAccount extends BaseModel with UserAccountMappable {
     _avatarData = await ApiFilestore.getFile(avatarFileId!);
     return _avatarData;
   }
+
+  static List<UserAccount>? _usersList;
+  static Future<List<UserAccount>> getUsers({bool forceRefresh = false}) async {
+    if (_usersList == null || forceRefresh) _usersList = await ApiUser.getUsersList();
+    return _usersList!;
+  }
 }

@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:clubpro/models/user_account/admin_user_account.dart';
+import 'package:clubpro/models/user_account/business_user_account.dart';
+import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/ui/adminhomepage/pages/admin_home_page.dart';
 import 'package:clubpro/service/security_service.dart';
+import 'package:clubpro/ui/businesshomepage/pages/business_home_page.dart';
 import 'package:clubpro/ui/loginpage/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,17 +46,10 @@ class _ClubProAppState extends State<ClubProApp> {
     );
   }
 
-  void dispatch(SecurityState? state) {
-    switch (state) {
-      case SecurityState.loggedout:
-        Get.offAll(() => const LoginPage());
-        break;
-      case SecurityState.loggedin:
-        Get.offAll(() => const AdminHomePage());
-        break;
-      default:
-        break;
-    }
+  void dispatch(UserAccount? user) {
+    if (user is UserAccount && user.id == '') Get.offAll(() => const LoginPage());
+    if (user is AdminUserAccount) Get.offAll(() => const AdminHomePage());
+    if (user is BusinessUserAccount) Get.offAll(() => const BusinessHomePage());
   }
 }
 

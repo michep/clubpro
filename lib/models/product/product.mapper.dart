@@ -42,10 +42,10 @@ class ProductMapper extends SubClassMapperBase<Product> {
   static const Field<Product, List<String>> _f$secondaryFolderIds = Field(
       'secondaryFolderIds', _$secondaryFolderIds,
       key: 'secondaryfolder_ids', opt: true);
-  static String? _$pictureFileId(Product v) => v.pictureFileId;
-  static const Field<Product, String> _f$pictureFileId = Field(
-      'pictureFileId', _$pictureFileId,
-      key: 'picture_file_id', opt: true);
+  static List<String>? _$pictureFileIds(Product v) => v.pictureFileIds;
+  static const Field<Product, List<String>> _f$pictureFileIds = Field(
+      'pictureFileIds', _$pictureFileIds,
+      key: 'picture_file_ids', opt: true);
   static String? _$videoLink(Product v) => v.videoLink;
   static const Field<Product, String> _f$videoLink =
       Field('videoLink', _$videoLink, key: 'video_link', opt: true);
@@ -63,7 +63,7 @@ class ProductMapper extends SubClassMapperBase<Product> {
     #altName: _f$altName,
     #primaryFolderId: _f$primaryFolderId,
     #secondaryFolderIds: _f$secondaryFolderIds,
-    #pictureFileId: _f$pictureFileId,
+    #pictureFileIds: _f$pictureFileIds,
     #videoLink: _f$videoLink,
     #vendorCode: _f$vendorCode,
     #description: _f$description,
@@ -83,7 +83,7 @@ class ProductMapper extends SubClassMapperBase<Product> {
         altName: data.dec(_f$altName),
         primaryFolderId: data.dec(_f$primaryFolderId),
         secondaryFolderIds: data.dec(_f$secondaryFolderIds),
-        pictureFileId: data.dec(_f$pictureFileId),
+        pictureFileIds: data.dec(_f$pictureFileIds),
         videoLink: data.dec(_f$videoLink),
         vendorCode: data.dec(_f$vendorCode),
         description: data.dec(_f$description));
@@ -139,6 +139,8 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
     implements BaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
       get secondaryFolderIds;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
+      get pictureFileIds;
   @override
   $R call(
       {String? id,
@@ -146,7 +148,7 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
       String? altName,
       String? primaryFolderId,
       List<String>? secondaryFolderIds,
-      String? pictureFileId,
+      List<String>? pictureFileIds,
       String? videoLink,
       String? vendorCode,
       String? description});
@@ -170,13 +172,21 @@ class _ProductCopyWithImpl<$R, $Out>
               (v) => call(secondaryFolderIds: v))
           : null;
   @override
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
+      get pictureFileIds => $value.pictureFileIds != null
+          ? ListCopyWith(
+              $value.pictureFileIds!,
+              (v, t) => ObjectCopyWith(v, $identity, t),
+              (v) => call(pictureFileIds: v))
+          : null;
+  @override
   $R call(
           {Object? id = $none,
           Object? name = $none,
           Object? altName = $none,
           Object? primaryFolderId = $none,
           Object? secondaryFolderIds = $none,
-          Object? pictureFileId = $none,
+          Object? pictureFileIds = $none,
           Object? videoLink = $none,
           Object? vendorCode = $none,
           Object? description = $none}) =>
@@ -187,7 +197,7 @@ class _ProductCopyWithImpl<$R, $Out>
         if (primaryFolderId != $none) #primaryFolderId: primaryFolderId,
         if (secondaryFolderIds != $none)
           #secondaryFolderIds: secondaryFolderIds,
-        if (pictureFileId != $none) #pictureFileId: pictureFileId,
+        if (pictureFileIds != $none) #pictureFileIds: pictureFileIds,
         if (videoLink != $none) #videoLink: videoLink,
         if (vendorCode != $none) #vendorCode: vendorCode,
         if (description != $none) #description: description
@@ -200,7 +210,7 @@ class _ProductCopyWithImpl<$R, $Out>
       primaryFolderId: data.get(#primaryFolderId, or: $value.primaryFolderId),
       secondaryFolderIds:
           data.get(#secondaryFolderIds, or: $value.secondaryFolderIds),
-      pictureFileId: data.get(#pictureFileId, or: $value.pictureFileId),
+      pictureFileIds: data.get(#pictureFileIds, or: $value.pictureFileIds),
       videoLink: data.get(#videoLink, or: $value.videoLink),
       vendorCode: data.get(#vendorCode, or: $value.vendorCode),
       description: data.get(#description, or: $value.description));

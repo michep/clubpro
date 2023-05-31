@@ -27,9 +27,9 @@ class DioService {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           if (_secureService.jwt != null) {
-            if (JwtDecoder.isExpired(_secureService.jwt!) && _secureService.account != null) {
+            if (JwtDecoder.isExpired(_secureService.jwt!) && _secureService.currentAccount != null) {
               _secureService.clearJWT();
-              await _secureService.login(_secureService.account!.login, _secureService.account!.password, persist: false);
+              await _secureService.login(_secureService.currentAccount!.login, _secureService.currentAccount!.password, persist: false);
               if (_secureService.jwt == null) {
                 _secureService.logout();
                 handler.reject(DioError(requestOptions: options, type: DioErrorType.cancel, message: 'Token error'));

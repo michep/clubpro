@@ -23,41 +23,55 @@ class _CatalogFoldersListState extends State<CatalogFoldersList> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        FutureBuilder<List<CatalogFolder>?>(
-          future: CatalogFolder.getFoldersByParent(widget.folder, forceRefresh: forceRefresh),
-          builder: (context, snapshot) {
-            forceRefresh = false;
-            if (snapshot.connectionState != ConnectionState.done) return Utils.circularProgressIndicator();
-            return RefreshIndicator(
-              onRefresh: () async {
-                setState(() {
-                  forceRefresh = true;
-                });
-              },
-              child: ListView(
-                children: [
-                  if (widget.folder != null)
-                    ListTile(
-                      onTap: () => Get.back(id: 1),
-                      leading: const Icon(Icons.chevron_left),
-                      title: const Text('BACK'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            widget.folder == null ? const Text('/') : Text(widget.folder!.breadcrumbstring),
+            Expanded(
+              child: FutureBuilder<List<CatalogFolder>?>(
+                future: CatalogFolder.getFoldersByParent(widget.folder, forceRefresh: forceRefresh),
+                builder: (context, snapshot) {
+                  forceRefresh = false;
+                  if (snapshot.connectionState != ConnectionState.done) return Utils.circularProgressIndicator();
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      setState(() {
+                        forceRefresh = true;
+                      });
+                    },
+                    child: ListView(
+                      children: [
+                        if (widget.folder != null)
+                          ListTile(
+                            onTap: () => Get.back(id: 1),
+                            leading: const Icon(Icons.chevron_left),
+                            title: const Text('BACK'),
+                          ),
+                        if (snapshot.data != null)
+                          ...snapshot.data!
+                              .map((e) => ListTile(
+                                    onTap: () => Get.to(() => CatalogFoldersList(folder: e), id: 1),
+                                    title: Text(e.name!),
+                                    subtitle: Text('Order: ${e.order?.toString() ?? ''}'),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () => editFolder(e),
+                                    ),
+                                  ))
+                              .toList(),
+                        // ListTile(
+                        //   title: Text('Добавить новую папку'),
+                        //   trailing: Icon(Icons.add),
+                        //   onTap: createFolder,
+                        // ),
+                      ],
                     ),
-                  if (snapshot.data != null)
-                    ...snapshot.data!
-                        .map((e) => ListTile(
-                              onTap: () => Get.to(() => CatalogFoldersList(folder: e), id: 1),
-                              title: Text(e.name!),
-                              subtitle: Text('Order: ${e.order?.toString() ?? ''}'),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () => editFolder(e),
-                              ),
-                            ))
-                        .toList(),
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         ),
         Align(
           alignment: Alignment.bottomRight,

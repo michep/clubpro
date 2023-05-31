@@ -1,20 +1,19 @@
 import 'package:clubpro/models/app_menu.dart';
 import 'package:clubpro/service/security_service.dart';
-import 'package:clubpro/ui/adminhomepage/widgets/admin_profile.dart';
-import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_list.dart';
-import 'package:clubpro/ui/adminhomepage/widgets/users_list.dart';
+import 'package:clubpro/ui/businesshomepage/widgets/business_profile.dart';
+import 'package:clubpro/ui/businesshomepage/widgets/products_list.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+class BusinessHomePage extends StatefulWidget {
+  const BusinessHomePage({super.key});
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  State<BusinessHomePage> createState() => _BusinessHomePageState();
 }
 
-class _AdminHomePageState extends State<AdminHomePage> {
+class _BusinessHomePageState extends State<BusinessHomePage> {
   final _sec = Get.find<SecurityService>();
 
   @override
@@ -29,18 +28,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
       },
       child: ScaffoldRoot(
         appMenu: AppMenu(
-          userProfile: () => Get.to(() => const AdminProfile(), id: 1),
+          userProfile: () => Get.to(() => const BusinessProfile(), id: 1),
           user: _sec.currentUser!,
           items: [
             AppMenuItem(
-              title: const Text('Каталог'),
+              title: const Text('Продукты'),
               icon: Icons.folder,
-              action: () => Get.to(() => const CatalogFoldersList(), id: 1),
-            ),
-            AppMenuItem(
-              title: const Text('Пользователи'),
-              icon: Icons.person_3,
-              action: () => Get.to(() => const UsersList(), id: 1),
+              action: () => Get.to(() => const ProductsList(), id: 1),
             ),
           ],
           bottomItems: [

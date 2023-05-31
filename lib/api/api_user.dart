@@ -14,6 +14,14 @@ class ApiUser {
     }
   }
 
+  static Future<List<UserAccount>> getUsersList() async {
+    var res = await dioservice.dio.getUri<List>(
+      dioservice.baseUriFunc('/user'),
+    );
+    if (res.data == null || res.data!.isEmpty) return [];
+    return res.data!.map((value) => UserAccount.fromMap(value)).toList();
+  }
+
   static Future<String?> createUser(UserAccount user) async {
     var data = user.toMap()..remove('_id');
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(

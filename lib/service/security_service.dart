@@ -4,7 +4,7 @@ import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum SecurityState { loggedout, loggedin }
+// enum SecurityState { loggedout, loggedin }
 
 class SecurityAccount {
   final String login;
@@ -15,24 +15,18 @@ class SecurityAccount {
 
 class SecurityService {
   String? _jwt;
-  SecurityAccount? _account;
-  UserAccount? _currentUser;
+  SecurityAccount? _currentAccount;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  final BehaviorSubject<SecurityState?> _stateUpdateController = BehaviorSubject();
+  final BehaviorSubject<UserAccount?> _userUpdateController = BehaviorSubject();
 
   SecurityService() {
-    _stateUpdateController.add(null);
+    _userUpdateController.add(null);
   }
 
   String? get jwt => _jwt;
-  SecurityAccount? get account => _account;
-  UserAccount? get currentUser => _currentUser;
-  SecurityState? get currentState => _stateUpdateController.value;
-  Stream<SecurityState?> get securityStateStream => _stateUpdateController.stream;
-
-  void setCurrentUser(UserAccount? user) {
-    _setState(_stateUpdateController.value, user);
-  }
+  SecurityAccount? get currentAccount => _currentAccount;
+  UserAccount? get currentUser => _userUpdateController.value;
+  Stream<UserAccount?> get securityStateStream => _userUpdateController.stream;
 
   Future<void> init() async {
     var login = await _storage.read(key: 'login');
@@ -53,38 +47,34 @@ class SecurityService {
     _jwt = token;
     var user = await ApiUser.getUserByLogin(login);
     if (user == null) {
-      _setState(SecurityState.loggedout, null);
+      _setState(null);
       return null;
     }
-    _account = SecurityAccount(login, password);
+    _currentAccount = SecurityAccount(login, password);
     if (persist) await _saveAccount();
-    _setState(SecurityState.loggedin, user);
+    _setState(user);
     return user;
   }
 
   Future<void> logout() async {
     _jwt = null;
-    _account = null;
+    _currentAccount = null;
     await _saveAccount();
-    _setState(SecurityState.loggedout, null);
+    _setState(UserAccount(id: ''));
   }
 
   void clearJWT() {
     _jwt = null;
   }
 
-  void _setState(SecurityState? newstate, UserAccount? user) {
-    if (currentState == newstate && currentUser == user) return;
-    if (currentState != newstate) {
-      _stateUpdateController.add(newstate);
-    }
+  void _setState(UserAccount? user) {
     if (currentUser != user) {
-      _currentUser = user;
+      _userUpdateController.add(user);
     }
   }
 
   Future<void> _saveAccount() async {
-    await _storage.write(key: 'login', value: _account?.login);
-    await _storage.write(key: 'password', value: _account?.password);
+    await _storage.write(key: 'login', value: _currentAccount?.login);
+    await _storage.write(key: 'password', value: _currentAccount?.password);
   }
 }

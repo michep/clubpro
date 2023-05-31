@@ -49,6 +49,9 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
   static List<AttributeTemplate> _$attributes(CatalogFolder v) => v.attributes;
   static const Field<CatalogFolder, List<AttributeTemplate>> _f$attributes =
       Field('attributes', _$attributes, opt: true);
+  static List<String> _$breadcrumbs(CatalogFolder v) => v.breadcrumbs;
+  static const Field<CatalogFolder, List<String>> _f$breadcrumbs =
+      Field('breadcrumbs', _$breadcrumbs, opt: true);
 
   @override
   final Map<Symbol, Field<CatalogFolder, dynamic>> fields = const {
@@ -59,6 +62,7 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
     #pictureFileId: _f$pictureFileId,
     #seo: _f$seo,
     #attributes: _f$attributes,
+    #breadcrumbs: _f$breadcrumbs,
   };
 
   @override
@@ -76,7 +80,8 @@ class CatalogFolderMapper extends SubClassMapperBase<CatalogFolder> {
         order: data.dec(_f$order),
         pictureFileId: data.dec(_f$pictureFileId),
         seo: data.dec(_f$seo),
-        attributes: data.dec(_f$attributes));
+        attributes: data.dec(_f$attributes),
+        breadcrumbs: data.dec(_f$breadcrumbs));
   }
 
   @override
@@ -132,6 +137,7 @@ abstract class CatalogFolderCopyWith<$R, $In extends CatalogFolder, $Out>
   ListCopyWith<$R, AttributeTemplate,
           AttributeTemplateCopyWith<$R, AttributeTemplate, AttributeTemplate>>
       get attributes;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get breadcrumbs;
   @override
   $R call(
       {String? id,
@@ -140,7 +146,8 @@ abstract class CatalogFolderCopyWith<$R, $In extends CatalogFolder, $Out>
       int? order,
       String? pictureFileId,
       String? seo,
-      List<AttributeTemplate>? attributes});
+      List<AttributeTemplate>? attributes,
+      List<String>? breadcrumbs});
   CatalogFolderCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -158,6 +165,12 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
       get attributes => ListCopyWith($value.attributes,
           (v, t) => v.copyWith.$chain(t), (v) => call(attributes: v));
   @override
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>
+      get breadcrumbs => ListCopyWith(
+          $value.breadcrumbs,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(breadcrumbs: v));
+  @override
   $R call(
           {Object? id = $none,
           Object? name = $none,
@@ -165,7 +178,8 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
           Object? order = $none,
           Object? pictureFileId = $none,
           Object? seo = $none,
-          Object? attributes = $none}) =>
+          Object? attributes = $none,
+          Object? breadcrumbs = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (name != $none) #name: name,
@@ -173,7 +187,8 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
         if (order != $none) #order: order,
         if (pictureFileId != $none) #pictureFileId: pictureFileId,
         if (seo != $none) #seo: seo,
-        if (attributes != $none) #attributes: attributes
+        if (attributes != $none) #attributes: attributes,
+        if (breadcrumbs != $none) #breadcrumbs: breadcrumbs
       }));
   @override
   CatalogFolder $make(CopyWithData data) => CatalogFolder(
@@ -183,7 +198,8 @@ class _CatalogFolderCopyWithImpl<$R, $Out>
       order: data.get(#order, or: $value.order),
       pictureFileId: data.get(#pictureFileId, or: $value.pictureFileId),
       seo: data.get(#seo, or: $value.seo),
-      attributes: data.get(#attributes, or: $value.attributes));
+      attributes: data.get(#attributes, or: $value.attributes),
+      breadcrumbs: data.get(#breadcrumbs, or: $value.breadcrumbs));
 
   @override
   CatalogFolderCopyWith<$R2, CatalogFolder, $Out2> $chain<$R2, $Out2>(
