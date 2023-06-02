@@ -1,7 +1,7 @@
-import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/businesshomepage/widgets/business_profile.dart';
-import 'package:clubpro/ui/businesshomepage/widgets/products_list.dart';
+import 'package:clubpro/ui/businesshomepage/widgets/products_grid.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,7 +34,7 @@ class _BusinessHomePageState extends State<BusinessHomePage> {
             AppMenuItem(
               title: const Text('Продукты'),
               icon: Icons.folder,
-              action: () => Get.to(() => const ProductsList(), id: 1),
+              action: () => Get.to(() => const ProductsGrid(), id: 1),
             ),
           ],
           bottomItems: [

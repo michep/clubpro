@@ -37,7 +37,7 @@ class BooleanAttributeTemplateMapper
   };
 
   @override
-  final String discriminatorKey = '_attributeType';
+  final String discriminatorKey = '_attributeTemplateType';
   @override
   final dynamic discriminatorValue = 'BooleanAttributeTemplate';
   @override

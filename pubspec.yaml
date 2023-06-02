@@ -48,6 +48,7 @@ dependencies:
   rxdart: ^0.27.7
   mask_text_input_formatter: ^2.4.0
   file_picker: ^5.3.0
+  objectid: ^2.1.0
 
 dev_dependencies:
   flutter_test:

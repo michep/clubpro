@@ -7,13 +7,15 @@ import 'package:get/get.dart';
 class ApiFilestore {
   static final dioservice = Get.find<DioService>();
 
-  static Future<String?> uploadFile(String filename, Uint8List data) async {
+  static Future<String?> uploadFile(String filename, Uint8List data, {String? id}) async {
+    var map = {
+      if (id != null) '_id': id,
+      'filename': filename,
+      'data': base64.encode(data),
+    };
     var res = await dioservice.dio.putUri<Map<String, dynamic>>(
       dioservice.baseUriFunc('/file'),
-      data: {
-        'filename': filename,
-        'data': base64.encode(data),
-      },
+      data: map,
       options: Options(
         contentType: 'application/json',
       ),
@@ -30,35 +32,25 @@ class ApiFilestore {
     return res.data!;
   }
 
-  static Future<Uint8List> getFileOfNoImageFile(String? fileid) async {
-    Uint8List? res;
-    if (fileid != null) {
-      var resp = await dioservice.dio.getUri<Uint8List>(
-        dioservice.baseUriFunc('/file/$fileid'),
-        options: Options(responseType: ResponseType.bytes),
-      );
-      if (resp.data != null) {
-        res = resp.data!;
-      } else {
-        res = await getNoImageFile();
-      }
-    } else {
-      res = await getNoImageFile();
-    }
-
-    return res;
-  }
-
-  static Uint8List? _noImageData;
-  static Future<Uint8List> getNoImageFile() async {
-    // var asdasd = await rootBundle.loadString('AssetManifest.json');
-    _noImageData ??= (await rootBundle.load('assets/images/no-image.png')).buffer.asUint8List();
-    return _noImageData!;
-  }
-
   static Future<void> deleteFile(String fileid) async {
     await dioservice.dio.deleteUri(
       dioservice.baseUriFunc('/file/$fileid'),
     );
+  }
+
+  static Future<void> deleteFiles(List<String> ids) async {
+    await dioservice.dio.postUri(
+      dioservice.baseUriFunc('/file/delete'),
+      data: ids,
+      options: Options(
+        contentType: 'application/json',
+      ),
+    );
+  }
+
+  static Uint8List? _noImageData;
+  static Future<Uint8List> getNoImageFile() async {
+    _noImageData ??= (await rootBundle.load('assets/images/no-image.png')).buffer.asUint8List();
+    return _noImageData!;
   }
 }

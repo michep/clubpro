@@ -1,4 +1,4 @@
-import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/attribute_template/boolean_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/int_attribute_template.dart';

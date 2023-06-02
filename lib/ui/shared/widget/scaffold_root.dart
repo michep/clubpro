@@ -1,4 +1,4 @@
-import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_desktop.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_mobile.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_tablet.dart';

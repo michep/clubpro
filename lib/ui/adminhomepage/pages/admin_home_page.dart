@@ -1,7 +1,7 @@
-import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/admin_profile.dart';
-import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_list.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_grid.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/users_list.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             AppMenuItem(
               title: const Text('Каталог'),
               icon: Icons.folder,
-              action: () => Get.to(() => const CatalogFoldersList(), id: 1),
+              action: () => Get.to(() => const CatalogFoldersGrid(), id: 1),
             ),
             AppMenuItem(
               title: const Text('Пользователи'),

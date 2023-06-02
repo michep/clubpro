@@ -1,5 +1,5 @@
-import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
+import 'package:clubpro/models/catalog/product.dart';
 import 'package:clubpro/service/dio_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -29,12 +29,12 @@ class ApiCatalogFolder {
     return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
   }
 
-  static Future<List<CatalogFolder>> getProducts(String id, FolderProductType type) async {
+  static Future<List<Product>> getProducts(String id, FolderProductType type) async {
     var res = await dioservice.dio.getUri<List>(
-      dioservice.baseUriFunc('/catalog/$id/products/$type'),
+      dioservice.baseUriFunc('/catalog/$id/products/${type.name}'),
     );
     if (res.data == null || res.data!.isEmpty) return [];
-    return res.data!.map<CatalogFolder>((e) => CatalogFolder.fromMap(e as Map<String, dynamic>)).toList();
+    return res.data!.map<Product>((e) => Product.fromMap(e as Map<String, dynamic>)).toList();
   }
 
   static Future<List<CatalogFolder>> getRootFolders() async {
@@ -79,15 +79,15 @@ class ApiCatalogFolder {
     return res.data!['upserted_id'];
   }
 
-  static Future<void> deleteFolder(CatalogFolder folder) async {
-    if (folder.pictureFileId != null) await ApiFilestore.deleteFile(folder.pictureFileId!);
-    var data = folder.toMap();
-    await dioservice.dio.deleteUri<Map<String, dynamic>>(
-      dioservice.baseUriFunc('/catalog/${folder.id}'),
-      data: data,
-      options: Options(
-        contentType: 'application/json',
-      ),
-    );
-  }
+  // static Future<void> deleteFolder(CatalogFolder folder) async {
+  //   if (folder.pictureFileId != null) await ApiFilestore.deleteFile(folder.pictureFileId!);
+  //   var data = folder.toMap();
+  //   await dioservice.dio.deleteUri<Map<String, dynamic>>(
+  //     dioservice.baseUriFunc('/catalog/${folder.id}'),
+  //     data: data,
+  //     options: Options(
+  //       contentType: 'application/json',
+  //     ),
+  //   );
+  // }
 }

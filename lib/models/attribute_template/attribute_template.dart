@@ -8,7 +8,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 part 'attribute_template.mapper.dart';
 
 @MappableClass(
-  discriminatorKey: '_attributeType',
+  discriminatorKey: '_attributeTemplateType',
   includeSubClasses: [
     BooleanAttributeTemplate,
     SelectAttributeTemplate,

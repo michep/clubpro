@@ -1,4 +1,4 @@
-import 'package:clubpro/models/app_menu.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldDesktop extends StatelessWidget {

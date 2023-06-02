@@ -12,7 +12,9 @@ class ProductMapper extends SubClassMapperBase<Product> {
   static ProductMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProductMapper._());
-      BaseModelMapper.ensureInitialized().addSubMapper(_instance!);
+      CatalogElementMapper.ensureInitialized().addSubMapper(_instance!);
+      FileSetMapper.ensureInitialized();
+      AttributeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -31,21 +33,13 @@ class ProductMapper extends SubClassMapperBase<Product> {
   static String? _$name(Product v) => v.name;
   static const Field<Product, String> _f$name =
       Field('name', _$name, opt: true);
+  static String? _$parentFolderId(Product v) => v.parentFolderId;
+  static const Field<Product, String> _f$parentFolderId = Field(
+      'parentFolderId', _$parentFolderId,
+      key: 'parentfolder_id', opt: true);
   static String? _$altName(Product v) => v.altName;
   static const Field<Product, String> _f$altName =
       Field('altName', _$altName, key: 'alt_name', opt: true);
-  static String? _$primaryFolderId(Product v) => v.primaryFolderId;
-  static const Field<Product, String> _f$primaryFolderId = Field(
-      'primaryFolderId', _$primaryFolderId,
-      key: 'parentfolder_id', opt: true);
-  static List<String>? _$secondaryFolderIds(Product v) => v.secondaryFolderIds;
-  static const Field<Product, List<String>> _f$secondaryFolderIds = Field(
-      'secondaryFolderIds', _$secondaryFolderIds,
-      key: 'secondaryfolder_ids', opt: true);
-  static List<String>? _$pictureFileIds(Product v) => v.pictureFileIds;
-  static const Field<Product, List<String>> _f$pictureFileIds = Field(
-      'pictureFileIds', _$pictureFileIds,
-      key: 'picture_file_ids', opt: true);
   static String? _$videoLink(Product v) => v.videoLink;
   static const Field<Product, String> _f$videoLink =
       Field('videoLink', _$videoLink, key: 'video_link', opt: true);
@@ -55,38 +49,56 @@ class ProductMapper extends SubClassMapperBase<Product> {
   static String? _$description(Product v) => v.description;
   static const Field<Product, String> _f$description =
       Field('description', _$description, opt: true);
+  static String? _$tags(Product v) => v.tags;
+  static const Field<Product, String> _f$tags =
+      Field('tags', _$tags, opt: true);
+  static FileSet _$pictures(Product v) => v.pictures;
+  static const Field<Product, FileSet> _f$pictures =
+      Field('pictures', _$pictures, opt: true);
+  static List<String> _$secondaryFolderIds(Product v) => v.secondaryFolderIds;
+  static const Field<Product, List<String>> _f$secondaryFolderIds = Field(
+      'secondaryFolderIds', _$secondaryFolderIds,
+      key: 'secondaryfolder_ids', opt: true);
+  static List<Attribute<dynamic>> _$attributes(Product v) => v.attributes;
+  static const Field<Product, List<Attribute<dynamic>>> _f$attributes =
+      Field('attributes', _$attributes, opt: true);
 
   @override
   final Map<Symbol, Field<Product, dynamic>> fields = const {
     #id: _f$id,
     #name: _f$name,
+    #parentFolderId: _f$parentFolderId,
     #altName: _f$altName,
-    #primaryFolderId: _f$primaryFolderId,
-    #secondaryFolderIds: _f$secondaryFolderIds,
-    #pictureFileIds: _f$pictureFileIds,
     #videoLink: _f$videoLink,
     #vendorCode: _f$vendorCode,
     #description: _f$description,
+    #tags: _f$tags,
+    #pictures: _f$pictures,
+    #secondaryFolderIds: _f$secondaryFolderIds,
+    #attributes: _f$attributes,
   };
 
   @override
-  final String discriminatorKey = '_baseType';
+  final String discriminatorKey = '_elementType';
   @override
   final dynamic discriminatorValue = 'Product';
   @override
-  late final ClassMapperBase superMapper = BaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper =
+      CatalogElementMapper.ensureInitialized();
 
   static Product _instantiate(DecodingData data) {
     return Product(
         id: data.dec(_f$id),
         name: data.dec(_f$name),
+        parentFolderId: data.dec(_f$parentFolderId),
         altName: data.dec(_f$altName),
-        primaryFolderId: data.dec(_f$primaryFolderId),
-        secondaryFolderIds: data.dec(_f$secondaryFolderIds),
-        pictureFileIds: data.dec(_f$pictureFileIds),
         videoLink: data.dec(_f$videoLink),
         vendorCode: data.dec(_f$vendorCode),
-        description: data.dec(_f$description));
+        description: data.dec(_f$description),
+        tags: data.dec(_f$tags),
+        pictures: data.dec(_f$pictures),
+        secondaryFolderIds: data.dec(_f$secondaryFolderIds),
+        attributes: data.dec(_f$attributes));
   }
 
   @override
@@ -136,22 +148,28 @@ extension ProductValueCopy<$R, $Out> on ObjectCopyWith<$R, Product, $Out> {
 }
 
 abstract class ProductCopyWith<$R, $In extends Product, $Out>
-    implements BaseModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
+    implements CatalogElementCopyWith<$R, $In, $Out> {
+  FileSetCopyWith<$R, FileSet, FileSet> get pictures;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>
       get secondaryFolderIds;
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get pictureFileIds;
+  ListCopyWith<
+      $R,
+      Attribute<dynamic>,
+      AttributeCopyWith<$R, Attribute<dynamic>, Attribute<dynamic>,
+          dynamic>> get attributes;
   @override
   $R call(
       {String? id,
       String? name,
+      String? parentFolderId,
       String? altName,
-      String? primaryFolderId,
-      List<String>? secondaryFolderIds,
-      List<String>? pictureFileIds,
       String? videoLink,
       String? vendorCode,
-      String? description});
+      String? description,
+      String? tags,
+      FileSet? pictures,
+      List<String>? secondaryFolderIds,
+      List<Attribute<dynamic>>? attributes});
   ProductCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -164,56 +182,62 @@ class _ProductCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Product> $mapper =
       ProductMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get secondaryFolderIds => $value.secondaryFolderIds != null
-          ? ListCopyWith(
-              $value.secondaryFolderIds!,
-              (v, t) => ObjectCopyWith(v, $identity, t),
-              (v) => call(secondaryFolderIds: v))
-          : null;
+  FileSetCopyWith<$R, FileSet, FileSet> get pictures =>
+      ($value.pictures as FileSet).copyWith.$chain((v) => call(pictures: v));
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
-      get pictureFileIds => $value.pictureFileIds != null
-          ? ListCopyWith(
-              $value.pictureFileIds!,
-              (v, t) => ObjectCopyWith(v, $identity, t),
-              (v) => call(pictureFileIds: v))
-          : null;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>
+      get secondaryFolderIds => ListCopyWith(
+          $value.secondaryFolderIds,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(secondaryFolderIds: v));
+  @override
+  ListCopyWith<
+      $R,
+      Attribute<dynamic>,
+      AttributeCopyWith<$R, Attribute<dynamic>, Attribute<dynamic>,
+          dynamic>> get attributes => ListCopyWith($value.attributes,
+      (v, t) => v.copyWith.$chain(t), (v) => call(attributes: v));
   @override
   $R call(
           {Object? id = $none,
           Object? name = $none,
+          Object? parentFolderId = $none,
           Object? altName = $none,
-          Object? primaryFolderId = $none,
-          Object? secondaryFolderIds = $none,
-          Object? pictureFileIds = $none,
           Object? videoLink = $none,
           Object? vendorCode = $none,
-          Object? description = $none}) =>
+          Object? description = $none,
+          Object? tags = $none,
+          Object? pictures = $none,
+          Object? secondaryFolderIds = $none,
+          Object? attributes = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (name != $none) #name: name,
+        if (parentFolderId != $none) #parentFolderId: parentFolderId,
         if (altName != $none) #altName: altName,
-        if (primaryFolderId != $none) #primaryFolderId: primaryFolderId,
-        if (secondaryFolderIds != $none)
-          #secondaryFolderIds: secondaryFolderIds,
-        if (pictureFileIds != $none) #pictureFileIds: pictureFileIds,
         if (videoLink != $none) #videoLink: videoLink,
         if (vendorCode != $none) #vendorCode: vendorCode,
-        if (description != $none) #description: description
+        if (description != $none) #description: description,
+        if (tags != $none) #tags: tags,
+        if (pictures != $none) #pictures: pictures,
+        if (secondaryFolderIds != $none)
+          #secondaryFolderIds: secondaryFolderIds,
+        if (attributes != $none) #attributes: attributes
       }));
   @override
   Product $make(CopyWithData data) => Product(
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name),
+      parentFolderId: data.get(#parentFolderId, or: $value.parentFolderId),
       altName: data.get(#altName, or: $value.altName),
-      primaryFolderId: data.get(#primaryFolderId, or: $value.primaryFolderId),
-      secondaryFolderIds:
-          data.get(#secondaryFolderIds, or: $value.secondaryFolderIds),
-      pictureFileIds: data.get(#pictureFileIds, or: $value.pictureFileIds),
       videoLink: data.get(#videoLink, or: $value.videoLink),
       vendorCode: data.get(#vendorCode, or: $value.vendorCode),
-      description: data.get(#description, or: $value.description));
+      description: data.get(#description, or: $value.description),
+      tags: data.get(#tags, or: $value.tags),
+      pictures: data.get(#pictures, or: $value.pictures),
+      secondaryFolderIds:
+          data.get(#secondaryFolderIds, or: $value.secondaryFolderIds),
+      attributes: data.get(#attributes, or: $value.attributes));
 
   @override
   ProductCopyWith<$R2, Product, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

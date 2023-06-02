@@ -1,4 +1,3 @@
-import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/service/utils.dart';
@@ -40,11 +39,11 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
     ordercont.value = TextEditingValue(text: folder.order?.toString() ?? '');
   }
 
-  @override
-  void dispose() {
-    _cleanupPrevPicture(needToCheckPrevFile, folder.pictureFileId);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _cleanupPrevPicture(needToCheckPrevFile, folder.pictureFileId);
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +135,8 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
                         ),
                         TextFormField(
                           controller: seocont,
-                          maxLines: 4,
-                          minLines: 2,
+                          minLines: 1,
+                          maxLines: 6,
                           decoration: const InputDecoration(
                             labelText: 'SEO текст',
                           ),
@@ -201,22 +200,16 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
 
   Future<void> pickpicture() async {
     var res = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: false);
-    if (res != null && res.count > 0) {
-      var fileid = await ApiFilestore.uploadFile(res.names[0]!, res.files[0].bytes!);
-      _cleanupPrevPicture(needToCheckPrevFile, folder.pictureFileId);
-      setState(() {
-        folder = folder.copyWith(pictureFileId: fileid);
-        needToCheckPrevFile = true;
-      });
+    if (res != null && res.count == 1) {
+      widget.folder.pictures.addSingle(res.files[0].name, res.files[0].bytes!);
+      setState(() {});
     }
   }
 
   Future<void> clearpicture() async {
-    if (folder.pictureFileId != null) {
-      _cleanupPrevPicture(needToCheckPrevFile, folder.pictureFileId);
+    if (folder.pictures.isNotEmpty) {
       setState(() {
-        folder = folder.copyWith(pictureFileId: null);
-        needToCheckPrevFile = true;
+        folder.pictures.clear();
       });
     }
   }
@@ -230,8 +223,6 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
         order: int.parse(ordercont.text),
       );
       await folder.save();
-      _cleanupPrevPicture(true, originalFolder.pictureFileId);
-      needToCheckPrevFile = false;
       Get.back<bool>(result: true, id: 1);
     }
   }
@@ -239,11 +230,5 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   Future<void> back() async {
     var refresh = (widget.folder != originalFolder);
     Get.back(result: refresh, id: 1);
-  }
-
-  Future<void> _cleanupPrevPicture(bool check, String? fileId) async {
-    if (check && folder.pictureFileId != originalFolder.pictureFileId && fileId != null) {
-      ApiFilestore.deleteFile(fileId);
-    }
   }
 }

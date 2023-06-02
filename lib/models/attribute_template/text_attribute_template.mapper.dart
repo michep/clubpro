@@ -36,7 +36,7 @@ class TextAttributeTemplateMapper
   };
 
   @override
-  final String discriminatorKey = '_attributeType';
+  final String discriminatorKey = '_attributeTemplateType';
   @override
   final dynamic discriminatorValue = 'TextAttributeTemplate';
   @override

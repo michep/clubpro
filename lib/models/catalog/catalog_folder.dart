@@ -1,34 +1,34 @@
 import 'dart:typed_data';
+
 import 'package:clubpro/api/api_catalogfolder.dart';
 import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/models/attribute_template/attribute_template.dart';
-import 'package:clubpro/models/base_model.dart';
+import 'package:clubpro/models/catalog/catalog_element.dart';
+import 'package:clubpro/models/catalog/product.dart';
+import 'package:clubpro/models/fileset.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
 part 'catalog_folder.mapper.dart';
 
 @MappableClass()
-class CatalogFolder extends BaseModel with CatalogFolderMappable {
-  final String? name;
-  @MappableField(key: 'parentfolder_id')
-  final String? parentFolderId;
+class CatalogFolder extends CatalogElement with CatalogFolderMappable {
   final int? order;
-  @MappableField(key: 'picture_file_id')
-  final String? pictureFileId;
+  late final FileSet pictures;
   final String? seo;
   late final List<AttributeTemplate> attributes;
   late final List<String> breadcrumbs;
 
   CatalogFolder({
     super.id,
-    this.name,
-    this.parentFolderId,
+    super.name,
+    super.parentFolderId,
     this.order,
-    this.pictureFileId,
     this.seo,
+    FileSet? pictures,
     List<AttributeTemplate>? attributes,
     List<String>? breadcrumbs,
   }) {
+    this.pictures = pictures ?? FileSet();
     this.attributes = attributes ?? [];
     this.breadcrumbs = breadcrumbs ?? [];
   }
@@ -38,54 +38,52 @@ class CatalogFolder extends BaseModel with CatalogFolderMappable {
 
   String get breadcrumbstring => '/ ${<String>[...breadcrumbs, name != null ? name! : ''].join(' / ')}';
 
-  CatalogFolder? _parentFolder;
-  Future<CatalogFolder?> parentFolder({bool forceRefresh = false}) async {
-    if (parentFolderId == null) return null;
-    if (_parentFolder != null && !forceRefresh) return _parentFolder;
-    _parentFolder = await ApiCatalogFolder.getCatalogFolderById(parentFolderId!);
-    return _parentFolder;
-  }
-
   List<CatalogFolder>? _subFolders;
-  Future<List<CatalogFolder>?> subFolders({bool forceRefresh = false}) async {
-    if (id == null) return null;
-    if (_subFolders != null && !forceRefresh) return _subFolders;
+  Future<List<CatalogFolder>> subFolders({bool forceRefresh = false}) async {
+    if (id == null) return [];
+    if (_subFolders != null && !forceRefresh) return _subFolders!;
     _subFolders = await ApiCatalogFolder.getSubFolders(id!);
-    return _subFolders;
+    return _subFolders!;
   }
 
-  Uint8List? _pictureData;
-  Future<Uint8List?> picture({bool forceRefresh = false}) async {
-    if (pictureFileId == null) return null;
-    if (_pictureData != null) return _pictureData;
-    _pictureData = await ApiFilestore.getFile(pictureFileId!);
-    return _pictureData;
+  final Map<FolderProductType, List<Product>?> _products = {};
+  Future<List<Product>> products(FolderProductType type, {bool forceRefresh = false}) async {
+    if (id == null) return [];
+    if (_products[type] != null && !forceRefresh) return _products[type]!;
+    _products[type] = await ApiCatalogFolder.getProducts(id!, type);
+    return _products[type]!;
   }
 
   Future<Uint8List?> pictureOrNoFile({bool forceRefresh = false}) async {
-    if (pictureFileId == null) return ApiFilestore.getFileOfNoImageFile(null);
-    if (_pictureData != null) return _pictureData;
-    _pictureData = await ApiFilestore.getFile(pictureFileId!);
-    return _pictureData;
+    if (pictures.isEmpty) return await ApiFilestore.getNoImageFile();
+    return (await pictures[0])!.data;
   }
 
-  static List<CatalogFolder>? _rootFolders;
-  static Future<List<CatalogFolder>?> getFoldersByParent(CatalogFolder? parentFolder, {bool forceRefresh = false}) async {
-    if (parentFolder == null) {
-      if (_rootFolders != null && !forceRefresh) return _rootFolders;
-      _rootFolders = await ApiCatalogFolder.getRootFolders();
-      return _rootFolders;
-    }
-    return await parentFolder.subFolders(forceRefresh: forceRefresh);
+  Future<List<CatalogElement>> subFoldersAndProducts(FolderProductType type, {bool forceRefresh = false}) async {
+    List<CatalogElement> res = [];
+    res.addAll(await subFolders(forceRefresh: forceRefresh));
+    res.addAll(await products(type, forceRefresh: forceRefresh));
+    return res;
   }
 
   Future<CatalogFolder> save() async {
+    await pictures.save();
     var newid = await ApiCatalogFolder.saveFolder(this);
     id ??= newid;
     return this;
   }
 
-  Future<void> delete() async {
-    return await ApiCatalogFolder.deleteFolder(this);
+  // Future<void> delete() async {
+  //   return await ApiCatalogFolder.deleteFolder(this);
+  // }
+
+  static List<CatalogFolder>? _rootFolders;
+  static Future<List<CatalogFolder>> getFoldersByParent(CatalogFolder? parentFolder, {bool forceRefresh = false}) async {
+    if (parentFolder == null) {
+      if (_rootFolders != null && !forceRefresh) return _rootFolders!;
+      _rootFolders = await ApiCatalogFolder.getRootFolders();
+      return _rootFolders!;
+    }
+    return await parentFolder.subFolders(forceRefresh: forceRefresh);
   }
 }
