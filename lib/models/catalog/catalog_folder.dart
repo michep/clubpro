@@ -56,7 +56,7 @@ class CatalogFolder extends CatalogElement with CatalogFolderMappable {
 
   Future<Uint8List?> pictureOrNoFile({bool forceRefresh = false}) async {
     if (pictures.isEmpty) return await ApiFilestore.getNoImageFile();
-    return (await pictures[0])!.data;
+    return (await pictures[0]).data;
   }
 
   Future<List<CatalogElement>> subFoldersAndProducts(FolderProductType type, {bool forceRefresh = false}) async {

@@ -18,7 +18,7 @@ class DBFile {
 }
 
 @MappableClass()
-class FileSet with FileSetMappable {
+class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
   @MappableField(key: 'file_ids')
   late final List<String> fileIds;
   final Map<String, DBFile> _pictureData = {};
@@ -34,18 +34,21 @@ class FileSet with FileSetMappable {
   static const fromJson = FileSetMapper.fromJson;
   static const fromMap = FileSetMapper.fromMap;
 
+  @override
   bool get isEmpty => fileIds.isEmpty && _pictureIdsNew.isEmpty;
+
+  @override
   bool get isNotEmpty => !isEmpty;
 
-  Future<DBFile?> operator [](int idx) async {
-    String? id;
+  Future<DBFile> operator [](int idx) async {
+    String id;
     if (idx < fileIds.length) {
       id = fileIds[idx];
     } else if (idx < _pictureIdsNew.length + fileIds.length) {
       id = _pictureIdsNew[fileIds.length - idx];
+    } else {
+      id = '';
     }
-
-    if (id == null) return null;
 
     if (_pictureData[id] == null) {
       var data = await ApiFilestore.getFile(id);
@@ -71,14 +74,12 @@ class FileSet with FileSetMappable {
 
   void remove(String fileid) {
     _pictureIdsToRemove.add(fileid);
-    // _pictureData.remove(fileid);
     fileIds.remove(fileid);
     _pictureIdsNew.remove(fileid);
   }
 
   void clear() {
     _pictureIdsToRemove.addAll(fileIds);
-    // _pictureData.clear();
     fileIds.clear();
     _pictureIdsNew.clear();
   }
@@ -91,5 +92,51 @@ class FileSet with FileSetMappable {
     fileIds.addAll(_pictureIdsNew);
     _pictureIdsToRemove.clear();
     _pictureIdsNew.clear();
+  }
+
+  @override
+  Iterator<Future<DBFile>> get iterator => FileSetIterator(fileIds: fileIds, pictureData: _pictureData, pictureIdsNew: _pictureIdsNew);
+}
+
+class FileSetIterator extends Iterator<Future<DBFile>> {
+  int idx = -1;
+  Future<DBFile>? _current;
+  final List<String> fileIds;
+  final Map<String, DBFile> pictureData;
+  final List<String> pictureIdsNew;
+
+  FileSetIterator({
+    required this.fileIds,
+    required this.pictureIdsNew,
+    required this.pictureData,
+  });
+
+  @override
+  Future<DBFile> get current {
+    return _current != null ? _current! : throw 'fault call for current';
+  }
+
+  @override
+  bool moveNext() {
+    idx++;
+    String id;
+    if (idx < fileIds.length) {
+      id = fileIds[idx];
+    } else if (idx < pictureIdsNew.length + fileIds.length) {
+      id = pictureIdsNew[idx - fileIds.length];
+    } else {
+      _current = null;
+      return false;
+    }
+
+    if (pictureData[id] == null) {
+      _current = ApiFilestore.getFile(id).then((value) {
+        pictureData[id] = DBFile(id: id, data: value);
+        return pictureData[id]!;
+      });
+    } else {
+      _current = Future(() => pictureData[id]!);
+    }
+    return true;
   }
 }

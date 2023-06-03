@@ -2,6 +2,7 @@ import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/models/catalog/product.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/businesshomepage/widgets/product_attribute.dart';
+import 'package:clubpro/ui/shared/widget/image_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,6 +47,16 @@ class _ProductEditState extends State<ProductEdit> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ImageField(
+                      fileset: widget.product.pictures,
+                      type: ImageFieldType.multiple,
+                      dimention: 250,
+                    ),
+                  ),
+                ),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

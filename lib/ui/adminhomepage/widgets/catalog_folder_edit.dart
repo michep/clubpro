@@ -2,7 +2,7 @@ import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_attribute.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:clubpro/ui/shared/widget/image_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -39,12 +39,6 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
     ordercont.value = TextEditingValue(text: folder.order?.toString() ?? '');
   }
 
-  // @override
-  // void dispose() {
-  //   _cleanupPrevPicture(needToCheckPrevFile, folder.pictureFileId);
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -60,53 +54,10 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 200,
-                        maxHeight: 250,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.topLeft,
-                        children: [
-                          FutureBuilder<Uint8List?>(
-                            future: folder.pictureOrNoFile(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) return const SizedBox.shrink();
-                              return Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: Image.memory(snapshot.data!).image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: CircleAvatar(
-                              child: PopupMenuButton<String>(
-                                itemBuilder: (context) {
-                                  return const [
-                                    PopupMenuItem(
-                                      value: 'change',
-                                      child: Text('Изменить картинку'),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 'clear',
-                                      child: Text('Убрать картинку'),
-                                    ),
-                                  ];
-                                },
-                                onSelected: (value) {
-                                  if (value == 'change') pickpicture();
-                                  if (value == 'clear') clearpicture();
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: ImageField(
+                      fileset: widget.folder.pictures,
+                      type: ImageFieldType.single,
+                      dimention: 250,
                     ),
                   ),
                 ),
@@ -196,22 +147,6 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
         curve: Curves.fastOutSlowIn,
       );
     });
-  }
-
-  Future<void> pickpicture() async {
-    var res = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: false);
-    if (res != null && res.count == 1) {
-      widget.folder.pictures.addSingle(res.files[0].name, res.files[0].bytes!);
-      setState(() {});
-    }
-  }
-
-  Future<void> clearpicture() async {
-    if (folder.pictures.isNotEmpty) {
-      setState(() {
-        folder.pictures.clear();
-      });
-    }
   }
 
   Future<void> saveFolder() async {
