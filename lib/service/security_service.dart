@@ -4,8 +4,6 @@ import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
-// enum SecurityState { loggedout, loggedin }
-
 class SecurityAccount {
   final String login;
   final String password;

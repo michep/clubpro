@@ -1,11 +1,13 @@
-import 'dart:typed_data';
-
 import 'package:clubpro/models/catalog/catalog_element.dart';
 import 'package:clubpro/models/catalog/catalog_folder.dart';
+import 'package:clubpro/service/layout_service.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_edit.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_grid_tile.dart';
+import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class CatalogFoldersGrid extends StatefulWidget {
   final CatalogFolder? folder;
@@ -20,6 +22,7 @@ class CatalogFoldersGrid extends StatefulWidget {
 }
 
 class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
+  final LayoutService layout = Get.find<LayoutService>();
   bool forceRefresh = false;
 
   @override
@@ -46,7 +49,11 @@ class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
                     child: GridView.count(
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
-                      crossAxisCount: 6,
+                      crossAxisCount: layout.currentSizing == DeviceScreenType.desktop
+                          ? 6
+                          : layout.currentSizing == DeviceScreenType.tablet
+                              ? 3
+                              : 2,
                       children: [
                         if (widget.folder != null)
                           GridTile(
@@ -71,62 +78,15 @@ class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
                         if (snapshot.data != null)
                           ...snapshot.data!
                               .whereType<CatalogFolder>()
-                              .map((e) => GridTile(
-                                    child: FutureBuilder<Uint8List?>(
-                                      future: e.pictureOrNoFile(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState != ConnectionState.done) return const SizedBox.shrink();
-                                        return InkWell(
-                                          onTap: () => Get.to(() => CatalogFoldersGrid(folder: e), id: 1),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          e.name ?? '',
-                                                          style: const TextStyle(
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () => editFolder(e),
-                                                        icon: const Icon(Icons.edit),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: Image.memory(snapshot.data!).image,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ))
+                              .map(
+                                (e) => CatalogFolderGridTile(
+                                  folder: e,
+                                  editable: true,
+                                  update: update,
+                                  next: () => CatalogFoldersGrid(folder: e),
+                                ),
+                              )
                               .toList(),
-                        // ListTile(
-                        //   title: Text('Добавить новую папку'),
-                        //   trailing: Icon(Icons.add),
-                        //   onTap: createFolder,
-                        // ),
                       ],
                     ),
                   );
@@ -149,13 +109,11 @@ class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
     );
   }
 
-  Future<void> editFolder(CatalogFolder folder) async {
-    var res = await Get.to<bool>(() => CatalogFolderEdit(folder: folder), id: 1);
-    if (res is bool && res == true) {
-      setState(() {
-        forceRefresh = true;
-      });
-    }
+  void update(bool forceRefresh, VoidFunction func) {
+    setState(() {
+      this.forceRefresh = forceRefresh;
+      func();
+    });
   }
 
   Future<void> createFolder() async {
