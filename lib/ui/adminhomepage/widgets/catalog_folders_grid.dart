@@ -4,6 +4,7 @@ import 'package:clubpro/service/layout_service.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_edit.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/catalog_folder_grid_tile.dart';
+import 'package:clubpro/ui/adminhomepage/widgets/catalog_folders_grid_back_tile.dart';
 import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,10 @@ class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            widget.folder == null ? const Text('/') : Text(widget.folder!.breadcrumbstring),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: widget.folder == null ? const Text('/') : Text(widget.folder!.breadcrumbstring),
+            ),
             Expanded(
               child: FutureBuilder<List<CatalogElement>?>(
                 future: CatalogFolder.getFoldersByParent(widget.folder, forceRefresh: forceRefresh),
@@ -56,24 +60,8 @@ class _CatalogFoldersListState extends State<CatalogFoldersGrid> {
                               : 2,
                       children: [
                         if (widget.folder != null)
-                          GridTile(
-                            child: InkWell(
-                              onTap: () => Get.back(id: 1),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(),
-                                ),
-                                child: const Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.chevron_left),
-                                      Text('BACK'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                          CatalogFolderGridBackTile(
+                            back: () => Get.back(id: 1),
                           ),
                         if (snapshot.data != null)
                           ...snapshot.data!

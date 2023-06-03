@@ -22,7 +22,6 @@ class CatalogFolderGridTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridTile(
       child: InkWell(
-        // onTap: () => Get.to(() => CatalogFoldersGrid(folder: folder), id: 1),
         onTap: () => Get.to(next, id: 1),
         child: Container(
           decoration: BoxDecoration(
@@ -35,11 +34,15 @@ class CatalogFolderGridTile extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
+                    const Icon(Icons.folder_outlined),
                     Expanded(
-                      child: Text(
-                        folder.name ?? '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          folder.name ?? '',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
