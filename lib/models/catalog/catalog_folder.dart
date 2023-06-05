@@ -20,6 +20,10 @@ class CatalogFolder extends CatalogElement with CatalogFolderMappable {
 
   CatalogFolder({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     super.name,
     super.parentFolderId,
     this.order,
@@ -66,7 +70,9 @@ class CatalogFolder extends CatalogElement with CatalogFolderMappable {
     return res;
   }
 
+  @override
   Future<CatalogFolder> save() async {
+    super.save();
     await pictures.save();
     var newid = await ApiCatalogFolder.saveFolder(this);
     id ??= newid;

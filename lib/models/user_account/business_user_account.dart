@@ -34,6 +34,10 @@ class BusinessUserAccount extends UserAccount with BusinessUserAccountMappable {
   BusinessUserAccount({
     this.businessType,
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     super.login,
     super.password,
     super.firstName,

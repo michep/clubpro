@@ -87,6 +87,18 @@ class BusinessUserAccountMapper
   static String? _$id(BusinessUserAccount v) => v.id;
   static const Field<BusinessUserAccount, String> _f$id =
       Field('id', _$id, key: '_id', opt: true);
+  static DateTime? _$created(BusinessUserAccount v) => v.created;
+  static const Field<BusinessUserAccount, DateTime> _f$created =
+      Field('created', _$created, opt: true);
+  static String? _$createdBy(BusinessUserAccount v) => v.createdBy;
+  static const Field<BusinessUserAccount, String> _f$createdBy =
+      Field('createdBy', _$createdBy, key: 'created_by', opt: true);
+  static DateTime? _$modified(BusinessUserAccount v) => v.modified;
+  static const Field<BusinessUserAccount, DateTime> _f$modified =
+      Field('modified', _$modified, opt: true);
+  static String? _$modifiedBy(BusinessUserAccount v) => v.modifiedBy;
+  static const Field<BusinessUserAccount, String> _f$modifiedBy =
+      Field('modifiedBy', _$modifiedBy, key: 'modified_by', opt: true);
   static String? _$login(BusinessUserAccount v) => v.login;
   static const Field<BusinessUserAccount, String> _f$login =
       Field('login', _$login, opt: true);
@@ -130,6 +142,10 @@ class BusinessUserAccountMapper
   final Map<Symbol, Field<BusinessUserAccount, dynamic>> fields = const {
     #businessType: _f$businessType,
     #id: _f$id,
+    #created: _f$created,
+    #createdBy: _f$createdBy,
+    #modified: _f$modified,
+    #modifiedBy: _f$modifiedBy,
     #login: _f$login,
     #password: _f$password,
     #firstName: _f$firstName,
@@ -156,6 +172,10 @@ class BusinessUserAccountMapper
     return BusinessUserAccount(
         businessType: data.dec(_f$businessType),
         id: data.dec(_f$id),
+        created: data.dec(_f$created),
+        createdBy: data.dec(_f$createdBy),
+        modified: data.dec(_f$modified),
+        modifiedBy: data.dec(_f$modifiedBy),
         login: data.dec(_f$login),
         password: data.dec(_f$password),
         firstName: data.dec(_f$firstName),
@@ -228,6 +248,10 @@ abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
   $R call(
       {BusinessUserAccountType? businessType,
       String? id,
+      DateTime? created,
+      String? createdBy,
+      DateTime? modified,
+      String? modifiedBy,
       String? login,
       String? password,
       String? firstName,
@@ -256,6 +280,10 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
   $R call(
           {Object? businessType = $none,
           Object? id = $none,
+          Object? created = $none,
+          Object? createdBy = $none,
+          Object? modified = $none,
+          Object? modifiedBy = $none,
           Object? login = $none,
           Object? password = $none,
           Object? firstName = $none,
@@ -271,6 +299,10 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
       $apply(FieldCopyWithData({
         if (businessType != $none) #businessType: businessType,
         if (id != $none) #id: id,
+        if (created != $none) #created: created,
+        if (createdBy != $none) #createdBy: createdBy,
+        if (modified != $none) #modified: modified,
+        if (modifiedBy != $none) #modifiedBy: modifiedBy,
         if (login != $none) #login: login,
         if (password != $none) #password: password,
         if (firstName != $none) #firstName: firstName,
@@ -288,6 +320,10 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
   BusinessUserAccount $make(CopyWithData data) => BusinessUserAccount(
       businessType: data.get(#businessType, or: $value.businessType),
       id: data.get(#id, or: $value.id),
+      created: data.get(#created, or: $value.created),
+      createdBy: data.get(#createdBy, or: $value.createdBy),
+      modified: data.get(#modified, or: $value.modified),
+      modifiedBy: data.get(#modifiedBy, or: $value.modifiedBy),
       login: data.get(#login, or: $value.login),
       password: data.get(#password, or: $value.password),
       firstName: data.get(#firstName, or: $value.firstName),

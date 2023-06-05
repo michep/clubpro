@@ -24,7 +24,7 @@ class _TextProductAttributeState extends ProductAttributeState<TextProductAttrib
       decoration: InputDecoration(
         labelText: attribute.name ?? '',
       ),
-      onFieldSubmitted: (value) => widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: value),
+      onSaved: (value) => widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: value),
     );
   }
 }

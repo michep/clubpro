@@ -35,6 +35,10 @@ class UserAccount extends BaseModel with UserAccountMappable {
 
   UserAccount({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     this.login,
     this.password,
     this.firstName,
@@ -60,7 +64,9 @@ class UserAccount extends BaseModel with UserAccountMappable {
     return res;
   }
 
+  @override
   Future<UserAccount> save() async {
+    super.save();
     var newid = await ApiUser.saveUser(this);
     id ??= newid;
     return this;

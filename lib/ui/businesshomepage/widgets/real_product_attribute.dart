@@ -25,7 +25,9 @@ class _RealProductAttributeState extends ProductAttributeState<RealProductAttrib
       decoration: InputDecoration(
         labelText: attribute.name ?? '',
       ),
-      onFieldSubmitted: (value) => widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: double.parse(value)),
+      onSaved: (value) => value != null
+          ? widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: double.parse(value))
+          : widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: null),
     );
   }
 }

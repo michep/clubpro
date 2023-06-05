@@ -14,6 +14,10 @@ class CatalogElement extends BaseModel with CatalogElementMappable {
 
   CatalogElement({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     this.name,
     this.parentFolderId,
   });

@@ -36,6 +36,10 @@ class Product extends CatalogElement with ProductMappable {
 
   Product({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     super.name,
     super.parentFolderId,
     this.altName,
@@ -54,6 +58,10 @@ class Product extends CatalogElement with ProductMappable {
 
   Product.withFolder({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     super.name,
     super.parentFolderId,
     this.altName,
@@ -97,7 +105,9 @@ class Product extends CatalogElement with ProductMappable {
     return (await pictures[0]).data;
   }
 
+  @override
   Future<Product> save() async {
+    super.save();
     await pictures.save();
     var newid = await ApiProduct.saveProduct(this);
     id ??= newid;

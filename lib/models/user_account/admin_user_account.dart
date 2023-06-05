@@ -7,6 +7,10 @@ part 'admin_user_account.mapper.dart';
 class AdminUserAccount extends UserAccount with AdminUserAccountMappable {
   AdminUserAccount({
     super.id,
+    super.created,
+    super.createdBy,
+    super.modified,
+    super.modifiedBy,
     super.login,
     super.password,
     super.firstName,

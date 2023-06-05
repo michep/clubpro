@@ -28,6 +28,18 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
   static String? _$id(AdminUserAccount v) => v.id;
   static const Field<AdminUserAccount, String> _f$id =
       Field('id', _$id, key: '_id', opt: true);
+  static DateTime? _$created(AdminUserAccount v) => v.created;
+  static const Field<AdminUserAccount, DateTime> _f$created =
+      Field('created', _$created, opt: true);
+  static String? _$createdBy(AdminUserAccount v) => v.createdBy;
+  static const Field<AdminUserAccount, String> _f$createdBy =
+      Field('createdBy', _$createdBy, key: 'created_by', opt: true);
+  static DateTime? _$modified(AdminUserAccount v) => v.modified;
+  static const Field<AdminUserAccount, DateTime> _f$modified =
+      Field('modified', _$modified, opt: true);
+  static String? _$modifiedBy(AdminUserAccount v) => v.modifiedBy;
+  static const Field<AdminUserAccount, String> _f$modifiedBy =
+      Field('modifiedBy', _$modifiedBy, key: 'modified_by', opt: true);
   static String? _$login(AdminUserAccount v) => v.login;
   static const Field<AdminUserAccount, String> _f$login =
       Field('login', _$login, opt: true);
@@ -69,6 +81,10 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
   @override
   final Map<Symbol, Field<AdminUserAccount, dynamic>> fields = const {
     #id: _f$id,
+    #created: _f$created,
+    #createdBy: _f$createdBy,
+    #modified: _f$modified,
+    #modifiedBy: _f$modifiedBy,
     #login: _f$login,
     #password: _f$password,
     #firstName: _f$firstName,
@@ -94,6 +110,10 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
   static AdminUserAccount _instantiate(DecodingData data) {
     return AdminUserAccount(
         id: data.dec(_f$id),
+        created: data.dec(_f$created),
+        createdBy: data.dec(_f$createdBy),
+        modified: data.dec(_f$modified),
+        modifiedBy: data.dec(_f$modifiedBy),
         login: data.dec(_f$login),
         password: data.dec(_f$password),
         firstName: data.dec(_f$firstName),
@@ -164,6 +184,10 @@ abstract class AdminUserAccountCopyWith<$R, $In extends AdminUserAccount, $Out>
   @override
   $R call(
       {String? id,
+      DateTime? created,
+      String? createdBy,
+      DateTime? modified,
+      String? modifiedBy,
       String? login,
       String? password,
       String? firstName,
@@ -191,6 +215,10 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
   @override
   $R call(
           {Object? id = $none,
+          Object? created = $none,
+          Object? createdBy = $none,
+          Object? modified = $none,
+          Object? modifiedBy = $none,
           Object? login = $none,
           Object? password = $none,
           Object? firstName = $none,
@@ -205,6 +233,10 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
           Object? avatarFileId = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
+        if (created != $none) #created: created,
+        if (createdBy != $none) #createdBy: createdBy,
+        if (modified != $none) #modified: modified,
+        if (modifiedBy != $none) #modifiedBy: modifiedBy,
         if (login != $none) #login: login,
         if (password != $none) #password: password,
         if (firstName != $none) #firstName: firstName,
@@ -221,6 +253,10 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
   @override
   AdminUserAccount $make(CopyWithData data) => AdminUserAccount(
       id: data.get(#id, or: $value.id),
+      created: data.get(#created, or: $value.created),
+      createdBy: data.get(#createdBy, or: $value.createdBy),
+      modified: data.get(#modified, or: $value.modified),
+      modifiedBy: data.get(#modifiedBy, or: $value.modifiedBy),
       login: data.get(#login, or: $value.login),
       password: data.get(#password, or: $value.password),
       firstName: data.get(#firstName, or: $value.firstName),

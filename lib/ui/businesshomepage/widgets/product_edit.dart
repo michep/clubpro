@@ -108,6 +108,7 @@ class _ProductEditState extends State<ProductEdit> {
   Future<void> saveProduct() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
       product = product.copyWith(
         name: namecont.text,
       );

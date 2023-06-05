@@ -152,6 +152,7 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   Future<void> saveFolder() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
       folder = folder.copyWith(
         name: namecont.text,
         seo: seocont.text,

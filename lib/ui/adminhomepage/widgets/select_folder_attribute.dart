@@ -34,7 +34,7 @@ class _SelectCatalogFolderAttributeState extends CatalogFolderAttributeState<Sel
               labelText: 'Название атрибута',
             ),
             validator: (value) => Utils.validateNotEmpty(value, 'Укажите имя атрибута'),
-            onChanged: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
+            onSaved: (value) => widget.folder.attributes[widget.attributeIdx] = attribute.copyWith(name: value),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
