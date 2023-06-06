@@ -40,6 +40,15 @@ class _CatalogFolderEditState extends State<CatalogFolderEdit> {
   }
 
   @override
+  void dispose() {
+    namecont.dispose();
+    ordercont.dispose();
+    seocont.dispose();
+    scrollcont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [

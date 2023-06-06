@@ -37,6 +37,13 @@ class _ProductEditState extends State<ProductEdit> {
   }
 
   @override
+  void dispose() {
+    namecont.dispose();
+    scrollcont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [

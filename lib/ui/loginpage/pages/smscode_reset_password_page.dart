@@ -37,6 +37,9 @@ class SMSCodePasswordResetPageState extends State<SMSCodePasswordResetPage> {
 
   @override
   void dispose() {
+    codecont.dispose();
+    passwordcont.dispose();
+    password2cont.dispose();
     timer?.cancel();
     super.dispose();
   }

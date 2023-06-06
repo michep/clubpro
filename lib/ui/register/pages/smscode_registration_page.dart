@@ -21,7 +21,7 @@ class SMSCodeRegistrationPage extends StatefulWidget {
 }
 
 class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
-  final TextEditingController _codecont = TextEditingController();
+  final TextEditingController codecont = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
   int counter = 0;
   Timer? timer;
@@ -34,6 +34,7 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
 
   @override
   void dispose() {
+    codecont.dispose();
     timer?.cancel();
     super.dispose();
   }
@@ -51,7 +52,7 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextFormField(
-              controller: _codecont,
+              controller: codecont,
               enableSuggestions: false,
               decoration: const InputDecoration(
                 labelText: 'СМС код',
@@ -83,7 +84,7 @@ class SMSCodelRegistrationPageState extends State<SMSCodeRegistrationPage> {
   }
 
   Future<void> checkcode() async {
-    var res = await widget.user.checkSMSCode(_codecont.text);
+    var res = await widget.user.checkSMSCode(codecont.text);
     if (res['result'] != 'ok') {
       Get.showSnackbar(
         const GetSnackBar(

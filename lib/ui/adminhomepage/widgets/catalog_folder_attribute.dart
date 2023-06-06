@@ -64,6 +64,12 @@ class CatalogFolderAttributeState<T extends CatalogFolderAttribute, U extends At
   }
 
   @override
+  void dispose() {
+    namecont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(

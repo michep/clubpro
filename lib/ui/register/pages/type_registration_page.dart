@@ -20,13 +20,22 @@ class TypeRegistrationPage extends StatefulWidget {
 
 class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
   final _sec = Get.find<SecurityService>();
-  final TextEditingController _emailcont = TextEditingController();
-  final TextEditingController _firstNamecont = TextEditingController();
-  final TextEditingController _lastNamecont = TextEditingController();
-  final TextEditingController _middleNamecont = TextEditingController();
+  final TextEditingController emailcont = TextEditingController();
+  final TextEditingController firstNamecont = TextEditingController();
+  final TextEditingController lastNamecont = TextEditingController();
+  final TextEditingController middleNamecont = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
   ProUserAccountType? proType;
   BusinessUserAccountType? businessType;
+
+  @override
+  void dispose() {
+    emailcont.dispose();
+    firstNamecont.dispose();
+    lastNamecont.dispose();
+    middleNamecont.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +50,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextFormField(
-              controller: _emailcont,
+              controller: emailcont,
               enableSuggestions: false,
               decoration: const InputDecoration(
                 labelText: 'Электронная почта',
@@ -50,7 +59,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
               textInputAction: TextInputAction.next,
             ),
             TextFormField(
-              controller: _lastNamecont,
+              controller: lastNamecont,
               enableSuggestions: false,
               decoration: const InputDecoration(
                 labelText: 'Фамилия',
@@ -59,7 +68,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
               textInputAction: TextInputAction.next,
             ),
             TextFormField(
-              controller: _firstNamecont,
+              controller: firstNamecont,
               enableSuggestions: false,
               decoration: const InputDecoration(
                 labelText: 'Имя',
@@ -68,7 +77,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
               textInputAction: TextInputAction.next,
             ),
             TextFormField(
-              controller: _middleNamecont,
+              controller: middleNamecont,
               enableSuggestions: false,
               decoration: const InputDecoration(
                 labelText: 'Отчество',
@@ -115,20 +124,20 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
           ? BusinessUserAccount(
               id: widget.user.id,
               login: widget.user.login,
-              email: _emailcont.text,
-              firstName: _firstNamecont.text,
-              lastName: _lastNamecont.text,
-              middleName: _middleNamecont.text,
+              email: emailcont.text,
+              firstName: firstNamecont.text,
+              lastName: lastNamecont.text,
+              middleName: middleNamecont.text,
               password: widget.user.password,
               businessType: businessType,
             )
           : ProUserAccount(
               id: widget.user.id,
               login: widget.user.login,
-              email: _emailcont.text,
-              firstName: _firstNamecont.text,
-              lastName: _lastNamecont.text,
-              middleName: _middleNamecont.text,
+              email: emailcont.text,
+              firstName: firstNamecont.text,
+              lastName: lastNamecont.text,
+              middleName: middleNamecont.text,
               password: widget.user.password,
               proType: proType,
             );

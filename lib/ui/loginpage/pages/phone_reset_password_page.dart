@@ -24,6 +24,14 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
   final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
+  void dispose() {
+    logincont.dispose();
+    passwordcont.dispose();
+    password2cont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
       title: 'Сбросить пароль',

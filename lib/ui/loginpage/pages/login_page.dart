@@ -25,6 +25,13 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    logincont.dispose();
+    passcont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldRoot(
       title: 'Вход в приложение',
@@ -99,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (res == null) {
         setState(() {
-          logincont.value = const TextEditingValue(text: '+7');
+          // logincont.value = const TextEditingValue(text: '+7');
           passcont.value = TextEditingValue.empty;
           Get.showSnackbar(
             const GetSnackBar(

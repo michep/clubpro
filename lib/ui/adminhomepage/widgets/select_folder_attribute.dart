@@ -19,6 +19,12 @@ class _SelectCatalogFolderAttributeState extends CatalogFolderAttributeState<Sel
   final TextEditingController valuecont = TextEditingController();
 
   @override
+  void dispose() {
+    valuecont.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget content() {
     return Expanded(
       child: Column(
