@@ -24,7 +24,6 @@ class _ProductEditState extends State<ProductEdit> {
   late final Product originalProduct;
   late Product product;
   final TextEditingController namecont = TextEditingController();
-  final ScrollController scrollcont = ScrollController();
   final formKey = GlobalKey<FormState>();
   bool needToCheckPrevFile = false;
 
@@ -34,12 +33,12 @@ class _ProductEditState extends State<ProductEdit> {
     product = widget.product;
     originalProduct = Product.fromMap(product.toMap());
     namecont.value = TextEditingValue(text: product.name ?? '');
+    widget.product.addMissingAttributeTemplates(widget.folder.attributes);
   }
 
   @override
   void dispose() {
     namecont.dispose();
-    scrollcont.dispose();
     super.dispose();
   }
 
@@ -81,7 +80,7 @@ class _ProductEditState extends State<ProductEdit> {
                     ),
                   ),
                 ),
-                ...renderAttributes(),
+                ...renderProductAttributes(),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ElevatedButton(
@@ -104,10 +103,11 @@ class _ProductEditState extends State<ProductEdit> {
     );
   }
 
-  List<Widget> renderAttributes() {
+  List<Widget> renderProductAttributes() {
     List<Widget> res = [];
-    for (int idx = 0; idx < widget.folder.attributes.length; idx++) {
-      res.add(ProductAttribute.factory(product: widget.product, attributeIdx: idx, update: setState));
+    for (int idx = 0; idx < widget.product.attributes.length; idx++) {
+      var inFolder = widget.product.attributes[idx].existsInFolderAttributes(widget.folder.attributes);
+      res.add(ProductAttribute.factory(product: widget.product, attributeIdx: idx, update: setState, deletable: !inFolder));
     }
     return res;
   }

@@ -74,6 +74,7 @@ class _ProductsGridState extends State<ProductsGrid> {
                               .map((e) => CatalogFolderGridTile(
                                     folder: e,
                                     update: update,
+                                    // editable: true,
                                     next: () => ProductsGrid(folder: e),
                                   ))
                               .toList(),

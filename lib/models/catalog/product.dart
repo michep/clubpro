@@ -7,6 +7,7 @@ import 'package:clubpro/models/attribute/int_attribute.dart';
 import 'package:clubpro/models/attribute/real_attribute.dart';
 import 'package:clubpro/models/attribute/select_attribute.dart';
 import 'package:clubpro/models/attribute/text_attribute.dart';
+import 'package:clubpro/models/attribute_template/attribute_template.dart';
 import 'package:clubpro/models/attribute_template/boolean_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/int_attribute_template.dart';
 import 'package:clubpro/models/attribute_template/real_attribute_template.dart';
@@ -77,23 +78,7 @@ class Product extends CatalogElement with ProductMappable {
     this.secondaryFolderIds = secondaryFolderIds ?? [];
     attributes = [];
     for (var attrTmpl in folder.attributes) {
-      switch (attrTmpl.runtimeType) {
-        case TextAttributeTemplate:
-          attributes.add(TextAttribute.withTemplate(template: attrTmpl as TextAttributeTemplate));
-          break;
-        case BooleanAttributeTemplate:
-          attributes.add(BooleanAttribute.withTemplate(template: attrTmpl as BooleanAttributeTemplate));
-          break;
-        case SelectAttributeTemplate:
-          attributes.add(SelectAttribute.withTemplate(template: attrTmpl as SelectAttributeTemplate));
-          break;
-        case IntAttributeTemplate:
-          attributes.add(IntAttribute.withTemplate(template: attrTmpl as IntAttributeTemplate));
-          break;
-        case RealAttributeTemplate:
-          attributes.add(RealAttribute.withTemplate(template: attrTmpl as RealAttributeTemplate));
-          break;
-      }
+      attributes.add(_attributeFromTemplate(attrTmpl));
     }
   }
 
@@ -105,6 +90,17 @@ class Product extends CatalogElement with ProductMappable {
     return (await pictures[0]).data;
   }
 
+  bool addMissingAttributeTemplates(List<AttributeTemplate> templates) {
+    bool res = false;
+    for (var templ in templates) {
+      if (!templ.existsInProductAttributes(attributes)) {
+        res = true;
+        attributes.add(_attributeFromTemplate(templ));
+      }
+    }
+    return res;
+  }
+
   @override
   Future<Product> save() async {
     super.save();
@@ -112,5 +108,22 @@ class Product extends CatalogElement with ProductMappable {
     var newid = await ApiProduct.saveProduct(this);
     id ??= newid;
     return this;
+  }
+
+  Attribute _attributeFromTemplate(AttributeTemplate template) {
+    switch (template.runtimeType) {
+      case TextAttributeTemplate:
+        return TextAttribute.withTemplate(template: template as TextAttributeTemplate);
+      case BooleanAttributeTemplate:
+        return BooleanAttribute.withTemplate(template: template as BooleanAttributeTemplate);
+      case SelectAttributeTemplate:
+        return SelectAttribute.withTemplate(template: template as SelectAttributeTemplate);
+      case IntAttributeTemplate:
+        return IntAttribute.withTemplate(template: template as IntAttributeTemplate);
+      case RealAttributeTemplate:
+        return RealAttribute.withTemplate(template: template as RealAttributeTemplate);
+      default:
+        throw 'Unknown attribute template type';
+    }
   }
 }

@@ -16,12 +16,14 @@ import 'package:flutter/material.dart';
 class ProductAttribute extends StatefulWidget {
   final Product product;
   final int attributeIdx;
+  final bool deletable;
   final void Function(VoidFunction) update;
 
   const ProductAttribute({
     required this.product,
     required this.attributeIdx,
     required this.update,
+    this.deletable = false,
     super.key,
   });
 
@@ -29,6 +31,7 @@ class ProductAttribute extends StatefulWidget {
     required Product product,
     required int attributeIdx,
     required void Function(VoidFunction) update,
+    bool deletable = false,
     Key? key,
   }) {
     switch (product.attributes[attributeIdx].runtimeType) {
@@ -43,7 +46,7 @@ class ProductAttribute extends StatefulWidget {
       case RealAttribute:
         return RealProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
       default:
-        return ProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        throw 'Unknown attribute type';
     }
   }
 
@@ -65,7 +68,16 @@ class ProductAttributeState<T extends ProductAttribute, U extends Attribute> ext
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: content(),
+        child: Row(
+          children: [
+            Expanded(child: content()),
+            if (widget.deletable)
+              IconButton(
+                onPressed: deleteAttribute,
+                icon: const Icon(Icons.delete),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -77,5 +89,9 @@ class ProductAttributeState<T extends ProductAttribute, U extends Attribute> ext
         Text(widget.product.attributes[widget.attributeIdx].value?.toString() ?? ''),
       ],
     );
+  }
+
+  void deleteAttribute() {
+    widget.update(() => widget.product.attributes.removeAt(widget.attributeIdx));
   }
 }

@@ -21,9 +21,9 @@ class DBFile {
 class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
   @MappableField(key: 'file_ids')
   late final List<String> fileIds;
-  final Map<String, DBFile> _pictureData = {};
-  final List<String> _pictureIdsToRemove = [];
-  final List<String> _pictureIdsNew = [];
+  final Map<String, DBFile> _fileseData = {};
+  final List<String> _fileIdsToRemove = [];
+  final List<String> _fileIdsNew = [];
 
   FileSet({
     List<String>? fileIds,
@@ -35,7 +35,7 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
   static const fromMap = FileSetMapper.fromMap;
 
   @override
-  bool get isEmpty => fileIds.isEmpty && _pictureIdsNew.isEmpty;
+  bool get isEmpty => fileIds.isEmpty && _fileIdsNew.isEmpty;
 
   @override
   bool get isNotEmpty => !isEmpty;
@@ -44,72 +44,72 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
     String id;
     if (idx < fileIds.length) {
       id = fileIds[idx];
-    } else if (idx < _pictureIdsNew.length + fileIds.length) {
-      id = _pictureIdsNew[fileIds.length - idx];
+    } else if (idx < _fileIdsNew.length + fileIds.length) {
+      id = _fileIdsNew[fileIds.length - idx];
     } else {
       id = '';
     }
 
-    if (_pictureData[id] == null) {
+    if (_fileseData[id] == null) {
       var data = await ApiFilestore.getFile(id);
-      _pictureData[id] = DBFile(id: id, data: data);
+      _fileseData[id] = DBFile(id: id, data: data);
     }
-    return _pictureData[id]!;
+    return _fileseData[id]!;
   }
 
   void add(String filename, Uint8List data) {
     var id = ObjectId().hexString;
     var file = DBFile(id: id, data: data, filename: filename);
-    _pictureData[id] = file;
-    _pictureIdsNew.add(id);
+    _fileseData[id] = file;
+    _fileIdsNew.add(id);
   }
 
   void addSingle(String filename, Uint8List data) {
     var id = ObjectId().hexString;
     var file = DBFile(id: id, data: data, filename: filename);
     clear();
-    _pictureData[id] = file;
-    _pictureIdsNew.add(id);
+    _fileseData[id] = file;
+    _fileIdsNew.add(id);
   }
 
   void remove(String fileid) {
-    _pictureIdsToRemove.add(fileid);
+    _fileIdsToRemove.add(fileid);
     fileIds.remove(fileid);
-    _pictureIdsNew.remove(fileid);
+    _fileIdsNew.remove(fileid);
   }
 
   void clear() {
-    _pictureIdsToRemove.addAll(fileIds);
+    _fileIdsToRemove.addAll(fileIds);
     fileIds.clear();
-    _pictureIdsNew.clear();
+    _fileIdsNew.clear();
   }
 
   Future<void> save() async {
-    if (_pictureIdsToRemove.isNotEmpty) await ApiFilestore.deleteFiles(_pictureIdsToRemove);
-    for (var id in _pictureIdsNew) {
-      await ApiFilestore.uploadFile(_pictureData[id]!.filename!, _pictureData[id]!.data, id: id);
+    if (_fileIdsToRemove.isNotEmpty) await ApiFilestore.deleteFiles(_fileIdsToRemove);
+    for (var id in _fileIdsNew) {
+      await ApiFilestore.uploadFile(_fileseData[id]!.filename!, _fileseData[id]!.data, id: id);
     }
-    fileIds.addAll(_pictureIdsNew);
-    _pictureIdsToRemove.clear();
-    _pictureIdsNew.clear();
+    fileIds.addAll(_fileIdsNew);
+    _fileIdsToRemove.clear();
+    _fileIdsNew.clear();
   }
 
   @override
-  Iterator<Future<DBFile>> get iterator => FileSetIterator(fileIds: fileIds, pictureData: _pictureData, pictureIdsNew: _pictureIdsNew);
+  Iterator<Future<DBFile>> get iterator => FileSetIterator(fileIds, _fileIdsNew, _fileseData);
 }
 
 class FileSetIterator extends Iterator<Future<DBFile>> {
-  int idx = -1;
+  int _idx = -1;
   Future<DBFile>? _current;
-  final List<String> fileIds;
-  final Map<String, DBFile> pictureData;
-  final List<String> pictureIdsNew;
+  final List<String> _fileIds;
+  final Map<String, DBFile> _filesData;
+  final List<String> _fileIdsNew;
 
-  FileSetIterator({
-    required this.fileIds,
-    required this.pictureIdsNew,
-    required this.pictureData,
-  });
+  FileSetIterator(
+    this._fileIds,
+    this._fileIdsNew,
+    this._filesData,
+  );
 
   @override
   Future<DBFile> get current {
@@ -118,24 +118,24 @@ class FileSetIterator extends Iterator<Future<DBFile>> {
 
   @override
   bool moveNext() {
-    idx++;
+    _idx++;
     String id;
-    if (idx < fileIds.length) {
-      id = fileIds[idx];
-    } else if (idx < pictureIdsNew.length + fileIds.length) {
-      id = pictureIdsNew[idx - fileIds.length];
+    if (_idx < _fileIds.length) {
+      id = _fileIds[_idx];
+    } else if (_idx < _fileIdsNew.length + _fileIds.length) {
+      id = _fileIdsNew[_idx - _fileIds.length];
     } else {
       _current = null;
       return false;
     }
 
-    if (pictureData[id] == null) {
+    if (_filesData[id] == null) {
       _current = ApiFilestore.getFile(id).then((value) {
-        pictureData[id] = DBFile(id: id, data: value);
-        return pictureData[id]!;
+        _filesData[id] = DBFile(id: id, data: value);
+        return _filesData[id]!;
       });
     } else {
-      _current = Future(() => pictureData[id]!);
+      _current = Future(() => _filesData[id]!);
     }
     return true;
   }
