@@ -3,6 +3,7 @@ import 'package:clubpro/models/user_account/pro_user_account.dart';
 import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/service/utils.dart';
+import 'package:clubpro/ui/shared/widget/desktop_wrapper_center.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
@@ -43,6 +44,7 @@ class _TypeRegistrationPageState extends State<TypeRegistrationPage> {
       title: 'Регистрация пользователя ${widget.isBusiness ? 'Бизнесс' : 'Про'}',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      desktopWrapper: (child) => DesktopWrapperCenter(child: child),
       child: Form(
         key: formKey,
         child: Column(

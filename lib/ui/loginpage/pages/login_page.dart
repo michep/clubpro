@@ -1,6 +1,7 @@
 import 'package:clubpro/ui/loginpage/pages/phone_reset_password_page.dart';
 import 'package:clubpro/ui/register/pages/initial_registration_page.dart';
 import 'package:clubpro/service/security_service.dart';
+import 'package:clubpro/ui/shared/widget/desktop_wrapper_center.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       title: 'Вход в приложение',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      desktopWrapper: (child) => DesktopWrapperCenter(child: child),
       child: Form(
         key: formKey,
         child: Column(

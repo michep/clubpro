@@ -1,6 +1,7 @@
 import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/ui/loginpage/pages/smscode_reset_password_page.dart';
+import 'package:clubpro/ui/shared/widget/desktop_wrapper_center.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
 import 'package:clubpro/ui/shared/widget/tablet_wrapper_center.dart';
@@ -37,6 +38,7 @@ class PhonePasswordResetPageState extends State<PhonePasswordResetPage> {
       title: 'Сбросить пароль',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      desktopWrapper: (child) => DesktopWrapperCenter(child: child),
       child: Form(
         key: formKey,
         child: Column(

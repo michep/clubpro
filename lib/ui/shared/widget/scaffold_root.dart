@@ -12,6 +12,9 @@ class ScaffoldRoot extends StatelessWidget {
   final Widget Function(Widget)? mobileWrapper;
   final Widget Function(Widget)? tabletWrapper;
   final Widget Function(Widget)? desktopWrapper;
+  // final Widget? mobileWrapper;
+  // final Widget? tabletWrapper;
+  // final Widget? desktopWrapper;
   final Widget child;
   late final String title;
   final AppMenu? appMenu;
@@ -41,19 +44,19 @@ class ScaffoldRoot extends StatelessWidget {
           return ScaffoldDesktop(
             title: title,
             appMenu: appMenu,
-            child: child,
+            child: desktopWrapper != null ? desktopWrapper!(child) : child,
           );
         } else if (sizingInformation.isTablet) {
           return ScaffoldTablet(
             title: title,
             appMenu: appMenu,
-            child: child,
+            child: tabletWrapper != null ? tabletWrapper!(child) : child,
           );
         }
         return ScaffoldMobile(
           title: title,
           appMenu: appMenu,
-          child: child,
+          child: mobileWrapper != null ? mobileWrapper!(child) : child,
         );
       },
     );

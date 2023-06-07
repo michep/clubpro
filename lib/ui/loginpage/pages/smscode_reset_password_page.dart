@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:clubpro/service/utils.dart';
 import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/ui/loginpage/pages/login_page.dart';
+import 'package:clubpro/ui/shared/widget/desktop_wrapper_center.dart';
 import 'package:clubpro/ui/shared/widget/logo.dart';
 import 'package:clubpro/ui/shared/widget/mobile_wrapper_full_width.dart';
 import 'package:clubpro/ui/shared/widget/scaffold_root.dart';
@@ -50,6 +51,7 @@ class SMSCodePasswordResetPageState extends State<SMSCodePasswordResetPage> {
       title: 'Сбросить пароль',
       mobileWrapper: (child) => MobileWrapperFullWidth(child: child),
       tabletWrapper: (child) => TabletWrapperCenter(child: child),
+      desktopWrapper: (child) => DesktopWrapperCenter(child: child),
       child: Form(
         key: formKey,
         child: Column(
