@@ -67,6 +67,7 @@ class UserAccount extends BaseModel with UserAccountMappable {
   @override
   Future<UserAccount> save() async {
     super.save();
+    await avatar.save();
     var newid = await ApiUser.saveUser(this);
     id ??= newid;
     return this;

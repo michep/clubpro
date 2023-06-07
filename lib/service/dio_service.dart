@@ -17,8 +17,15 @@ class DioService {
   }
 
   void _init() {
+    // if (dio.httpClientAdapter is IOHttpClientAdapter) {
+    //   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+    //     client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    //     return client;
+    //   };
+    // }
     if (dio.httpClientAdapter is IOHttpClientAdapter) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+        final client = HttpClient();
         client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
         return client;
       };
@@ -32,7 +39,7 @@ class DioService {
               await _secureService.login(_secureService.currentAccount!.login, _secureService.currentAccount!.password, persist: false);
               if (_secureService.jwt == null) {
                 _secureService.logout();
-                handler.reject(DioError(requestOptions: options, type: DioErrorType.cancel, message: 'Token error'));
+                handler.reject(DioException(requestOptions: options, type: DioExceptionType.cancel, message: 'Token error'));
               } else {}
             }
             options.headers.addAll({'Authorization': 'JWT ${_secureService.jwt}'});

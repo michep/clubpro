@@ -1,3 +1,4 @@
+import 'package:clubpro/models/user_account/admin_user_account.dart';
 import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/adminhomepage/widgets/admin_profile.dart';
@@ -29,7 +30,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       },
       child: ScaffoldRoot(
         appMenu: AppMenu(
-          userProfile: () => Get.to(() => const AdminProfile(), id: 1),
+          userProfile: () => Get.to(() => AdminUserAccountProfile(profile: _sec.currentUser! as AdminUserAccount), id: 1),
           user: _sec.currentUser!,
           items: [
             AppMenuItem(

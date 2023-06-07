@@ -65,6 +65,11 @@ class SecurityService {
     _jwt = null;
   }
 
+  Future<void> updateCurrentUser() async {
+    var user = await ApiUser.getUserByLogin(currentUser!.login!);
+    _userUpdateController.add(user);
+  }
+
   void _setState(UserAccount? user) {
     if (currentUser != user) {
       _userUpdateController.add(user);

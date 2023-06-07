@@ -1,3 +1,4 @@
+import 'package:clubpro/models/user_account/business_user_account.dart';
 import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:clubpro/ui/businesshomepage/widgets/business_profile.dart';
@@ -28,7 +29,7 @@ class _BusinessHomePageState extends State<BusinessHomePage> {
       },
       child: ScaffoldRoot(
         appMenu: AppMenu(
-          userProfile: () => Get.to(() => const BusinessProfile(), id: 1),
+          userProfile: userProfile,
           user: _sec.currentUser!,
           items: [
             AppMenuItem(
@@ -53,6 +54,13 @@ class _BusinessHomePageState extends State<BusinessHomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> userProfile() async {
+    var res = await Get.to<bool>(() => BusinessUserAccountProfile(profile: _sec.currentUser! as BusinessUserAccount), id: 1);
+    if (res is bool && res == true) {
+      setState(() {});
+    }
   }
 
   void logout() async {
