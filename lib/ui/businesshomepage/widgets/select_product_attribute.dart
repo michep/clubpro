@@ -7,6 +7,7 @@ class SelectProductAttribute extends ProductAttribute {
     required super.product,
     required super.attributeIdx,
     required super.update,
+    super.deletable = false,
     super.key,
   });
 
@@ -23,11 +24,12 @@ class _SelectProductAttributeState extends ProductAttributeState<SelectProductAt
         labelText: attribute.name ?? '',
       ),
       items: [
-        ...attribute.values?.map((e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e),
-                )) ??
-            []
+        ...attribute.values.map(
+          (e) => DropdownMenuItem(
+            value: e,
+            child: Text(e),
+          ),
+        ),
       ],
       onChanged: (value) => widget.product.attributes[widget.attributeIdx] = attribute.copyWith(value: value),
     );

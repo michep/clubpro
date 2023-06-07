@@ -34,17 +34,48 @@ class ProductAttribute extends StatefulWidget {
     bool deletable = false,
     Key? key,
   }) {
-    switch (product.attributes[attributeIdx].runtimeType) {
+    var attribute = product.attributes[attributeIdx];
+    switch (attribute.runtimeType) {
       case BooleanAttribute:
-        return BooleanProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        return BooleanProductAttribute(
+          product: product,
+          attributeIdx: attributeIdx,
+          update: update,
+          deletable: deletable,
+          key: ValueKey(attribute),
+        );
       case TextAttribute:
-        return TextProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        return TextProductAttribute(
+          product: product,
+          attributeIdx: attributeIdx,
+          update: update,
+          deletable: deletable,
+          key: ValueKey(attribute),
+        );
       case SelectAttribute:
-        return SelectProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        return SelectProductAttribute(
+          product: product,
+          attributeIdx: attributeIdx,
+          update: update,
+          deletable: deletable,
+          key: ValueKey(attribute),
+        );
       case IntAttribute:
-        return IntProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        return IntProductAttribute(
+          product: product,
+          attributeIdx: attributeIdx,
+          update: update,
+          deletable: deletable,
+          key: ValueKey(attribute),
+        );
       case RealAttribute:
-        return RealProductAttribute(product: product, attributeIdx: attributeIdx, update: update);
+        return RealProductAttribute(
+          product: product,
+          attributeIdx: attributeIdx,
+          update: update,
+          deletable: deletable,
+          key: ValueKey(attribute),
+        );
       default:
         throw 'Unknown attribute type';
     }

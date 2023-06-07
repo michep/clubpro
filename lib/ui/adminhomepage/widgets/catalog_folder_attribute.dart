@@ -32,19 +32,50 @@ class CatalogFolderAttribute extends StatefulWidget {
     required void Function(VoidFunction) update,
     Key? key,
   }) {
-    switch (folder.attributes[attributeIdx].runtimeType) {
+    var attribute = folder.attributes[attributeIdx];
+    switch (attribute.runtimeType) {
       case BooleanAttributeTemplate:
-        return BooleanCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return BooleanCatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
       case TextAttributeTemplate:
-        return TextCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return TextCatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
       case SelectAttributeTemplate:
-        return SelectCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return SelectCatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
       case IntAttributeTemplate:
-        return IntCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return IntCatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
       case RealAttributeTemplate:
-        return RealCatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return RealCatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
       default:
-        return CatalogFolderAttribute(folder: folder, attributeIdx: attributeIdx, update: update);
+        return CatalogFolderAttribute(
+          folder: folder,
+          attributeIdx: attributeIdx,
+          update: update,
+          key: ValueKey(attribute),
+        );
     }
   }
 

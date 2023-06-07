@@ -31,7 +31,7 @@ class SelectAttributeMapper extends SubClassMapperBase<SelectAttribute> {
   static String? _$value(SelectAttribute v) => v.value;
   static const Field<SelectAttribute, String> _f$value =
       Field('value', _$value, opt: true);
-  static List<String>? _$values(SelectAttribute v) => v.values;
+  static List<String> _$values(SelectAttribute v) => v.values;
   static const Field<SelectAttribute, List<String>> _f$values =
       Field('values', _$values, opt: true);
 
@@ -113,7 +113,7 @@ extension SelectAttributeValueCopy<$R, $Out>
 
 abstract class SelectAttributeCopyWith<$R, $In extends SelectAttribute, $Out>
     implements AttributeCopyWith<$R, $In, $Out, String> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>? get values;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get values;
   @override
   $R call({String? name, String? value, List<String>? values});
   SelectAttributeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
@@ -129,11 +129,9 @@ class _SelectAttributeCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SelectAttribute> $mapper =
       SelectAttributeMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>? get values =>
-      $value.values != null
-          ? ListCopyWith($value.values!,
-              (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(values: v))
-          : null;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get values =>
+      ListCopyWith($value.values, (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(values: v));
   @override
   $R call(
           {Object? name = $none,

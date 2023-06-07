@@ -7,6 +7,7 @@ class BooleanProductAttribute extends ProductAttribute {
     required super.product,
     required super.attributeIdx,
     required super.update,
+    super.deletable = false,
     super.key,
   });
 
