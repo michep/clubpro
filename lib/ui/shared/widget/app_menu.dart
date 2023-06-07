@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'package:clubpro/models/fileset.dart';
 import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:clubpro/service/security_service.dart';
 import 'package:flutter/material.dart';
@@ -59,12 +59,12 @@ class AppMenu {
           height: 100,
           color: Colors.blue,
           padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder<Uint8List?>(
-            future: _sec.currentUser!.avatar(),
+          child: FutureBuilder<DBFile?>(
+            future: _sec.currentUser!.avatar.getFile(0),
             builder: (context, snapshot) {
               return CircleAvatar(
                 radius: 40,
-                backgroundImage: snapshot.hasData ? Image.memory(snapshot.data!).image : null,
+                backgroundImage: snapshot.hasData ? Image.memory(snapshot.data!.data).image : null,
               );
             },
           ),

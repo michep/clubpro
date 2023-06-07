@@ -13,6 +13,7 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AdminUserAccountMapper._());
       UserAccountMapper.ensureInitialized().addSubMapper(_instance!);
+      FileSetMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -74,9 +75,9 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
   static String? _$legalAddress(AdminUserAccount v) => v.legalAddress;
   static const Field<AdminUserAccount, String> _f$legalAddress =
       Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
-  static String? _$avatarFileId(AdminUserAccount v) => v.avatarFileId;
-  static const Field<AdminUserAccount, String> _f$avatarFileId =
-      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
+  static FileSet _$avatar(AdminUserAccount v) => v.avatar;
+  static const Field<AdminUserAccount, FileSet> _f$avatar =
+      Field('avatar', _$avatar, opt: true);
 
   @override
   final Map<Symbol, Field<AdminUserAccount, dynamic>> fields = const {
@@ -96,7 +97,7 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
     #legalAddress: _f$legalAddress,
-    #avatarFileId: _f$avatarFileId,
+    #avatar: _f$avatar,
   };
 
   @override
@@ -125,7 +126,7 @@ class AdminUserAccountMapper extends SubClassMapperBase<AdminUserAccount> {
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
         legalAddress: data.dec(_f$legalAddress),
-        avatarFileId: data.dec(_f$avatarFileId));
+        avatar: data.dec(_f$avatar));
   }
 
   @override
@@ -182,6 +183,8 @@ extension AdminUserAccountValueCopy<$R, $Out>
 abstract class AdminUserAccountCopyWith<$R, $In extends AdminUserAccount, $Out>
     implements UserAccountCopyWith<$R, $In, $Out> {
   @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar;
+  @override
   $R call(
       {String? id,
       DateTime? created,
@@ -199,7 +202,7 @@ abstract class AdminUserAccountCopyWith<$R, $In extends AdminUserAccount, $Out>
       String? legalInn,
       String? legalOgrn,
       String? legalAddress,
-      String? avatarFileId});
+      FileSet? avatar});
   AdminUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -212,6 +215,9 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<AdminUserAccount> $mapper =
       AdminUserAccountMapper.ensureInitialized();
+  @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar =>
+      ($value.avatar as FileSet).copyWith.$chain((v) => call(avatar: v));
   @override
   $R call(
           {Object? id = $none,
@@ -230,7 +236,7 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
           Object? legalInn = $none,
           Object? legalOgrn = $none,
           Object? legalAddress = $none,
-          Object? avatarFileId = $none}) =>
+          Object? avatar = $none}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (created != $none) #created: created,
@@ -248,7 +254,7 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
         if (legalAddress != $none) #legalAddress: legalAddress,
-        if (avatarFileId != $none) #avatarFileId: avatarFileId
+        if (avatar != $none) #avatar: avatar
       }));
   @override
   AdminUserAccount $make(CopyWithData data) => AdminUserAccount(
@@ -269,7 +275,7 @@ class _AdminUserAccountCopyWithImpl<$R, $Out>
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
-      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
+      avatar: data.get(#avatar, or: $value.avatar));
 
   @override
   AdminUserAccountCopyWith<$R2, AdminUserAccount, $Out2> $chain<$R2, $Out2>(

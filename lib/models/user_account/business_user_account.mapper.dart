@@ -67,6 +67,7 @@ class BusinessUserAccountMapper
       MapperContainer.globals.use(_instance = BusinessUserAccountMapper._());
       UserAccountMapper.ensureInitialized().addSubMapper(_instance!);
       BusinessUserAccountTypeMapper.ensureInitialized();
+      FileSetMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -134,9 +135,9 @@ class BusinessUserAccountMapper
   static String? _$legalAddress(BusinessUserAccount v) => v.legalAddress;
   static const Field<BusinessUserAccount, String> _f$legalAddress =
       Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
-  static String? _$avatarFileId(BusinessUserAccount v) => v.avatarFileId;
-  static const Field<BusinessUserAccount, String> _f$avatarFileId =
-      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
+  static FileSet _$avatar(BusinessUserAccount v) => v.avatar;
+  static const Field<BusinessUserAccount, FileSet> _f$avatar =
+      Field('avatar', _$avatar, opt: true);
 
   @override
   final Map<Symbol, Field<BusinessUserAccount, dynamic>> fields = const {
@@ -157,7 +158,7 @@ class BusinessUserAccountMapper
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
     #legalAddress: _f$legalAddress,
-    #avatarFileId: _f$avatarFileId,
+    #avatar: _f$avatar,
   };
 
   @override
@@ -187,7 +188,7 @@ class BusinessUserAccountMapper
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
         legalAddress: data.dec(_f$legalAddress),
-        avatarFileId: data.dec(_f$avatarFileId));
+        avatar: data.dec(_f$avatar));
   }
 
   @override
@@ -245,6 +246,8 @@ extension BusinessUserAccountValueCopy<$R, $Out>
 abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
     $Out> implements UserAccountCopyWith<$R, $In, $Out> {
   @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar;
+  @override
   $R call(
       {BusinessUserAccountType? businessType,
       String? id,
@@ -263,7 +266,7 @@ abstract class BusinessUserAccountCopyWith<$R, $In extends BusinessUserAccount,
       String? legalInn,
       String? legalOgrn,
       String? legalAddress,
-      String? avatarFileId});
+      FileSet? avatar});
   BusinessUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -276,6 +279,9 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<BusinessUserAccount> $mapper =
       BusinessUserAccountMapper.ensureInitialized();
+  @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar =>
+      ($value.avatar as FileSet).copyWith.$chain((v) => call(avatar: v));
   @override
   $R call(
           {Object? businessType = $none,
@@ -295,7 +301,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
           Object? legalInn = $none,
           Object? legalOgrn = $none,
           Object? legalAddress = $none,
-          Object? avatarFileId = $none}) =>
+          Object? avatar = $none}) =>
       $apply(FieldCopyWithData({
         if (businessType != $none) #businessType: businessType,
         if (id != $none) #id: id,
@@ -314,7 +320,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
         if (legalAddress != $none) #legalAddress: legalAddress,
-        if (avatarFileId != $none) #avatarFileId: avatarFileId
+        if (avatar != $none) #avatar: avatar
       }));
   @override
   BusinessUserAccount $make(CopyWithData data) => BusinessUserAccount(
@@ -336,7 +342,7 @@ class _BusinessUserAccountCopyWithImpl<$R, $Out>
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
-      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
+      avatar: data.get(#avatar, or: $value.avatar));
 
   @override
   BusinessUserAccountCopyWith<$R2, BusinessUserAccount, $Out2>

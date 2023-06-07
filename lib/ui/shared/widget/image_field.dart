@@ -35,7 +35,7 @@ class _ImageFieldState extends State<ImageField> {
   }
 
   Widget single() {
-    return widget.fileset.isEmpty ? addSingleImageTile() : singleImageTile(widget.fileset[0]);
+    return widget.fileset.isEmpty ? addSingleImageTile() : singleImageTile(widget.fileset.getFile(0));
   }
 
   Widget multiple() {
@@ -77,8 +77,8 @@ class _ImageFieldState extends State<ImageField> {
     );
   }
 
-  Widget imageTile(Future<DBFile> futurefile) {
-    return FutureBuilder<DBFile>(
+  Widget imageTile(Future<DBFile?> futurefile) {
+    return FutureBuilder<DBFile?>(
       future: futurefile,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) return const SizedBox.shrink();
@@ -94,8 +94,8 @@ class _ImageFieldState extends State<ImageField> {
     );
   }
 
-  Widget singleImageTile(Future<DBFile> futurefile) {
-    return FutureBuilder<DBFile>(
+  Widget singleImageTile(Future<DBFile?> futurefile) {
+    return FutureBuilder<DBFile?>(
       future: futurefile,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) return const SizedBox.shrink();

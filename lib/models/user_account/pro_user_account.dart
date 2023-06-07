@@ -1,3 +1,4 @@
+import 'package:clubpro/models/fileset.dart';
 import 'package:clubpro/models/user_account/user_account.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
@@ -57,7 +58,7 @@ class ProUserAccount extends UserAccount with ProUserAccountMappable {
     super.legalInn,
     super.legalOgrn,
     super.legalAddress,
-    super.avatarFileId,
+    super.avatar,
   });
 
   static const fromJson = ProUserAccountMapper.fromJson;

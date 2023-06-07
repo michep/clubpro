@@ -87,7 +87,7 @@ class Product extends CatalogElement with ProductMappable {
 
   Future<Uint8List?> pictureOrNoFile({bool forceRefresh = false}) async {
     if (pictures.isEmpty) return await ApiFilestore.getNoImageFile();
-    return (await pictures[0]).data;
+    return (await pictures.getFile(0))!.data;
   }
 
   bool addMissingAttributeTemplates(List<AttributeTemplate> templates) {

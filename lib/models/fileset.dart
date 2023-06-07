@@ -40,14 +40,14 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
   @override
   bool get isNotEmpty => !isEmpty;
 
-  Future<DBFile> operator [](int idx) async {
+  Future<DBFile?> getFile(int idx) async {
     String id;
     if (idx < fileIds.length) {
       id = fileIds[idx];
     } else if (idx < _fileIdsNew.length + fileIds.length) {
       id = _fileIdsNew[fileIds.length - idx];
     } else {
-      id = '';
+      return null;
     }
 
     if (_fileseData[id] == null) {

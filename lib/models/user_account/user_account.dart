@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-import 'package:clubpro/api/api_filestore.dart';
 import 'package:clubpro/api/api_user.dart';
+import 'package:clubpro/models/fileset.dart';
 import 'package:clubpro/models/user_account/admin_user_account.dart';
 import 'package:clubpro/models/base_model.dart';
 import 'package:clubpro/models/user_account/business_user_account.dart';
@@ -30,8 +29,7 @@ class UserAccount extends BaseModel with UserAccountMappable {
   final String? legalOgrn;
   @MappableField(key: 'legal_address')
   final String? legalAddress;
-  @MappableField(key: 'avatar_file_id')
-  final String? avatarFileId;
+  late final FileSet avatar;
 
   UserAccount({
     super.id,
@@ -50,8 +48,10 @@ class UserAccount extends BaseModel with UserAccountMappable {
     this.legalAddress,
     this.legalInn,
     this.legalOgrn,
-    this.avatarFileId,
-  });
+    FileSet? avatar,
+  }) {
+    this.avatar = avatar ?? FileSet();
+  }
 
   static const fromJson = UserAccountMapper.fromJson;
   static const fromMap = UserAccountMapper.fromMap;
@@ -92,13 +92,13 @@ class UserAccount extends BaseModel with UserAccountMappable {
     return await ApiUser.resetPassword(this, code);
   }
 
-  Uint8List? _avatarData;
-  Future<Uint8List?> avatar({bool forceRefresh = false}) async {
-    if (avatarFileId == null) return null;
-    if (_avatarData != null) return _avatarData;
-    _avatarData = await ApiFilestore.getFile(avatarFileId!);
-    return _avatarData;
-  }
+  // Uint8List? _avatarData;
+  // Future<Uint8List?> avatar({bool forceRefresh = false}) async {
+  //   if (avatarFileId == null) return null;
+  //   if (_avatarData != null) return _avatarData;
+  //   _avatarData = await ApiFilestore.getFile(avatarFileId!);
+  //   return _avatarData;
+  // }
 
   static List<UserAccount>? _usersList;
   static Future<List<UserAccount>> getUsers({bool forceRefresh = false}) async {

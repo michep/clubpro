@@ -76,6 +76,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
       MapperContainer.globals.use(_instance = ProUserAccountMapper._());
       UserAccountMapper.ensureInitialized().addSubMapper(_instance!);
       ProUserAccountTypeMapper.ensureInitialized();
+      FileSetMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -144,9 +145,9 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
   static String? _$legalAddress(ProUserAccount v) => v.legalAddress;
   static const Field<ProUserAccount, String> _f$legalAddress =
       Field('legalAddress', _$legalAddress, key: 'legal_address', opt: true);
-  static String? _$avatarFileId(ProUserAccount v) => v.avatarFileId;
-  static const Field<ProUserAccount, String> _f$avatarFileId =
-      Field('avatarFileId', _$avatarFileId, key: 'avatar_file_id', opt: true);
+  static FileSet _$avatar(ProUserAccount v) => v.avatar;
+  static const Field<ProUserAccount, FileSet> _f$avatar =
+      Field('avatar', _$avatar, opt: true);
 
   @override
   final Map<Symbol, Field<ProUserAccount, dynamic>> fields = const {
@@ -168,7 +169,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
     #legalInn: _f$legalInn,
     #legalOgrn: _f$legalOgrn,
     #legalAddress: _f$legalAddress,
-    #avatarFileId: _f$avatarFileId,
+    #avatar: _f$avatar,
   };
 
   @override
@@ -199,7 +200,7 @@ class ProUserAccountMapper extends SubClassMapperBase<ProUserAccount> {
         legalInn: data.dec(_f$legalInn),
         legalOgrn: data.dec(_f$legalOgrn),
         legalAddress: data.dec(_f$legalAddress),
-        avatarFileId: data.dec(_f$avatarFileId));
+        avatar: data.dec(_f$avatar));
   }
 
   @override
@@ -253,6 +254,8 @@ extension ProUserAccountValueCopy<$R, $Out>
 abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount, $Out>
     implements UserAccountCopyWith<$R, $In, $Out> {
   @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar;
+  @override
   $R call(
       {String? publicIdentity,
       ProUserAccountType? proType,
@@ -272,7 +275,7 @@ abstract class ProUserAccountCopyWith<$R, $In extends ProUserAccount, $Out>
       String? legalInn,
       String? legalOgrn,
       String? legalAddress,
-      String? avatarFileId});
+      FileSet? avatar});
   ProUserAccountCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -285,6 +288,9 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<ProUserAccount> $mapper =
       ProUserAccountMapper.ensureInitialized();
+  @override
+  FileSetCopyWith<$R, FileSet, FileSet> get avatar =>
+      ($value.avatar as FileSet).copyWith.$chain((v) => call(avatar: v));
   @override
   $R call(
           {Object? publicIdentity = $none,
@@ -305,7 +311,7 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
           Object? legalInn = $none,
           Object? legalOgrn = $none,
           Object? legalAddress = $none,
-          Object? avatarFileId = $none}) =>
+          Object? avatar = $none}) =>
       $apply(FieldCopyWithData({
         if (publicIdentity != $none) #publicIdentity: publicIdentity,
         if (proType != $none) #proType: proType,
@@ -325,7 +331,7 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
         if (legalInn != $none) #legalInn: legalInn,
         if (legalOgrn != $none) #legalOgrn: legalOgrn,
         if (legalAddress != $none) #legalAddress: legalAddress,
-        if (avatarFileId != $none) #avatarFileId: avatarFileId
+        if (avatar != $none) #avatar: avatar
       }));
   @override
   ProUserAccount $make(CopyWithData data) => ProUserAccount(
@@ -348,7 +354,7 @@ class _ProUserAccountCopyWithImpl<$R, $Out>
       legalInn: data.get(#legalInn, or: $value.legalInn),
       legalOgrn: data.get(#legalOgrn, or: $value.legalOgrn),
       legalAddress: data.get(#legalAddress, or: $value.legalAddress),
-      avatarFileId: data.get(#avatarFileId, or: $value.avatarFileId));
+      avatar: data.get(#avatar, or: $value.avatar));
 
   @override
   ProUserAccountCopyWith<$R2, ProUserAccount, $Out2> $chain<$R2, $Out2>(
