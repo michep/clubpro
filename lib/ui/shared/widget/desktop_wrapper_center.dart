@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TabletWrapperCenter extends StatelessWidget {
+class DesktopWrapperCenter extends StatelessWidget {
   final Widget child;
   final double width;
 
-  const TabletWrapperCenter({
-    this.width = 400,
+  const DesktopWrapperCenter({
+    this.width = 600,
     required this.child,
     super.key,
   });

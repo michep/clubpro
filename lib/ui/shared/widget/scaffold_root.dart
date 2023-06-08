@@ -41,19 +41,19 @@ class ScaffoldRoot extends StatelessWidget {
           return ScaffoldDesktop(
             title: title,
             appMenu: appMenu,
-            child: child,
+            child: desktopWrapper != null ? desktopWrapper!(child) : child,
           );
         } else if (sizingInformation.isTablet) {
           return ScaffoldTablet(
             title: title,
             appMenu: appMenu,
-            child: child,
+            child: tabletWrapper != null ? tabletWrapper!(child) : child,
           );
         }
         return ScaffoldMobile(
           title: title,
           appMenu: appMenu,
-          child: child,
+          child: mobileWrapper != null ? mobileWrapper!(child) : child,
         );
       },
     );
