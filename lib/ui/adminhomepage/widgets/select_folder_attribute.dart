@@ -59,26 +59,31 @@ class _SelectCatalogFolderAttributeState extends CatalogFolderAttributeState<Sel
               ],
             ),
           ),
-          Row(
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 250),
-                child: TextFormField(
-                  controller: valuecont,
-                  decoration: const InputDecoration(
-                    labelText: 'Значение',
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 300,
+              minWidth: 150,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: valuecont,
+                    decoration: const InputDecoration(
+                      labelText: 'Значение',
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: IconButton(
-                  onPressed: addValue,
-                  icon: const Icon(Icons.add),
-                  tooltip: 'Добавить значение атрибута',
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: IconButton(
+                    onPressed: addValue,
+                    icon: const Icon(Icons.add),
+                    tooltip: 'Добавить значение атрибута',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

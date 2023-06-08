@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             const ClubProLogo(),
             TextFormField(
+              keyboardType: TextInputType.phone,
               controller: logincont,
               decoration: const InputDecoration(
                 labelText: 'Номер телефона',
