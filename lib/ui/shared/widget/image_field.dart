@@ -141,19 +141,39 @@ class _ImageFieldState extends State<ImageField> {
         if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) return const SizedBox.shrink();
         return SizedBox.square(
           dimension: widget.dimention,
-          child: Stack(
-            children: [
-              imageTile(futurefile),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: CircleAvatar(
-                  child: IconButton(
-                    onPressed: () => removeFromMultipePictures(snapshot.data!.id),
-                    icon: const Icon(Icons.delete),
-                  ),
-                ),
+          child: LongPressDraggable<DBFile>(
+            data: snapshot.data!,
+            feedback: Opacity(
+              opacity: 0.7,
+              child: SizedBox.square(
+                dimension: widget.dimention * 1.2,
+                child: imageTile(futurefile),
               ),
-            ],
+            ),
+            child: DragTarget<DBFile>(
+              builder: (context, candidateData, rejectedData) {
+                return Stack(
+                  children: [
+                    imageTile(futurefile),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: CircleAvatar(
+                        child: IconButton(
+                          onPressed: () => removeFromMultipePictures(snapshot.data!.id),
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              onAccept: (data) {
+                if (snapshot.data! == data) return;
+                setState(() {
+                  widget.fileset.insertInplace(subject: data, inplaceOf: snapshot.data!);
+                });
+              },
+            ),
           ),
         );
       },

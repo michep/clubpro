@@ -24,11 +24,13 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
   final Map<String, DBFile> _fileseData = {};
   final List<String> _fileIdsToRemove = [];
   final List<String> _fileIdsNew = [];
+  final List<String> _indexed = [];
 
   FileSet({
     List<String>? fileIds,
   }) {
     this.fileIds = fileIds ?? [];
+    _indexed.addAll(this.fileIds);
   }
 
   static const fromJson = FileSetMapper.fromJson;
@@ -42,14 +44,8 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
 
   Future<DBFile?> getFile(int idx) async {
     String id;
-    if (idx < fileIds.length) {
-      id = fileIds[idx];
-    } else if (idx < _fileIdsNew.length + fileIds.length) {
-      id = _fileIdsNew[fileIds.length - idx];
-    } else {
-      return null;
-    }
-
+    if (idx >= _indexed.length) return null;
+    id = _indexed[idx];
     if (_fileseData[id] == null) {
       var data = await ApiFilestore.getFile(id);
       _fileseData[id] = DBFile(id: id, data: data);
@@ -62,6 +58,7 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
     var file = DBFile(id: id, data: data, filename: filename);
     _fileseData[id] = file;
     _fileIdsNew.add(id);
+    _indexed.add(id);
   }
 
   void addSingle(String filename, Uint8List data) {
@@ -70,44 +67,57 @@ class FileSet extends Iterable<Future<DBFile>> with FileSetMappable {
     clear();
     _fileseData[id] = file;
     _fileIdsNew.add(id);
+    _indexed.add(id);
   }
 
   void remove(String fileid) {
     _fileIdsToRemove.add(fileid);
     fileIds.remove(fileid);
     _fileIdsNew.remove(fileid);
+    _indexed.remove(fileid);
   }
 
   void clear() {
     _fileIdsToRemove.addAll(fileIds);
     fileIds.clear();
     _fileIdsNew.clear();
+    _indexed.clear();
+  }
+
+  void insertInplace({required DBFile subject, required DBFile inplaceOf}) {
+    var iid = inplaceOf.id;
+    var sid = subject.id;
+
+    var iidx = _indexed.indexOf(iid);
+    _indexed.remove(sid);
+    _indexed.insert(iidx, sid);
   }
 
   Future<void> save() async {
     if (_fileIdsToRemove.isNotEmpty) await ApiFilestore.deleteFiles(_fileIdsToRemove);
-    for (var id in _fileIdsNew) {
-      await ApiFilestore.uploadFile(_fileseData[id]!.filename!, _fileseData[id]!.data, id: id);
+    for (var id in _indexed) {
+      if (_fileIdsNew.contains(id)) {
+        await ApiFilestore.uploadFile(_fileseData[id]!.filename!, _fileseData[id]!.data, id: id);
+      }
     }
-    fileIds.addAll(_fileIdsNew);
+    fileIds.clear();
+    fileIds.addAll(_indexed);
     _fileIdsToRemove.clear();
     _fileIdsNew.clear();
   }
 
   @override
-  Iterator<Future<DBFile>> get iterator => FileSetIterator(fileIds, _fileIdsNew, _fileseData);
+  Iterator<Future<DBFile>> get iterator => FileSetIterator(_indexed, _fileseData);
 }
 
 class FileSetIterator extends Iterator<Future<DBFile>> {
   int _idx = -1;
   Future<DBFile>? _current;
-  final List<String> _fileIds;
   final Map<String, DBFile> _filesData;
-  final List<String> _fileIdsNew;
+  final List<String> _indexed;
 
   FileSetIterator(
-    this._fileIds,
-    this._fileIdsNew,
+    this._indexed,
     this._filesData,
   );
 
@@ -120,14 +130,9 @@ class FileSetIterator extends Iterator<Future<DBFile>> {
   bool moveNext() {
     _idx++;
     String id;
-    if (_idx < _fileIds.length) {
-      id = _fileIds[_idx];
-    } else if (_idx < _fileIdsNew.length + _fileIds.length) {
-      id = _fileIdsNew[_idx - _fileIds.length];
-    } else {
-      _current = null;
-      return false;
-    }
+
+    if (_idx >= _indexed.length) return false;
+    id = _indexed[_idx];
 
     if (_filesData[id] == null) {
       _current = ApiFilestore.getFile(id).then((value) {
