@@ -11,7 +11,7 @@ import 'package:clubpro/ui/businesshomepage/widgets/product_grid_tile.dart';
 import 'package:clubpro/ui/shared/widget/app_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+// import 'package:responsive_builder/responsive_builder.dart';
 
 class ProductsGrid extends StatefulWidget {
   final CatalogFolder? folder;
@@ -55,14 +55,15 @@ class _ProductsGridState extends State<ProductsGrid> {
                         forceRefresh = true;
                       });
                     },
-                    child: GridView.count(
+                    child: GridView.extent(
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
-                      crossAxisCount: layout.currentSizing == DeviceScreenType.desktop
-                          ? 6
-                          : layout.currentSizing == DeviceScreenType.tablet
-                              ? 3
-                              : 2,
+                      // crossAxisCount: layout.currentSizing == DeviceScreenType.desktop
+                      //     ? 6
+                      //     : layout.currentSizing == DeviceScreenType.tablet
+                      //         ? 3
+                      //         : 2,
+                      maxCrossAxisExtent: 250,
                       children: [
                         if (widget.folder != null)
                           CatalogFolderGridBackTile(

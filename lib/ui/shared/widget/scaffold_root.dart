@@ -12,9 +12,6 @@ class ScaffoldRoot extends StatelessWidget {
   final Widget Function(Widget)? mobileWrapper;
   final Widget Function(Widget)? tabletWrapper;
   final Widget Function(Widget)? desktopWrapper;
-  // final Widget? mobileWrapper;
-  // final Widget? tabletWrapper;
-  // final Widget? desktopWrapper;
   final Widget child;
   late final String title;
   final AppMenu? appMenu;
